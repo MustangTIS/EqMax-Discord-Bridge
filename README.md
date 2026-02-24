@@ -1,4 +1,4 @@
-> ### **[📥 EqMax-Discord-Bridge v2.0.0 (最新版) をダウンロードする]**
+> ### **[📥 EqMax-Discord-Bridge v3.0.0 (最新版) をダウンロードする]**
 > **(https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/EqMax-Discord-Bridge-v3.0.zip)**
 
 ## ## EqMax Discord連携ツール 導入ガイド
