@@ -1,5 +1,5 @@
 > ### **[📥 EqMax-Discord-Bridge v2.0.0 (最新版) をダウンロードする]**
-> **(https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/EqMax%20Discord%20Bridge%20v2.0.0.zip)**
+> **(https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/EqMax%20Discord%20Bridge%20v2.0.zip)**
 
 # EqMax-Discord-Bridge
 EqMaxの緊急地震速報をDiscordへ自動転送・画像付きで通知するためのセットアップキット（INI自動パッチ・保守ツール同梱）
