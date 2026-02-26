@@ -1,6 +1,8 @@
-### **[📥 EqMax-Discord-Bridge v4.5.0 (最新版) をダウンロードする]**
-**(https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/EqMax-Discord-Bridge-v4.5.zip)**
+# 📢 EqMax-Discord-Bridge v4.5.0
 
+[ ⬇️ 最新版 (v4.5.0 Stable) をダウンロードする ](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/tag/v4.5.0Stable)
+
+---
 ## ## EqMax Discord連携ツール 導入ガイド (v4.5 Hub System)
 
 ##本ツールは非公式のファンプロジェクトです。DiscordおよびEqMAXの公式とは一切関係ありません。
