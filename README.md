@@ -1,3 +1,13 @@
+##※緊急リリースEqMax-Discord-Bridge-v4.1.0-rev1.zip##
+##v4.0.0にはEEWを速報してくれない不具合があり一部ソースを旧式のV3に差し替えました、##
+安定化コード搭載型のコードを統合したバージョンをセットにしたバージョンを作って後ほど提供しますので少しの間このバージョンをお使いください
+
+> ### **[📥 EqMax-Discord-Bridge v4.1.0-rev1.zip (最新版) をダウンロードする]**
+> **(https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/EqMax-Discord-Bridge-v4.1.0-rev1.zip)**
+
+
+EqMax-Discord-Bridge-v4.1.0-rev1.zip
+
 > ### **[📥 EqMax-Discord-Bridge v4.0.0 (最新版) をダウンロードする]**
 > **(https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/EqMax-Discord-Bridge-v4.0.zip)**
 
