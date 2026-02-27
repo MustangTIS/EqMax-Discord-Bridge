@@ -62,7 +62,7 @@ class EqMAXTopHub(ctk.CTk):
         )
         self.label_title.pack(pady=(30, 5))
 
-        self.label_ver = ctk.CTkLabel(self, text="Version 4.5", font=("Yu Gothic", 12))
+        self.label_ver = ctk.CTkLabel(self, text="Version 4.6", font=("Yu Gothic", 12))
         self.label_ver.pack(pady=(0, 20))
 
         # --- 4. ボタンエリア ---

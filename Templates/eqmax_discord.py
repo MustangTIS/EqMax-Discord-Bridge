@@ -143,7 +143,7 @@ def process_log_update(content):
                 "embeds": [{
                     "title": title, "description": description, "color": color,
                     "image": {"url": "attachment://image.png"},
-                    "footer": {"text": "EqMax-Discord Bridge v4.5"}
+                    "footer": {"text": "EqMax-Discord Bridge v4.6"}
                 }]
             }
 
@@ -161,7 +161,7 @@ def watch_log():
         print("エラー: 送信先が設定されていません。")
         return
 
-    print(f"=== EqMax-Discord-Bridge v4.5 Running ===")
+    print(f"=== EqMax-Discord-Bridge v4.6 Running ===")
     last_size = os.path.getsize(LOG_FILE) if os.path.exists(LOG_FILE) else 0
     pending_block = ""
     health_counter = 0

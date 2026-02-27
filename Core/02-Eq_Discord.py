@@ -7,20 +7,69 @@ import os
 import shutil
 from datetime import datetime
 import subprocess
+try:
+    from PIL import Image
+except ImportError:
+    try:
+        import PIL.Image as Image
+    except ImportError:
+        Image = None
 
 class EqMaxBotDeployer(ctk.CTk):
     def __init__(self):
         super().__init__()
-        ctk.set_appearance_mode("dark")  # ダークモードに固定
-        self.title("EqMax 多機能通知連携 - ボット配置ツール")
-        self.geometry("750x850")
 
+        # --- 1. アイコンと画像の設定 ---
+        base_dir = os.path.dirname(__file__)
+        assets_dir = os.path.normpath(os.path.join(base_dir, "..", "Assets"))
+        
+        icon_path = os.path.join(assets_dir, "eq-dis.ico")
+        img_path = os.path.join(assets_dir, "eq-dis.png")
+
+        # ウィンドウアイコン
+        if os.path.exists(icon_path):
+            try:
+                self.after(200, lambda: self.iconbitmap(icon_path))
+            except Exception as e:
+                print(f"Icon Error: {e}")
+
+        # ロゴ画像
+        self.logo_image = None
+        if Image is not None and os.path.exists(img_path):
+            try:
+                opened_img = Image.open(img_path)
+                self.logo_image = ctk.CTkImage(
+                    light_image=opened_img,
+                    dark_image=opened_img,
+                    size=(45, 45)
+                )
+            except Exception as e:
+                print(f"Image Load Error: {e}")
+
+        # --- 2. ウィンドウ基本設定 ---
+        self.title("EqMax 多機能通知連携 - ボット配置ツール")
+        self.geometry("750x920") # コンテンツ量に合わせて高さを調整
+        ctk.set_appearance_mode("dark")
+
+        # コンテキストメニュー（右クリック貼り付け用）
         self.context_menu = tk.Menu(self, tearoff=0)
         self.context_menu.add_command(label="貼り付け", command=self.paste_to_entry)
 
+        # --- 3. タイトルエリア (ロゴ付き) ---
+        self.label_title = ctk.CTkLabel(
+            self, 
+            text=" EqMax Discord連携ボット配置", 
+            image=self.logo_image,
+            compound="left", 
+            font=("Yu Gothic", 24, "bold")
+        )
+        self.label_title.pack(pady=(20, 10))
+
+        # --- 4. メインコンテンツ ---
+
         # 1. Path Selection
-        self.label_path = ctk.CTkLabel(self, text="1. EqMax.exe があるフォルダを選択してください:")
-        self.label_path.pack(pady=(20, 0))
+        self.label_path = ctk.CTkLabel(self, text="1. EqMax.exe があるフォルダを選択してください:", font=("Yu Gothic", 12, "bold"))
+        self.label_path.pack(pady=(10, 0))
         self.path_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.path_frame.pack(pady=5)
         self.entry_path = ctk.CTkEntry(self.path_frame, width=530)
@@ -29,7 +78,7 @@ class EqMaxBotDeployer(ctk.CTk):
         self.btn_browse.pack(side="left")
 
         # 2. Webhook URLs
-        self.label_webhook = ctk.CTkLabel(self, text="2. 送信先Webhook (最大5つ) と通知形式を選択してください:", font=("", 12, "bold"))
+        self.label_webhook = ctk.CTkLabel(self, text="2. 送信先Webhook (最大5つ) と通知形式を選択してください:", font=("Yu Gothic", 12, "bold"))
         self.label_webhook.pack(pady=(20, 5))
         
         self.webhook_entries = []
@@ -38,7 +87,7 @@ class EqMaxBotDeployer(ctk.CTk):
         for i in range(5):
             frame = ctk.CTkFrame(self)
             frame.pack(pady=3, padx=20, fill="x")
-            entry = ctk.CTkEntry(frame, placeholder_text=f"URL {i+1}", width=480)
+            entry = ctk.CTkEntry(frame, placeholder_text=f"Discord Webhook URL {i+1}", width=480)
             entry.pack(side="left", padx=10, pady=10)
             entry.bind("<Button-3>", lambda e, en=entry: self.show_context_menu(e, en))
             style_var = ctk.StringVar(value="embed")
@@ -50,19 +99,22 @@ class EqMaxBotDeployer(ctk.CTk):
         self.option_frame = ctk.CTkFrame(self)
         self.option_frame.pack(pady=20, padx=20, fill="x")
         self.var_desktop = ctk.BooleanVar(value=True)
-        self.check_desktop = ctk.CTkCheckBox(self.option_frame, text="デスクトップにショートカットを作成する", variable=self.var_desktop)
+        self.check_desktop = ctk.CTkCheckBox(self.option_frame, text="デスクトップにショートカットを作成する", variable=self.var_desktop, font=("Yu Gothic", 11))
         self.check_desktop.pack(pady=5, padx=20, anchor="w")
         self.var_startup = ctk.BooleanVar(value=True)
-        self.check_startup = ctk.CTkCheckBox(self.option_frame, text="Windows起動時に自動実行する", variable=self.var_startup)
+        self.check_startup = ctk.CTkCheckBox(self.option_frame, text="Windows起動時に自動実行する（推奨）", variable=self.var_startup, font=("Yu Gothic", 11))
         self.check_startup.pack(pady=5, padx=20, anchor="w")
 
         # Run Button
-        self.btn_run = ctk.CTkButton(self, text="ボットを配置して設定保存", fg_color="darkgreen", height=60, command=self.run_deploy)
-        self.btn_run.pack(pady=20)
+        self.btn_run = ctk.CTkButton(self, text="ボットを配置して設定を保存", fg_color="#28a745", hover_color="#218838", height=60, 
+                                     font=("Yu Gothic", 14, "bold"), command=self.run_deploy)
+        self.btn_run.pack(pady=10)
 
         # ログ表示
-        self.log_view = ctk.CTkTextbox(self, width=690, height=120, fg_color="#333333", text_color="#00FF00", border_width=1, border_color="#555555", font=("Consolas", 12))
+        self.log_view = ctk.CTkTextbox(self, width=690, height=120, fg_color="#1a1a1a", text_color="#00FF00", border_width=1, border_color="#444444", font=("Consolas", 12))
         self.log_view.pack(pady=10)
+
+    # --- 以下、ロジック部分は変更なし ---
 
     def browse_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("EqMax.exe", "EqMax.exe")])
@@ -84,7 +136,6 @@ class EqMaxBotDeployer(ctk.CTk):
         except: pass
 
     def create_shortcut_wsh(self, target_bat_path, link_full_path):
-        """ショートカットを作成。アイコンはコピー済みのbot_dir内を参照する"""
         bot_dir = os.path.dirname(target_bat_path)
         py_script = os.path.join(bot_dir, "eqmax_discord.py")
         icon_path = os.path.join(bot_dir, "eq-dis.ico")
@@ -132,32 +183,28 @@ class EqMaxBotDeployer(ctk.CTk):
         bot_dir = os.path.join(eqmax_dir, "Discordbot")
         os.makedirs(bot_dir, exist_ok=True)
         
-        # パス定義
+        # パス定義 (Coreフォルダから見て一つ上のフォルダにあるTemplates/Assetsを参照)
         base_src = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Templates")
         assets_src = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Assets")
         target_bat = os.path.join(bot_dir, "eqmax_discord.bat")
         
-        # ファイルコピー
         for f in ["eqmax_discord.py", "eqmax_discord.bat"]:
             src = os.path.join(base_src, f)
             if os.path.exists(src):
                 shutil.copy2(src, bot_dir)
                 self.write_log(f"Copied: {f}")
 
-        # アイコンの物理コピー（これでツールを消してもアイコンが維持される）
         icon_file = "eq-dis.ico"
         icon_src_path = os.path.join(assets_src, icon_file)
         if os.path.exists(icon_src_path):
             shutil.copy2(icon_src_path, bot_dir)
             self.write_log(f"Copied: {icon_file}")
 
-        # JSON保存
         normalized_dir = os.path.normpath(eqmax_dir).replace("\\", "/")
         config_path = os.path.join(bot_dir, "config.json")
         with open(config_path, "w", encoding="utf-8") as f:
             json.dump({"eqmax_dir": normalized_dir, "destinations": destinations}, f, indent=4, ensure_ascii=False)
 
-        # ショートカット作成
         lnk_name = "EqMax-Discord通知ボット.lnk"
         if self.var_desktop.get():
             self.create_shortcut_wsh(target_bat, os.path.join(os.environ["USERPROFILE"], "Desktop", lnk_name))
@@ -166,7 +213,7 @@ class EqMaxBotDeployer(ctk.CTk):
             self.create_shortcut_wsh(target_bat, os.path.join(os.environ["APPDATA"], r"Microsoft\Windows\Start Menu\Programs\Startup", lnk_name))
             self.write_log("Registered: Windows Startup")
 
-        messagebox.showinfo("成功", "書き換え完了\nインストール用フォルダは削除しても大丈夫です。")
+        messagebox.showinfo("成功", "ボットの配置と設定保存が完了しました。\nショートカットからボットを起動してください。")
         self.destroy()
 
 if __name__ == "__main__":
