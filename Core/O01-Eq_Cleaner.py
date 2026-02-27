@@ -120,8 +120,8 @@ class EqMaxCleaner(ctk.CTk):
         # ログのリセット
         if self.var_logs.get():
             target_logs = [
-                "Debug.log", "EEW.log", "EqMaxError.log", "EqMaxInfo.log", 
-                "KMMonitor.log", "Tokens.log", "Twitter.log", "TwitterResponse.log"
+                "Debug.log", "EEW.log", "EqMaxError.log", "EqMaxInfo.log", "NetError.log",
+                "EqMaxInfo.log", "KMMonitor.log", "Tokens.log", "Twitter.log", "TwitterResponse.log"
             ]
             for log in target_logs:
                 p = os.path.join(path, log)

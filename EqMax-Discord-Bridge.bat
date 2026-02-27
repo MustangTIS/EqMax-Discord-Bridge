@@ -3,7 +3,7 @@ setlocal
 cd /d %~dp0
 
 echo ==========================================
-echo    EqMax Discord Bridge v4.6 Hub System
+echo    EqMax Discord Bridge Hub System
 echo ==========================================
 
 rem 1. Pythonチェック

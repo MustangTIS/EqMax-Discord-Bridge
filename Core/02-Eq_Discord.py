@@ -136,85 +136,129 @@ class EqMaxBotDeployer(ctk.CTk):
         except: pass
 
     def create_shortcut_wsh(self, target_bat_path, link_full_path):
+        """VBSを使わず、Powershell経由でショートカットを作成する（アイコン指定が可能）"""
         bot_dir = os.path.dirname(target_bat_path)
         py_script = os.path.join(bot_dir, "eqmax_discord.py")
+        # アイコンはAssetsフォルダからコピーしてきたものを使用
         icon_path = os.path.join(bot_dir, "eq-dis.ico")
 
-        p_script = py_script.replace("\\", "\\\\")
-        l_path = link_full_path.replace("\\", "\\\\")
-        i_path = icon_path.replace("\\", "\\\\")
-        w_dir = bot_dir.replace("\\", "\\\\")
+        # パスの正規化
+        p_script = os.path.normpath(os.path.abspath(py_script))
+        l_path = os.path.normpath(os.path.abspath(link_full_path))
+        w_dir = os.path.normpath(os.path.abspath(bot_dir))
+        i_path = os.path.normpath(os.path.abspath(icon_path))
 
-        vbs = (
-            f'Set oWS = CreateObject("WScript.Shell")\n'
-            f'Set oLink = oWS.CreateShortcut("{l_path}")\n'
-            f'oLink.TargetPath = "python.exe"\n'
-            f'oLink.Arguments = "{p_script}"\n'
-            f'oLink.WorkingDirectory = "{w_dir}"\n'
-            f'oLink.IconLocation = "{i_path}"\n'
-            f'oLink.WindowStyle = 7\n'
-            f'oLink.Save'
+        # PowerShellコマンド：ショートカット作成
+        ps_command = (
+            f"$s = (New-Object -ComObject WScript.Shell).CreateShortcut('{l_path}'); "
+            f"$s.TargetPath = 'python.exe'; "
+            f"$s.Arguments = '\"{p_script}\"'; "
+            f"$s.WorkingDirectory = '{w_dir}'; "
+            f"$s.IconLocation = '{i_path},0'; "
+            f"$s.WindowStyle = 7; " # 最小化で実行
+            f"$s.Save()"
         )
-        
-        vbs_path = os.path.join(os.environ["TEMP"], "create_lnk_dis.vbs")
+
         try:
-            with open(vbs_path, "w", encoding="shift-jis") as f: 
-                f.write(vbs)
-            subprocess.run(["cscript", "//nologo", vbs_path], shell=True)
-            if os.path.exists(vbs_path): os.remove(vbs_path)
+            # 既存のショートカットを削除
+            if os.path.exists(l_path):
+                os.remove(l_path)
+            
+            # PowerShellを実行
+            subprocess.run(["powershell", "-Command", ps_command], capture_output=True, text=True, check=True)
+            self.write_log(f"{os.path.basename(l_path)} を作成しました（アイコン付）。")
+            return True
+
         except Exception as e:
-            self.write_log(f"Shortcut Error: {e}")
+            self.write_log("PowerShell方式失敗。バッチファイル直接コピーに切り替えます。")
+            try:
+                dst_bat = l_path.replace(".lnk", ".bat")
+                shutil.copy2(target_bat_path, dst_bat)
+                self.write_log(f"バッチファイルとして {os.path.basename(dst_bat)} を配置しました。")
+                return True
+            except:
+                return False
 
     def run_deploy(self):
+        # 1. 基本的な入力チェック
         eqmax_dir = self.entry_path.get().strip()
-        destinations = []
-        for item in self.webhook_entries:
-            url = item["entry"].get().strip()
-            if url.startswith("https://"):
-                destinations.append({"url": url, "style": item["style"].get()})
-
         if not eqmax_dir or not os.path.isdir(eqmax_dir):
-            messagebox.showerror("Error", "Folder Error.")
-            return
-        if not destinations:
-            messagebox.showerror("Error", "URL Error.")
+            messagebox.showerror("エラー", "EqMax.exe があるフォルダを正しく選択してください。")
             return
 
-        bot_dir = os.path.join(eqmax_dir, "Discordbot")
+        # 保存先ディレクトリの設定
+        bot_dir = os.path.join(eqmax_dir, "DiscordBot")
         os.makedirs(bot_dir, exist_ok=True)
         
-        # パス定義 (Coreフォルダから見て一つ上のフォルダにあるTemplates/Assetsを参照)
-        base_src = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Templates")
-        assets_src = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Assets")
-        target_bat = os.path.join(bot_dir, "eqmax_discord.bat")
-        
-        for f in ["eqmax_discord.py", "eqmax_discord.bat"]:
-            src = os.path.join(base_src, f)
-            if os.path.exists(src):
-                shutil.copy2(src, bot_dir)
-                self.write_log(f"Copied: {f}")
+        # テンプレートディレクトリの特定（Coreフォルダの親 -> Templates）
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        templates_dir = os.path.join(base_dir, "Templates")
+        assets_dir = os.path.join(base_dir, "Assets")
 
-        icon_file = "eq-dis.ico"
-        icon_src_path = os.path.join(assets_src, icon_file)
-        if os.path.exists(icon_src_path):
-            shutil.copy2(icon_src_path, bot_dir)
-            self.write_log(f"Copied: {icon_file}")
+        try:
+            # 2. ファイルのコピー処理
+            # 実行に必要なスクリプト類
+            for f in ["eqmax_discord.py", "eqmax_discord.bat"]:
+                src = os.path.join(templates_dir, f)
+                if os.path.exists(src):
+                    shutil.copy2(src, bot_dir)
+                    self.write_log(f"{f} をコピーしました。")
+            
+            # アイコンファイル（ショートカット用）
+            ico_src = os.path.join(assets_dir, "eq-dis.ico")
+            if os.path.exists(ico_src):
+                shutil.copy2(ico_src, bot_dir)
 
-        normalized_dir = os.path.normpath(eqmax_dir).replace("\\", "/")
-        config_path = os.path.join(bot_dir, "config.json")
-        with open(config_path, "w", encoding="utf-8") as f:
-            json.dump({"eqmax_dir": normalized_dir, "destinations": destinations}, f, indent=4, ensure_ascii=False)
+            # 配置したバッチファイルのフルパスを変数に格納 (NameErrorの修正箇所)
+            target_bat = os.path.join(bot_dir, "eqmax_discord.bat")
 
-        lnk_name = "EqMax-Discord通知ボット.lnk"
-        if self.var_desktop.get():
-            self.create_shortcut_wsh(target_bat, os.path.join(os.environ["USERPROFILE"], "Desktop", lnk_name))
-            self.write_log("Created: Desktop shortcut")
-        if self.var_startup.get():
-            self.create_shortcut_wsh(target_bat, os.path.join(os.environ["APPDATA"], r"Microsoft\Windows\Start Menu\Programs\Startup", lnk_name))
-            self.write_log("Registered: Windows Startup")
+            # 3. Webhook設定の保存
+            webhooks_data = []
+            for item in self.webhook_entries:
+                url = item["entry"].get().strip()
+                if url:
+                    webhooks_data.append({"url": url, "style": item["style"].get()})
+            
+            if not webhooks_data:
+                messagebox.showwarning("警告", "Webhook URLが1つも入力されていません。")
 
-        messagebox.showinfo("成功", "ボットの配置と設定保存が完了しました。\nショートカットからボットを起動してください。")
-        self.destroy()
+            config = {
+                "eqmax_dir": eqmax_dir,
+                "webhooks": webhooks_data
+            }
+            
+            with open(os.path.join(bot_dir, "config.json"), "w", encoding="utf-8") as f:
+                json.dump(config, f, indent=4, ensure_ascii=False)
+            self.write_log("config.json を保存しました。")
+
+            # 4. ショートカット作成 (強化版ロジック)
+            lnk_name = "EqMax-Discord通知ボット.lnk"
+            
+            # レジストリから正確なデスクトップパスを取得
+            desk_path = None
+            try:
+                import winreg
+                key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders")
+                desk_path, _ = winreg.QueryValueEx(key, "Desktop")
+                winreg.CloseKey(key)
+            except:
+                desk_path = os.path.join(os.environ["USERPROFILE"], "Desktop")
+
+            if self.var_desktop.get() and desk_path:
+                self.create_shortcut_wsh(target_bat, os.path.join(desk_path, lnk_name))
+                
+            if self.var_startup.get():
+                appdata = os.environ.get("APPDATA")
+                if appdata:
+                    start_path = os.path.join(appdata, r"Microsoft\Windows\Start Menu\Programs\Startup", lnk_name)
+                    self.create_shortcut_wsh(target_bat, start_path)
+
+            messagebox.showinfo("成功", "ボットの配置と設定保存が完了しました。")
+            self.destroy()
+
+        except Exception as e:
+            self.write_log(f"エラー発生: {str(e)}")
+            messagebox.showerror("エラー", f"予期せぬエラーが発生しました:\n{e}")
 
 if __name__ == "__main__":
     EqMaxBotDeployer().mainloop()

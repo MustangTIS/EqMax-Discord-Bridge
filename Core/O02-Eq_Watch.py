@@ -112,34 +112,48 @@ class EqWatchdogDeployer(ctk.CTk):
         self.log_view.see("end")
 
     def create_shortcut(self, watch_dir, link_path):
+        """VBSを使わず、Powershell経由でショートカットを作成する（アイコン指定が可能）"""
         py_script = os.path.join(watch_dir, "Eq_Watchdog.py")
-        exe_icon_path = self.entry_path.get().strip()
+        exe_icon_path = self.entry_path.get().strip() # EqMax.exeからアイコンを拝借
 
-        p_script = os.path.abspath(py_script).replace("\\", "\\\\")
-        l_path = os.path.abspath(link_path).replace("\\", "\\\\")
-        i_path = os.path.abspath(exe_icon_path).replace("\\", "\\\\")
-        w_dir = os.path.abspath(watch_dir).replace("\\", "\\\\")
+        # パスの正規化
+        p_script = os.path.normpath(os.path.abspath(py_script))
+        l_path = os.path.normpath(os.path.abspath(link_path))
+        w_dir = os.path.normpath(os.path.abspath(watch_dir))
+        i_path = os.path.normpath(os.path.abspath(exe_icon_path))
 
-        vbs_content = (
-            f'Set oWS = CreateObject("WScript.Shell")\n'
-            f'Set oLink = oWS.CreateShortcut("{l_path}")\n'
-            f'oLink.TargetPath = "python.exe"\n'
-            f'oLink.Arguments = "{p_script}"\n'
-            f'oLink.WorkingDirectory = "{w_dir}"\n'
-            f'oLink.IconLocation = "{i_path},0"\n' 
-            f'oLink.WindowStyle = 7\n'
-            f'oLink.Save'
+        # PowerShellコマンド：ショートカット作成 (これならVBSよりブロックされにくい)
+        ps_command = (
+            f"$s = (New-Object -ComObject WScript.Shell).CreateShortcut('{l_path}'); "
+            f"$s.TargetPath = 'python.exe'; "
+            f"$s.Arguments = '\"{p_script}\"'; "
+            f"$s.WorkingDirectory = '{w_dir}'; "
+            f"$s.IconLocation = '{i_path},0'; "
+            f"$s.WindowStyle = 7; " # 最小化で実行
+            f"$s.Save()"
         )
-        temp_vbs = os.path.join(os.environ.get("TEMP", os.path.expanduser("~")), "make_watchdog_lnk.vbs")
+
         try:
-            with open(temp_vbs, "w", encoding="shift-jis") as f:
-                f.write(vbs_content)
-            subprocess.run(["cscript", "//nologo", temp_vbs], shell=True)
-            if os.path.exists(temp_vbs): os.remove(temp_vbs)
+            # 既存のショートカットを削除
+            if os.path.exists(l_path):
+                os.remove(l_path)
+            
+            # PowerShellを実行して作成
+            subprocess.run(["powershell", "-Command", ps_command], capture_output=True, text=True, check=True)
+            self.write_log(f"{os.path.basename(l_path)} を作成しました（アイコン付）。")
             return True
+
         except Exception as e:
-            self.write_log(f"作成エラー: {e}")
-            return False
+            self.write_log("PowerShell方式失敗。バッチファイル直接コピーに切り替えます。")
+            # --- 失敗時のフォールバック（バックアッププラン） ---
+            try:
+                dst_bat = l_path.replace(".lnk", ".bat")
+                src_bat = os.path.join(watch_dir, "Eq_Watchdog.bat")
+                shutil.copy2(src_bat, dst_bat)
+                self.write_log(f"バッチファイルとして {os.path.basename(dst_bat)} を配置しました。")
+                return True
+            except:
+                return False
 
     def run_deploy(self):
         exe_path = self.entry_path.get().strip()
@@ -169,13 +183,24 @@ class EqWatchdogDeployer(ctk.CTk):
             # 3. ショートカット作成
             lnk_name = "EqMax-Watchdog.lnk"
             
-            # 安全なデスクトップパスの取得
-            desk_path = os.path.join(os.path.expanduser("~"), "Desktop")
-            
-            if self.var_desktop.get():
+            # --- 【強化ポイント】より確実なデスクトップパスの取得 ---
+            desk_path = None
+            try:
+                # Windowsの環境変数から取得を試みる
+                import winreg
+                key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders")
+                desk_path, _ = winreg.QueryValueEx(key, "Desktop")
+                winreg.CloseKey(key)
+            except:
+                # 失敗した場合は標準的なパスを使用
+                desk_path = os.path.join(os.path.expanduser("~"), "Desktop")
+
+            if self.var_desktop.get() and desk_path:
                 target_lnk = os.path.join(desk_path, lnk_name)
                 if self.create_shortcut(watch_dir, target_lnk):
-                    self.write_log("デスクトップにショートカットを作成しました。")
+                    self.write_log(f"デスクトップにショートカットを作成しました: {desk_path}")
+                else:
+                    self.write_log("デスクトップへのショートカット作成に失敗しました。")
 
             if self.var_startup.get():
                 appdata = os.environ.get("APPDATA")
