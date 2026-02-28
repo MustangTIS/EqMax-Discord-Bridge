@@ -10,12 +10,14 @@
 <b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
 
-> [!TIP]
-> ### 📥 最新バージョンのダウンロード
+> [!IMPORTANT]
+> ## 📥 最新版のダウンロード (v5.0)
 > 
 > 
-> **[EqMax-Discord-Bridge v5.0 をダウンロード (Releases)](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/tag/v5.0)**
-> ※ `Source code (zip)` をダウンロードして展開してください。
+> ### **[🚀 EqMax-Discord-Bridge-v5.0.zip を今すぐダウンロード](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip)**
+> 
+> 
+> ※ 上記リンクをクリックすると、すぐに本体のZIPファイルがダウンロードされます。
 
 ---
 
@@ -59,8 +61,9 @@
 
 ## 🚀 クイックスタート
 
-1. リポジトリを展開し、ルート直下の **`EqMax-Discord-Bridge.bat`** を実行してください。
-2. 立ち上がったハブ画面の指示に従ってセットアップを進めます。
+1. ダウンロードした **`EqMax-Discord-Bridge-v5.0.zip`** を展開します。
+2. ルート直下の **`EqMax-Discord-Bridge.bat`** を実行してください。
+3. 立ち上がったハブ画面の指示に従ってセットアップを進めます。
 
 > [!IMPORTANT]
 > **アイコンの設定について**
@@ -89,5 +92,3 @@
 ---
 
 **© 2026 Mustang_TIS**
-
----
