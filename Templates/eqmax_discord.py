@@ -45,10 +45,15 @@ def maintain_eqmax_health(exe_path, check_full=False):
                 break
         except (psutil.NoSuchProcess, psutil.AccessDenied): continue
 
+    # eqmax_discord.py の 40行目付近を修正例
     if target_proc is None:
         if os.path.exists(exe_path):
-            print(f"[{time.strftime('%H:%M:%S')}] EqMax停止検知：再起動します。")
-            os.startfile(exe_path)
+            print(f"[{time.strftime('%H:%M:%S')}] EqMax停止検知：最小化で再起動します。")
+            # os.startfile の代わりに subprocess を使用して最小化指示（Windows限定）
+            import subprocess
+            subprocess.Popen([exe_path], cwd=os.path.dirname(exe_path), 
+                         creationflags=subprocess.CREATE_NEW_CONSOLE,
+                         startupinfo=subprocess.STARTUPINFO(dwFlags=subprocess.STARTF_USESHOWWINDOW, wShowWindow=6)) # 6は最小化
         return
 
     if check_full:
@@ -143,7 +148,7 @@ def process_log_update(content):
                 "embeds": [{
                     "title": title, "description": description, "color": color,
                     "image": {"url": "attachment://image.png"},
-                    "footer": {"text": "EqMax-Discord Bridge v4.6"}
+                    "footer": {"text": "EqMax-Discord Bridge v5.0"}
                 }]
             }
 
@@ -161,7 +166,7 @@ def watch_log():
         print("エラー: 送信先が設定されていません。")
         return
 
-    print(f"=== EqMax-Discord-Bridge v4.6 Running ===")
+    print(f"Booting EqMax-Discord-Bridge...")
     last_size = os.path.getsize(LOG_FILE) if os.path.exists(LOG_FILE) else 0
     pending_block = ""
     health_counter = 0
