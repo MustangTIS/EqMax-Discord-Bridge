@@ -1,22 +1,26 @@
-EqMax-Discord-Bridge v5.0
 <p align="center">
-<img src="Assets/eq-dis.png" width="120" alt="Logo">
+  <img src="Assets/eq-dis.png" width="120" alt="Logo">
+</p>
 
+<h1 align="center">EqMax-Discord-Bridge v5.0.2</h1>
 
-
-<b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
+<p align="center">
+  <b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
 
 <div align="center">
 
-[!IMPORTANT]
+> [!IMPORTANT]
+> **最新版ダウンロード**
+>
+> <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0.2/EqMax-Discord-Bridge-v5.0.2.zip">
+>   <img src="https://img.shields.io/badge/Download-最新版_v5.0.2_をダウンロード-blue?style=for-the-badge&logo=github" alt="Download v5.0.2">
+> </a>
 
-📥 最新版ダウンロード
-<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip">
-<img src="https://img.shields.io/badge/Download-最新版_v5.0_をダウンロード-blue?style=for-the-badge&logo=github" alt="Download v5.0">
-</a>
+</div>
 
-
+---
+<p align="right">Developer: MustangTIS</p>
 
 ※ クリックすると即座に本体ZIPのダウンロードが開始されます。
 
