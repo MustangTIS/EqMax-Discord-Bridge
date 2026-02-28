@@ -1,77 +1,77 @@
-# 📢 EqMax-Discord-Bridge v4.5.0
+# EqMax-Discord-Bridge v5.0
 
-<div align="center">
-  <img src="Assets/eq-dis.png" width="120" alt="Logo">
-  
-  <h3>EqMaxの情報をDiscordへリアルタイム転送</h3>
+**地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム**
 
-  <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/tag/v4.5.0Stable">
-    <img src="https://img.shields.io/badge/Download-最新版_v4.5.0_Stableをダウンロード-blue?style=for-the-badge&logo=github" alt="Download">
-  </a>
-
-  <p>※本ツールは非公式のファンプロジェクトです。<br>DiscordおよびEqMAXの公式とは一切関係ありません。</p>
-</div>
+> [!TIP]
+> ### 📥 最新バージョンのダウンロード
+> 
+> 
+> **[EqMax-Discord-Bridge v5.0 をダウンロード (Releases)](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/tag/v5.0)**
+> ※ `Source code (zip)` をダウンロードして展開してください。
 
 ---
 
-## 📺 スクリーンショット
-
-### ■ 実際の通知イメージ (Discord)
-マップ付きのリッチな通知（Embedモード）が自動送信されます。
 <p align="center">
-  <img src="Assets/DiscordWindow.jpg" width="700" alt="Notification Sample">
+<img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/A1Desktop.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/A1Desktop.jpg)" width="800" alt="Main Visual">
+
+
+
+
+
+<i>▲ v5.0 より導入された、全ての機能を一括管理する「統合管理ハブ」とリアルタイムログ。</i>
 </p>
 
-### ■ 操作画面 (GUI)
-すべての設定は直感的なGUIから一括管理可能です。
-<div align="center">
-  <table>
-    <tr>
-      <td><b>統合管理ハブ</b></td>
-      <td><b>Webhook・自動起動設定</b></td>
-    </tr>
-    <tr>
-      <td><img src="Assets/MainHub.jpg" width="350"></td>
-      <td><img src="Assets/WebhookSettings.jpg" width="350"></td>
-    </tr>
-    <tr>
-      <td><b>EqMax初期設定パッチ</b></td>
-      <td><b>構成オプション</b></td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center"><img src="Assets/EqMAXSettings.jpg" width="500"></td>
-    </tr>
-  </table>
-</div>
+---
+
+## 🎨 v5.0 の主な進化点
+
+今回のアップデートは、内部システムの刷新、UIの再設計、および運用安定性を向上させるための新機能を追加したメジャーアップデート版です。
+
+* **統合管理ハブ (00-TOP_HUB.py)**: 全てのツールを一つの画面から呼び出し可能。重要度や用途に応じた色分け（推奨手順・トラブル・メンテナンス）を採用し、視認性を大幅に向上させました。
+* **インテリジェンス・ログ**: 起動状況や時刻をプロンプトに詳細出力。システムの動作状況をリアルタイムに把握できるようになりました。
+* **自動更新確認システム**: 起動時に GitHub API を通じて最新リリースの有無を自動チェック。新しいバージョンがある場合は、ハブ画面上に通知が表示されます。
+* **初期設定プリセット (INI導入)**: 用途に合わせた2つの構成テンプレート（Full/Server）を導入しました。
+
+## 🛠️ 収録ツール一覧
+
+1. **EqMAX 初期設定パッチ**: レイアウト固定、キャプチャ設定、疑似認証を自動適用。
+2. **Discord 連携実装**: 最大5つのWebhookを同時管理。柔軟な通知システムを完成させます。
+3. **EqMAX 初期化処理**: 困った時のリセット機能。リスクヘッジのため、ショートカット削除は手動で行う安全仕様へ変更。
+4. **メンテナンスツール**: 溜まった画像やログの掃除（Cleaner）や、メモリリーク対策の監視（Watchdog）を同梱。
+
+## 🚀 クイックスタート
+
+1. リポジトリを展開し、ルート直下の **`EqMax-Discord-Bridge.bat`** を実行してください。
+* ※ 起動バッチは Python 環境の有無を自動チェックし、必要に応じてライブラリの修復を試みます。
+
+
+2. 立ち上がったハブ画面の指示に従ってセットアップを進めます。
+
+> [!IMPORTANT]
+> **アイコンの設定について**
+> 本ツールはデスクトップを汚さないよう、自動的なショートカット作成は行いません。常に手元に置きたい場合は、`EqMax-Discord-Bridge.bat` のショートカットを作成し、プロパティから `Assets/eq-dis.ico` を適用してください。
+
+## 📸 スクリーンショット
+
+### ■ メイン・ハブ & プロンプト
+
+| 統合管理ハブ (GUI) | リアルタイムログ (Prompt) |
+| --- | --- |
+| <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/01HUB.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/01HUB.jpg)" width="400"> | <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/A1-Prompt.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/A1-Prompt.jpg)" width="400"> |
+
+### ■ 各種設定・通知
+
+| 初期設定パッチ | Discord 連携実装 | 通知イメージ |
+| --- | --- | --- |
+| <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/01EqSetting.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/01EqSetting.jpg)" width="260"> | <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/02Bridge.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/02Bridge.jpg)" width="260"> | <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/A2Discord.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/A2Discord.jpg)" width="260"> |
+
+### ■ メンテナンス & リセット
+
+| ログ・画像掃除 | 動作監視 (Watchdog) | 初期化処理 |
+| --- | --- | --- |
+| <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/O1Cleaner.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/O1Cleaner.jpg)" width="260"> | <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/O2Watchdog.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/O2Watchdog.jpg)" width="260"> | <img src="[https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/03Initialization.jpg](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/raw/main/Assets/03Initialization.jpg)" width="260"> |
 
 ---
 
-## 📖 導入ガイド (v4.5 Hub System)
-
-### ■ 動作環境
-* **推奨OS**: Windows 10 / 11 / Server 2022 / 2025
-* **推奨Python**: **Python 3.13**
-  - ※Python 3.14以降はライブラリ未対応のため 3.13 を推奨します。
-
-### ⚠️ 初回実行時の注意
-本ツールは未署名ファイルのため、Windows SmartScreen（青い画面）が表示されることがあります。
-* **対処法**: 「詳細情報」→「実行」を選択。
-* **推奨**: ZIPを解凍する前に、右クリック ＞ プロパティ ＞ **「許可する」または「ブロックの解除」** にチェックを入れてください。
-
----
-
-## 🛠 各ツールの役割
-1. **初期設定パッチ (01-Eq_Initialize)**: EqMaxを「Discord連携モード」へ自動構成。
-2. **ボット配置ツール (02-Eq_Discord)**: 最大5件のWebhook登録。見張り番機能内蔵。
-3. **初期化・修復ツール (03-Eq_Reset)**: 動作不良時のリセット用。
-4. **ログ・画像クリーナー (O01-Eq_Cleaner)**: メンテナンス用。
-
----
-
-## 🔗 関連リンク・免責事項
-* **[EqMax 配布元公式サイト]**: [https://melanion.info/eqmax/](https://melanion.info/eqmax/)
-* **免責事項**: 本ツールは個人開発の非公式ツールです。本ツールの使用によって生じた損害について、開発者は一切の責任を負いません。
-
-<div align="right">
-  Developed by MustangTIS
-</div>
+**© 2026 Mustang_TIS**
+不具合報告やフィードバックは、GitHub の Issues までお寄せください。
