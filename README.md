@@ -10,7 +10,7 @@
 
 > [!IMPORTANT]
 > ## 📥 最新版ダウンロード
-> # [🚀 EqMax-Discord-Bridge-v5.0.zip をダウンロード](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip)
+> # [🚀 EqMax-Discord-Bridge-v5.0.zip をダウンロード](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/V5.0/EqMax-Discord-Bridge-v5.0.zip)
 > ※ クリックすると即座に本体ZIPのダウンロードが開始されます。
 
 </div>
