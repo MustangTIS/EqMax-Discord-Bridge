@@ -1,33 +1,42 @@
-# EqMax-Discord-Bridge v5.0
-
+EqMax-Discord-Bridge v5.0
 <p align="center">
-  <img src="Assets/eq-dis.png" width="120" alt="Logo">
-  <br>
-  <b>地震監視ソフト「EqMAX」の通知を, 美しく, 確実に Discord へ届ける統合管理システム</b>
+<img src="Assets/eq-dis.png" width="120" alt="Logo">
+
+
+
+<b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
 
 <div align="center">
 
-> [!IMPORTANT]
-> ## 📥 最新版ダウンロード
-> # [🚀 EqMax-Discord-Bridge-v5.0.zip をダウンロード](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip)
-> ※ クリックすると即座に本体ZIPのダウンロードが開始されます。
+[!IMPORTANT]
+
+📥 最新版ダウンロード
+<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip">
+<img src="https://img.shields.io/badge/Download-最新版_v5.0_をダウンロード-blue?style=for-the-badge&logo=github" alt="Download v5.0">
+</a>
+
+
+
+※ クリックすると即座に本体ZIPのダウンロードが開始されます。
 
 </div>
 
----
-
-## 📸 動作イメージ
+📸 動作イメージ
 <p align="center">
-  <img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
-  <br>
-  <i>▲ v5.0 統合管理ハブとログを並べたメインデスクトップ</i>
+<img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
+
+
+
+<i>▲ v5.0 統合管理ハブとログを並べたメインデスクトップ</i>
 </p>
 
 <p align="center">
-  <img src="Assets/A2Discord.jpg" width="600" alt="Discord Notification">
-  <br>
-  <i>▲ 実際に Discord へ届くリッチな地震通知イメージ</i>
+<img src="Assets/A2Discord.jpg" width="600" alt="Discord Notification">
+
+
+
+<i>▲ 実際に Discord へ届くリッチな地震通知イメージ</i>
 </p>
 
 ---
