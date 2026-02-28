@@ -10,14 +10,18 @@
 <b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
 
+<div align="center">
+
 > [!IMPORTANT]
-> ## 📥 最新版のダウンロード (v5.0)
+> ## 📥 最新版ダウンロード
 > 
 > 
-> ### **[🚀 EqMax-Discord-Bridge-v5.0.zip を今すぐダウンロード](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip)**
+> # [🚀 EqMax-Discord-Bridge-v5.0.zip をダウンロード](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.0/EqMax-Discord-Bridge-v5.0.zip)
 > 
 > 
-> ※ 上記リンクをクリックすると、すぐに本体のZIPファイルがダウンロードされます。
+> ※クリックすると即座に本体ZIPのダウンロードが開始されます。
+
+</div>
 
 ---
 
@@ -47,8 +51,8 @@
 
 ## 🎨 v5.0 の主な進化点
 
-* **統合管理ハブ (00-TOP_HUB.py)**: 全てのツールを一つの画面から呼び出し可能。
-* **インテリジェンス・ログ**: 起動状況や時刻をプロンプトに詳細出力し、動作状況を可視化。
+* **統合管理ハブ (00-TOP_HUB.py)**: 全てのツールを一つの画面から呼び出し可能。重要度に応じた色分けUI。
+* **インテリジェンス・ログ**: 起動状況や時刻を詳細出力。システムの「動作」をリアルタイム可視化。
 * **自動更新確認システム**: 起動時に GitHub API を通じて最新リリースの有無を自動チェック。
 * **初期設定プリセット**: 用途に合わせた2つの構成テンプレート（Full/Server）を導入。
 
