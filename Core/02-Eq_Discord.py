@@ -224,7 +224,7 @@ class EqMaxBotDeployer(ctk.CTk):
 
             config = {
                 "eqmax_dir": eqmax_dir,
-                "webhooks": webhooks_data
+                "destinations": webhooks_data  # ここを destinations に書き換える
             }
             
             with open(os.path.join(bot_dir, "config.json"), "w", encoding="utf-8") as f:

@@ -34,6 +34,10 @@ EQ_DIR = os.path.normpath(config["eqmax_dir"])
 LOG_FILE = os.path.join(EQ_DIR, "Twitter.log")
 EQ_EXE = os.path.join(EQ_DIR, "EqMax.exe")
 
+# --- 0. バージョン定義 ---
+CURRENT_VERSION = "v5.0.2"  # 自分のバージョン
+REPO_URL = "MustangTIS/EqMax-Discord-Bridge" # あなたのリポジトリ名
+
 # --- 2. 死活監視ロジック (Eq_Watchdogより統合) ---
 def maintain_eqmax_health(exe_path, check_full=False):
     process_name = "EqMax.exe"
@@ -148,7 +152,7 @@ def process_log_update(content):
                 "embeds": [{
                     "title": title, "description": description, "color": color,
                     "image": {"url": "attachment://image.png"},
-                    "footer": {"text": "EqMax-Discord Bridge v5.0"}
+                    "footer": {"text": f"EqMax-Discord Bridge {CURRENT_VERSION}"}
                 }]
             }
 
@@ -160,13 +164,41 @@ def process_log_update(content):
                 requests.post(url, json=payload)
         except Exception: pass
 
+# --- 4. バージョンチェック関数を追加 ---
+def check_update_once():
+    api_url = f"https://api.github.com/repos/{REPO_URL}/releases/latest"
+    try:
+        response = requests.get(api_url, timeout=3)
+        if response.status_code == 200:
+            latest_tag = response.json().get("tag_name")
+            if latest_tag and latest_tag != CURRENT_VERSION:
+                print("=" * 60)
+                print(f"🚀 [Update] 新バージョン {latest_tag} が利用可能です！")
+                print(f"👉 配布先: https://github.com/{REPO_URL}/releases")
+                print("=" * 60)
+                
+                # 1. まずメッセージを出す（ここでプログラムが一時停止します）
+                ctypes.windll.user32.MessageBoxW(0, 
+                    f"EqMax-Discord Bridge の新バージョン {latest_tag} が公開されています。\n\n現在のバージョン: {CURRENT_VERSION}\n\nGitHubを確認してください。", 
+                    "アップデートのお知らせ", 0x40)
+
+                # 2. OKを押した後にブラウザを開く（ここをifの中にしっかり入れる）
+                import webbrowser
+                webbrowser.open(f"https://github.com/{REPO_URL}/releases")
+
+    except:
+        pass
+
 # --- 4. メインループ (v3の安定トリガーを採用) ---
 def watch_log():
     if not config.get("destinations"):
         print("エラー: 送信先が設定されていません。")
         return
+        
+    # ★ここに追加！これで起動時に1回だけ実行されます
+    check_update_once()
 
-    print(f"Booting EqMax-Discord-Bridge...")
+    print(f"Booting EqMax-Discord-Bridge {CURRENT_VERSION}...")
     last_size = os.path.getsize(LOG_FILE) if os.path.exists(LOG_FILE) else 0
     pending_block = ""
     health_counter = 0
