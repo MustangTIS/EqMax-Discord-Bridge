@@ -10,7 +10,7 @@ import webbrowser
 import subprocess
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "5.5.0" # ← 新バージョンを出す時はここを書き換える
+CURRENT_VERSION = "5.5" # ← 新バージョンを出す時はここを書き換える
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 # MustangTISさんのリポジトリに合わせて修正
@@ -25,26 +25,33 @@ def set_taskbar_icon():
 
 set_taskbar_icon()
 
-# --- 1. アップデートチェック (タグ「vX.X.X」判定型) ---
+# --- 修正版：API連携型アップデートチェック ---
 def check_for_updates():
-    print(f"[{time.strftime('%H:%M:%S')}] [Update] Checking for updates...")
+    # API用URLとリポジトリ名 (00-TOP_HUB.pyと同じ設定)
+    REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
+    api_url = f"https://api.github.com/repos/{REPO_URL}/releases/latest"
+    
+    print(f"[{time.strftime('%H:%M:%S')}] [Update] Checking for updates from GitHub API...")
     try:
-        # User-Agentを指定しないとGitHubに拒否される場合があるため追加
-        headers = {"User-Agent": "Mozilla/5.0"}
-        response = requests.get(RELEASE_PAGE_URL, headers=headers, timeout=5)
-        
+        # APIを叩いて最新情報を取得
+        response = requests.get(api_url, timeout=5)
         if response.status_code == 200:
-            target_tag = f"v{CURRENT_VERSION}"
-            # 最新リリースのHTML内に自分のバージョンタグが含まれているか
-            if target_tag not in response.text:
-                print(f"[{time.strftime('%H:%M:%S')}] [Update] 【重要】新バージョンが公開されています。")
-                print(f"[{time.strftime('%H:%M:%S')}] [Update] ブラウザで最新版を確認してください。")
-                webbrowser.open(RELEASE_PAGE_URL)
+            data = response.json()
+            latest_tag = data.get("tag_name") # 例: "v5.0.2"
+            
+            # vを含む・含まないの表記揺れを考慮して比較 (例: v5.5.0 と 5.5.0)
+            current = f"v{CURRENT_VERSION}" if not CURRENT_VERSION.startswith("v") else CURRENT_VERSION
+            
+            if latest_tag and latest_tag != current:
+                print(f"[{time.strftime('%H:%M:%S')}] [Update] 【重要】新バージョン {latest_tag} が公開されています。")
+                webbrowser.open(data.get("html_url", RELEASE_PAGE_URL))
                 time.sleep(2)
             else:
-                print(f"[{time.strftime('%H:%M:%S')}] [Update] バージョン {target_tag} は最新です。")
-    except:
-        print(f"[{time.strftime('%H:%M:%S')}] [Update] チェックをスキップしました (Network Offline)")
+                print(f"[{time.strftime('%H:%M:%S')}] [Update] バージョン {current} は最新です。")
+        else:
+            print(f"[{time.strftime('%H:%M:%S')}] [Update] チェック失敗 (HTTP {response.status_code})")
+    except Exception as e:
+        print(f"[{time.strftime('%H:%M:%S')}] [Update] チェックをスキップしました ({e})")
 
 # --- 2. 設定読み込み ---
 def load_config():
@@ -173,7 +180,7 @@ def start_combined_monitor():
     exe_path = os.path.join(config["eqmax_dir"], "EqMax.exe")
     log_file = os.path.join(config["eqmax_dir"], "Twitter.log")
     
-    print(f"="*50 + f"\n EqMax Guardian v{CURRENT_VERSION}\n" + f"="*50)
+    print(f"="*50 + f"\n Running...EqMax-Discord-Bridge v{CURRENT_VERSION}...\n" + f"="*50)
 
     last_size = os.path.getsize(log_file) if os.path.exists(log_file) else 0
     pending_block = ""
