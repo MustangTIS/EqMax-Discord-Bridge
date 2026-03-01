@@ -22,6 +22,13 @@
 ---
 <p align="right">Developer: MustangTIS</p>
 
+### ■ メイン・デスクトップ
+<p align="center">
+<img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
+<br>
+<i>▲ v5.5 統合管理ハブと進化した Startup Manager</i>
+</p>
+
 ## 📸 動作イメージ
 
 ### ■ リアルタイム通知 & ログ連携
@@ -31,13 +38,6 @@ Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（Discor
 | :---: | :---: |
 | <img src="Assets/A2Discord.jpg" width="450"> | <img src="Assets/DiscordBridgePrompt.jpg" width="450"> |
 <p align="center"><i>▲ 海域判定・津波警戒フラグが付与された最新の通知スタイル</i></p>
-
-### ■ メイン・デスクトップ
-<p align="center">
-<img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
-<br>
-<i>▲ v5.5 統合管理ハブと進化した Startup Manager</i>
-</p>
 
 ---
 
@@ -78,7 +78,7 @@ Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（Discor
 
 ## 🖼️ 設定画面ギャラリー
 
-### ■ メイン操作・設定（上段）
+### ■ メイン操作・設定
 ツールの司令塔となるHUBを中心に、導入時に必要な設定ツールを並べています。
 
 | 統合管理ハブ (v5.5) | 初期設定パッチ | Discord 連携実装 |
@@ -86,7 +86,7 @@ Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（Discor
 | <img src="Assets/01HUB.jpg" width="300"> | <img src="Assets/01EqSetting.jpg" width="300"> | <img src="Assets/02Bridge.jpg" width="300"> |
 | アプリの開始画面 | EqMaxの設定を自動最適化 | Discord連携の管理 |
 
-### ■ メンテナンス・補助ツール（下段）
+### ■ メンテナンス・補助ツール
 安定運用を支えるためのクリーナーや監視、トラブル時のリセットツールです。
 
 | ログ・画像掃除 | 動作監視 (Watchdog) | 初期化処理 |
