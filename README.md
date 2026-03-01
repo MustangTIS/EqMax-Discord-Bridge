@@ -16,69 +16,63 @@
 > <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.5/EqMax-Discord-Bridge-v5.5.zip">
 >   <img src="https://img.shields.io/badge/Download-最新版_v5.5_をダウンロード-blue?style=for-the-badge&logo=github" alt="Download v5.5">
 > </a>
->
-> [ すべてのリビジョンを確認する ](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases)
 
 </div>
 
 ---
+<p align="right">Developer: MustangTIS</p>
 
-## 📸 動作イメージ
+📸 動作イメージ
 <p align="center">
 <img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
 <br>
-<i>▲ v5.5 統合管理ハブと進化した起動マネージャー</i>
+<i>▲ v5.5 統合管理ハブと進化した Startup Manager</i>
 </p>
 
 <p align="center">
 <img src="Assets/A2Discord.jpg" width="600" alt="Discord Notification">
 <br>
-<i>▲ 海域地震の津波警戒判定にも対応したリッチな地震通知</i>
+<i>▲ 実際に Discord へ届くリッチな地震通知（海域判定・津波警戒対応）</i>
 </p>
 
 ---
 
 ## 🚀 v5.5 の主な進化点
-* **インテリジェンス・ランチャー**: `EqMax-Discord-Bridge.bat` を刷新。Python環境や必須ライブラリを自動チェックし、不足があれば自動インストールを試みます。
-* **🛰️ GitHub API 連携の強化**: 起動時に最新のタグ情報を取得し、新バージョンがある場合は即座に配布ページへ誘導します。
-* **📊 安定化監視（Watchdog）の可視化**: 1時間ごとの定期報告に「EqMax.exe」の物理メモリ使用量(MB)を記録。リソース管理が容易になりました。
-* **🚨 ログ解析エンジンの高度化**: マグニチュードと震源地から海域地震を自動判別し、大津波警戒や注意喚起を通知に付与します。
-
----
+* **インテリジェンス・ランチャー**: Python環境や必須ライブラリを自動チェック。環境構築の手間をゼロにしました。
+* **🛰️ GitHub API 連携**: 起動時に最新タグを自動照会。更新がある場合は即座に通知・誘導を行います。
+* **📊 安定化監視（Watchdog）の可視化**: 1時間ごとの報告に EqMax のメモリ使用量(MB)を記録。リソース消費を可視化しました。
+* **🚨 津波警戒ロジック**: マグニチュードと震源地を解析し、海域地震時に「大津波警戒」等のフラグを自動付与します。
 
 ## 🛠️ 収録ツール一覧
-1. **EqMAX 初期設定パッチ**: レイアウト、キャプチャ、疑似認証を自動適用。
-2. **Discord 連携実装**: 最大5つのWebhookを同時管理。embed（リッチ）とsimple（軽量）を選択可能。
-3. **EqMAX 安定化監視 (Watchdog)**: メモリリーク対策。設定したRAM上限を超えると自動で再起動を行います。
-4. **メンテナンスツール**: 不要な画像やログを一括削除するクリーナーを同梱。
-
----
-
-## 💻 起動シーケンス (Startup Manager)
-新しくなったバッチファイルにより、準備完了からハブの起動までが視覚的にわかりやすくなりました。
-
-<p align="center">
-<img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
-</p>
-
----
+1. **EqMAX 初期設定パッチ**: レイアウト固定、キャプチャ設定、疑似認証を自動適用。
+2. **Discord 連携実装 (v5.5)**: 最大5つのWebhookを管理。embed / simple スタイル切り替え対応。
+3. **メンテナンスツール**: 肥大化する画像・ログの自動掃除（Cleaner）や、メモリリーク対策（Watchdog）を完備。
 
 ## 🚀 クイックスタート
 1. 上記の **[最新版 v5.5 をダウンロード]** ボタンからZIPを取得して展開します。
 2. フォルダ内の **`EqMax-Discord-Bridge.bat`** を実行してください。
-3. 立ち上がったハブ画面の指示に従い、「1. 初期設定」から順に進めてください。
+3. 準備が整うと統合ハブが立ち上がるので、指示に従いセットアップを進めます。
 
 > [!TIP]
 > **アイコンの設定について**
 > ショートカットを作成したい場合は、`Assets/eq-dis.ico` を指定して適用してください。
 
----
-
 ## 🖼️ 設定画面ギャラリー
 
-| 統合管理ハブ (v5.5) | Discord 連携・配置 | 動作監視設定 |
+### ■ メイン・ハブ & 最新プロンプト
+| 統合管理ハブ (GUI) | 起動マネージャー (Prompt) |
+| :---: | :---: |
+| <img src="Assets/01HUB.jpg" width="400"> | <img src="Assets/01TOPHUB-Prompt.jpg" width="400"> |
+
+### ■ 各種設定
+| 初期設定パッチ | Discord 連携実装 |
+| :---: | :---: |
+| <img src="Assets/01EqSetting.jpg" width="380"> | <img src="Assets/02Bridge.jpg" width="380"> |
+
+### ■ メンテナンス & 監視
+| 動作監視 (Watchdog) | ログ・画像掃除 | 初期化処理 |
 | :---: | :---: | :---: |
-| <img src="Assets/01HUB.jpg" width="250"> | <img src="Assets/02Bridge.jpg" width="250"> | <img src="Assets/O2Watchdog.jpg" width="250"> |
+| <img src="Assets/O2Watchdog.jpg" width="260"> | <img src="Assets/O1Cleaner.jpg" width="260"> | <img src="Assets/03Initialization.jpg" width="260"> |
 
 ---
 **© 2026 Mustang_TIS**
