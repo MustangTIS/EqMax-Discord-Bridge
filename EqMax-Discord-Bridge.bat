@@ -6,47 +6,63 @@ echo ==========================================
 echo    EqMax Discord Bridge - Startup Manager
 echo ==========================================
 echo [Status]  : Initializing system...
-echo [Version] : v5.0.2 Hotfix (Config Sync)
-echo [Author]  : Mustang_TIS
+echo [Version] : v5.4.5 (Auto-Repair & Guide)
 echo ==========================================
-echo.
 
-rem 1. Pythonチェック
-echo [Step 1/2] Checking Python environment...
+:PYTHON_CHECK
+rem 1. Python自体の存在チェック
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [Error] Python not found.
-    echo [Action] Redirecting to download page...
+    echo [Error] Python が見つかりません。
     start https://www.python.org/downloads/
     pause
     exit /b
 )
 
-rem 2. メインハブの起動を試みる
+:LIBRARY_CHECK
+rem 2. 必須ライブラリのチェック
+echo [Step 1/2] Checking libraries...
+python -c "import psutil, requests, PIL, customtkinter" >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [Notice] ライブラリをインストールしています...
+    python -m pip install --upgrade pip
+    python -m pip install psutil requests Pillow customtkinter --prefer-binary
+    
+    rem インストール失敗時の誘導
+    if %errorlevel% neq 0 goto :VER_GUIDE
+)
+
+:BOOT_HUB
+rem 3. メインシステムの起動
 if exist "Core\00-TOP_HUB.py" (
     echo [Step 2/2] Booting Hub System...
-    echo [Message] Please wait a moment...
     python "Core\00-TOP_HUB.py"
+    
+    rem 実行中にエラーで落ちた場合の誘導
+    if %errorlevel% neq 0 goto :VER_GUIDE
 ) else (
-    echo [Error] Core\00-TOP_HUB.py not found.
-    echo [Path]  Current: %cd%
+    echo [Error] Core\00-TOP_HUB.py が見つかりません。
     pause
     exit /b
 )
 
-rem 3. 失敗時の自動修復
-if %errorlevel% neq 0 (
-    echo.
-    echo [Warning] Startup failed.
-    echo [Repair]  Running library maintenance...
-    if exist "Pythonset\Python_SET.bat" (
-        call "Pythonset\Python_SET.bat"
-        echo [Action]  Restarting Hub...
-        python "Core\00-TOP_HUB.py"
-    ) else (
-        echo [Fatal]   Python_SET.bat not found.
-        pause
-    )
-)
+goto :EOF
 
+:VER_GUIDE
+echo.
+echo ------------------------------------------
+echo [!] トラブルが発生しました (Error Code: %errorlevel%)
+echo ------------------------------------------
+echo 原因として、使用中の Python バージョンとの互換性が考えられます。
+echo.
+echo 【解決策】
+echo 現在の Python をアンインストールし、より安定した
+echo 「Python 3.10」または「Python 3.11」の導入を推奨します。
+echo.
+echo [DLページ] https://www.python.org/downloads/windows/
+echo ------------------------------------------
+pause
+exit /b
+
+:EOF
 endlocal

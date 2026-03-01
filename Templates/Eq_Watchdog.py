@@ -8,14 +8,18 @@ import sys
 # --- タスクバーアイコン修正用の呪文 ---
 def set_taskbar_icon():
     if sys.platform == "win32":
-        # 独自のAppIDを設定することで、cmd.exeとは別のアプリとして認識させる
         myappid = u'mycompany.eqmax.guardian.v4' 
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 set_taskbar_icon()
-# --- 設定の読み込み ---
+
+# --- 設定の読み込み (ここを少しだけ強化) ---
 def load_config():
-    config = {"eqmax_dir": "C:\\EqMax_Win64"}
+    config = {
+        "eqmax_dir": "C:\\EqMax_Win64",
+        "ram_limit_mb": 1024,          # デフォルト: 1GB
+        "report_interval_sec": 3600    # デフォルト: 1時間
+    }
     if os.path.exists("config.json"):
         try:
             with open("config.json", "r", encoding="utf-8") as f:
@@ -23,7 +27,8 @@ def load_config():
         except Exception: pass
     return config
 
-def maintain_eqmax_health(exe_path, check_full=False):
+# --- 健康診断ロジック (ram_limit を受け取るように追加) ---
+def maintain_eqmax_health(exe_path, check_full=False, ram_limit=1024):
     process_name = "EqMax.exe"
     target_proc = None
 
@@ -32,19 +37,15 @@ def maintain_eqmax_health(exe_path, check_full=False):
             if proc.info['name'] == process_name:
                 target_proc = proc
                 break
-        except (psutil.NoSuchProcess, psutil.AccessDenied):
-            continue
+        except (psutil.NoSuchProcess, psutil.AccessDenied): continue
 
-    # 1. プロセス不在時の自動起動
     if target_proc is None:
         print(f"[{time.strftime('%H:%M:%S')}] EqMax停止検知：再起動します。")
         os.startfile(exe_path)
         return
 
-    # 2. 精密検査 (フリーズ・メモリチェック)
     if check_full:
         try:
-            # 応答チェック
             if not target_proc.is_running() or target_proc.status() == psutil.STATUS_ZOMBIE:
                 print(f"[{time.strftime('%H:%M:%S')}] EqMaxハングアップ検知：強制再起動。")
                 target_proc.kill()
@@ -52,24 +53,62 @@ def maintain_eqmax_health(exe_path, check_full=False):
                 os.startfile(exe_path)
                 return
 
-            # メモリリーク対策 (1GB超過でリセット)
+            # JSONから読み込んだ ram_limit で判定
             mem_mb = target_proc.memory_info().rss / (1024 * 1024)
-            if mem_mb > 1024:
-                print(f"[{time.strftime('%H:%M:%S')}] メモリ超過({mem_mb:.1f}MB)：リフレッシュ起動。")
+            if mem_mb > ram_limit:
+                print(f"[{time.strftime('%H:%M:%S')}] メモリ超過({mem_mb:.1f}MB / Limit: {ram_limit}MB)：再起動。")
                 target_proc.kill()
                 time.sleep(2)
                 os.startfile(exe_path)
         except Exception: pass
 
-if __name__ == "__main__":
+# --- メインループ ---
+def start_watchdog():
     config = load_config()
-    eqmax_exe = os.path.join(config["eqmax_dir"], "EqMax.exe")
-    print(f"EqMax Watchdog 稼働中... (監視対象: {eqmax_exe})")
+    exe_path = os.path.normpath(os.path.join(config["eqmax_dir"], "EqMax.exe"))
     
-    counter = 0
+    # JSONから設定を取得
+    ram_limit = config.get("ram_limit_mb", 1024)
+    report_int = config.get("report_interval_sec", 3600)
+    
+    if not os.path.exists(exe_path):
+        print(f"エラー: {exe_path} が見つかりません。")
+        return
+
+    print(f"[{time.strftime('%H:%M:%S')}] EqMax Watchdog Started.")
+    print(f"Monitoring: {exe_path} (Limit: {ram_limit}MB)")
+    print("-" * 50)
+
+    health_counter = 0
+    process_name = "EqMax.exe"
+
     while True:
-        counter += 1
-        # 10秒に1回精密検査、それ以外は存在確認のみ
-        maintain_eqmax_health(eqmax_exe, check_full=(counter >= 10))
-        if counter >= 10: counter = 0
+        try:
+            # 生存確認ログ (JSONの設定値を使用)
+            if health_counter % report_int == 0:
+                mem_mb = "不明"
+                for proc in psutil.process_iter(['name', 'memory_info']):
+                    if proc.info.get('name') == process_name:
+                        mem_mb = f"{proc.info['memory_info'].rss / (1024 * 1024):.1f}"
+                        break
+                print(f"[{time.strftime('%H:%M:%S')}] Watchdog Alive | EqMax RAM: {mem_mb} MB")
+                if health_counter == 0: health_counter = 1
+
+            # 死活監視 (ram_limit を渡す)
+            if health_counter % 10 == 0:
+                maintain_eqmax_health(exe_path, check_full=True, ram_limit=ram_limit)
+
+            health_counter += 1
+            if health_counter > 86400: health_counter = 1
+
+        except KeyboardInterrupt:
+            print("\nユーザーにより停止されました。")
+            break
+        except Exception as e:
+            print(f"エラー: {e}")
+        
         time.sleep(1)
+
+if __name__ == "__main__":
+    set_taskbar_icon()
+    start_watchdog()
