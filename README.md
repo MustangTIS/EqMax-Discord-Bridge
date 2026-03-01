@@ -78,15 +78,18 @@ Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（Discor
 
 ## 🖼️ 設定画面ギャラリー
 
-### ■ 各種設定・初期化
-| 初期設定パッチ | Discord 連携実装 | 初期化処理 |
-| :---: | :---: | :---: |
-| <img src="Assets/01EqSetting.jpg" width="300"> | <img src="Assets/02Bridge.jpg" width="300"> | <img src="Assets/03Initialization.jpg" width="300"> |
+### ■ メイン操作・設定（上段）
+ツールの司令塔となるHUBを中心に、導入時に必要な設定ツールを並べています。
 
-### ■ メンテナンス & 監視
-| 動作監視 (Watchdog) | ログ・画像掃除 | 統合管理ハブ |
+| 統合管理ハブ (v5.5) | 初期設定パッチ | Discord 連携実装 |
 | :---: | :---: | :---: |
-| <img src="Assets/O2Watchdog.jpg" width="300"> | <img src="Assets/O1Cleaner.jpg" width="300"> | <img src="Assets/01HUB.jpg" width="300"> |
+| <img src="Assets/01HUB.jpg" width="300"> | <img src="Assets/01EqSetting.jpg" width="300"> | <img src="Assets/02Bridge.jpg" width="300"> |
+| 全ての起点となる司令塔 | EqMaxの表示を自動最適化 | 通知先Webhookの管理 |
 
----
-**© 2026 Mustang_TIS**
+### ■ メンテナンス・補助ツール（下段）
+安定運用を支えるためのクリーナーや監視、トラブル時のリセットツールです。
+
+| ログ・画像掃除 | 動作監視 (Watchdog) | 初期化処理 |
+| :---: | :---: | :---: |
+| <img src="Assets/O1Cleaner.jpg" width="300"> | <img src="Assets/O2Watchdog.jpg" width="300"> | <img src="Assets/03Initialization.jpg" width="300"> |
+| 不要ファイルの自動削除 | RAM超過時の自動復旧 | 困った時のクリーンアップ |
