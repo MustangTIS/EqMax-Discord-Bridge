@@ -84,7 +84,7 @@ Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（Discor
 | 統合管理ハブ (v5.5) | 初期設定パッチ | Discord 連携実装 |
 | :---: | :---: | :---: |
 | <img src="Assets/01HUB.jpg" width="300"> | <img src="Assets/01EqSetting.jpg" width="300"> | <img src="Assets/02Bridge.jpg" width="300"> |
-| 全ての起点となる司令塔 | EqMaxの表示を自動最適化 | 通知先Webhookの管理 |
+| アプリの開始画面 | EqMaxの設定を自動最適化 | Discord連携の管理 |
 
 ### ■ メンテナンス・補助ツール（下段）
 安定運用を支えるためのクリーナーや監視、トラブル時のリセットツールです。
@@ -92,4 +92,4 @@ Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（Discor
 | ログ・画像掃除 | 動作監視 (Watchdog) | 初期化処理 |
 | :---: | :---: | :---: |
 | <img src="Assets/O1Cleaner.jpg" width="300"> | <img src="Assets/O2Watchdog.jpg" width="300"> | <img src="Assets/03Initialization.jpg" width="300"> |
-| 不要ファイルの自動削除 | RAM超過時の自動復旧 | 困った時のクリーンアップ |
+| 不要ファイルの自動削除 | RAM超過時の自動復旧 | 困った時の設定初期化ツール |
