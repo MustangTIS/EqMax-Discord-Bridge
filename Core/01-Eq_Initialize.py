@@ -189,18 +189,19 @@ class EqMaxSetupPatcher(ctk.CTk):
         
         # 常に適用する項目
         core_updates = {
-            "AutoCapture": "1", 
-            "Capture": "1", 
-            "ImageTag": "1", 
-            "ImageTagBody": "<img src=\"$url$\">",
+            "AutoCapture": "1",
+            "TwitterBotEnabled": "1",
+            "EEWEnabled": "1",
             "CheckTweetCount": "1" if self.var_check_count.get() else "0"
         }
 
         # 疑似認証チェック時のみ適用する項目
         tw_bypass_updates = {
-            "TwitterBotEnabled": "1", "v2": "1", "AppName": "EqMax_Discord", "AutoPost": "1", "UploadImage": "1",
+            "AppName": "EqMax_Discord",
             "BearerObtainedAt": "1899-12-30T00:00:00.000+09:00",
-            "ClientID": "dummy_id", "ConsumerKey": "dummy", "AccessToken": "dummy"
+            "ClientID": "dummy_id",
+            "ConsumerKey": "dummy",
+            "AccessToken": "dummy"
         }
 
         target_updates = core_updates.copy()
