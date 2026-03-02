@@ -13,7 +13,7 @@
 > [!IMPORTANT]
 > **最新版ダウンロード**
 >
-> <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.5/EqMax-Discord-Bridge-v5.5.zip">
+> <a href="[https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.5/EqMax-Discord-Bridge-v5.5.zip](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.5.3/EqMax-Discord-Bridge-v5.5.3.zip)">
 >   <img src="https://img.shields.io/badge/Download-最新版_v5.5_をダウンロード-blue?style=for-the-badge&logo=github" alt="Download v5.5">
 > </a>
 
