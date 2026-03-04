@@ -105,14 +105,39 @@
 
 ---
 
-## 💻 起動シーケンス (Startup Manager)
+### 💻 起動シーケンス (Startup Manager)
+本システムでは、**「設定用の管理ハブ」と「実行用の通知ボット」**それぞれに、安定動作を支えるためのインテリジェントな起動シーケンスを搭載しています。
 
-v5.6では、単なるランチャーから**「インテリジェント・ブートシーケンス」**へと進化しました。起動時にシステム全体の健全性を7段階で自動診断し、確実な動作を保証します。
+■ 統合管理ハブ (Hub System)
+ツールの司令塔となるハブコンソールです。起動時にランタイム環境とアップデートの有無を即座に判定します。
 
-| v5.5 以前 (旧シーケンス) | v5.6 以降 (最新診断シーケンス) |
-| --- | --- |
-| <img src="Assets/01TOPHUB-Prompt.jpg" width="450"> | <img src="Assets/DiscordBridgePrompt.jpg" width="450"> |
-| ライブラリの簡易チェックのみ | **7段階の厳密な診断プロセス**を実行 |
+<p align="center">
+<img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
+
+
+
+<i>▲ 統合管理ハブ：環境チェックとアップデート照会を自動実行</i>
+</p>
+
+■ 通知ボット：インテリジェント・ブートシーケンス (v5.6 新機能)
+通知ボットの実行時には、より厳密な Step 1/7 ～ 7/7 の診断シーケンスが走ります。
+
+<p align="center">
+<img src="Assets/DiscordBridgePrompt.jpg" width="700" alt="Bot Boot Sequence">
+
+
+
+<i>▲ 通知ボット：7段階の診断を経て「ALL GREEN」の状態へ</i>
+</p>
+
+【診断ステップの詳細】
+Step 1-3: システムバージョン、GitHub連携、アップデートの整合性を確認。
+
+Step 4-5: Guardianエンジンの健全性と、Private Bytes監視モードの初期化。
+
+Step 6-7: EqMax本体とのリンク、およびDiscord Webhookのスタンバイを最終確認。
+
+全ての項目がパスされた時のみ SYSTEM STATUS: ALL GREEN が表示され、確実な監視が開始されます。
 
 ### ■ v5.6 診断プロセスの詳細
 
