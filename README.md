@@ -1,20 +1,20 @@
 # EqMax-Discord-Bridge v5.6
 
 <p align="center">
-<img src="Assets/eq-dis.png" width="120" alt="Logo">
+  <img src="Assets/eq-dis.png" width="120" alt="Logo">
 </p>
 
 <p align="center">
-<b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
+  <b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
-
-<div align="center">
 
 > [!IMPORTANT]
 > **最新版ダウンロード**
-> <a href="[https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/latest](https://www.google.com/search?q=https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/latest)">
-> <img src="[https://img.shields.io/badge/Download-最新版_v5.6_をダウンロード-blue?style=for-the-badge&logo=github](https://img.shields.io/badge/Download-最新版_v5.6_をダウンロード-blue?style=for-the-badge&logo=github)" alt="Download v5.6">
-> </a>
+>
+> [![Download v5.6](https://img.shields.io/badge/Download-最新版_v5.6_をダウンロード-blue?style=for-the-badge&logo=github)](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/latest)
+
+---
+<p align="right">Developer: MustangTIS</p>
 
 </div>
 
