@@ -10,7 +10,7 @@ import webbrowser
 import subprocess
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "5.5.3"
+CURRENT_VERSION = "5.6"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
@@ -18,7 +18,6 @@ RELEASE_PAGE_URL = f"https://github.com/{REPO_URL}/releases/latest"
 
 def set_taskbar_icon():
     if sys.platform == "win32":
-        # f-stringでバージョンを自動反映
         myappid = f'mycompany.eqmax.guardian.v{CURRENT_VERSION}' 
         try:
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
@@ -44,7 +43,7 @@ def is_window_responding(pid):
         return True
     except: return True
 
-# --- 2. メモリ取得関数 (PowerShell版と一致するPrivate Bytes取得) ---
+# --- 2. メモリ取得関数 ---
 def get_private_ram_mb(proc):
     try:
         return proc.memory_full_info().private / (1024 * 1024)
@@ -56,7 +55,6 @@ def get_private_ram_mb(proc):
 # --- 3. アップデートチェック ---
 def check_for_updates():
     api_url = f"https://api.github.com/repos/{REPO_URL}/releases/latest"
-    print(f"[{time.strftime('%H:%M:%S')}] [Update] Checking for updates...")
     try:
         response = requests.get(api_url, timeout=5)
         if response.status_code == 200:
@@ -64,14 +62,13 @@ def check_for_updates():
             latest_tag = data.get("tag_name")
             current = f"v{CURRENT_VERSION}" if not CURRENT_VERSION.startswith("v") else CURRENT_VERSION
             if latest_tag and latest_tag != current:
-                print(f"[{time.strftime('%H:%M:%S')}] [Update] 【重要】新バージョン {latest_tag} が公開されています。")
-                webbrowser.open(data.get("html_url", RELEASE_PAGE_URL))
-                time.sleep(2)
-            else:
-                print(f"[{time.strftime('%H:%M:%S')}] [Update] バージョン {current} は最新です。")
-    except: pass
+                return "UPDATE_AVAILABLE", latest_tag, data.get("html_url")
+            return "LATEST", current, None
+    except:
+        return "ERROR", None, None
+    return "ERROR", None, None
 
-# --- 4. 設定読み込み ---
+# --- 4. 設定読み込み & 環境チェック ---
 def load_config():
     config = {"eqmax_dir": "C:/EqMax_Win64", "destinations": []}
     if os.path.exists("config.json"):
@@ -79,7 +76,11 @@ def load_config():
             with open("config.json", "r", encoding="utf-8") as f:
                 config.update(json.load(f))
         except: pass
+    
     config["eqmax_dir"] = os.path.normpath(config["eqmax_dir"])
+    exe_path = os.path.join(config["eqmax_dir"], "EqMax.exe")
+    config["is_env_ok"] = os.path.exists(exe_path)
+    config["exe_path"] = exe_path
     return config
 
 # --- 5. 津波・震度解析ロジック ---
@@ -123,7 +124,7 @@ def get_alert_details(text_block):
 
     return title, description, color
 
-# --- 6. Discord送信ロジック (v5.5.0風のログ出力へ改善) ---
+# --- 6. Discord送信ロジック ---
 def process_log_update(content, config_dest):
     pattern = re.compile(r"(緊急地震速報：.*?)(C:\\.*?\.png)", re.DOTALL)
     matches = pattern.findall(content)
@@ -133,7 +134,6 @@ def process_log_update(content, config_dest):
     title, description, color = get_alert_details(full_text)
     if not title: return
 
-    # 画像のイメージに合わせて1行で検知を出力
     timestamp = time.strftime('%H:%M:%S')
     print(f"[{timestamp}] 📢 EEW検知: {title}")
 
@@ -157,7 +157,6 @@ def process_log_update(content, config_dest):
             else:
                 response = requests.post(url, json=payload, timeout=5)
             
-            # v5.5.0のスタイルで送信結果を表示
             status = "Success" if response.status_code in [200, 204] else f"Failed({response.status_code})"
             print(f"[{timestamp}]  └─ [{status}] Discord送信完了 ({style})")
         except Exception as e:
@@ -180,32 +179,97 @@ def maintain_eqmax_health(exe_path):
             si.wShowWindow = 6 
             subprocess.Popen([exe_path], cwd=os.path.dirname(exe_path), startupinfo=si)
     else:
-        # フリーズチェック
         if not is_window_responding(target_proc.pid):
             print(f"[{time.strftime('%H:%M:%S')}] EqMaxがフリーズしています：再起動")
             try:
                 target_proc.kill(); time.sleep(3); os.startfile(exe_path)
-                return 
             except: pass
 
-        # メモリチェック (Private Bytes)
         mem_mb = get_private_ram_mb(target_proc)
         if mem_mb and mem_mb > DEFAULT_RAM_LIMIT:
-            print(f"[{time.strftime('%H:%M:%S')}] EqMaxのRAMしきい値({DEFAULT_RAM_LIMIT}MB)を超過({mem_mb:.1f}MB)：再起動")
+            print(f"[{time.strftime('%H:%M:%S')}] EqMaxのRAMしきい値超過({mem_mb:.1f}MB)：再起動")
             try:
                 target_proc.kill(); time.sleep(3); os.startfile(exe_path)
             except: pass
 
 # --- 8. メインループ ---
 def start_combined_monitor():
-    check_for_updates()
-    config = load_config()
-    exe_path = os.path.join(config["eqmax_dir"], "EqMax.exe")
-    log_file = os.path.join(config["eqmax_dir"], "Twitter.log")
+    print("-" * 52)
+    print(f">>> EqMax Discord Bridge: Initialization...")
+    print(f">>> EqMax Discord Bridge: Boot Sequence Started...")
+    print("-" * 52)
     
-    print(f"="*50 + f"\n Running...EqMax-Discord-Bridge v{CURRENT_VERSION}...\n" + f"="*50)
+    is_all_ok = True  
+    is_update_found = False
 
-    last_size = os.path.getsize(log_file) if os.path.exists(log_file) else 0
+    # --- [Step 1-5] ---
+    print(f"\n [Step 1/7] Booting EqMax Discord Bridge....... [  OK  ]")
+    print(f"    └─ [System Version: v{CURRENT_VERSION}]")
+
+    print(f" [Step 2/7] Checking for updates...")
+    status, ver, url = check_for_updates()
+    if status == "UPDATE_AVAILABLE":
+        print(f"    └─ [Notice] 【重要】新バージョン {ver} が公開されています。")
+        webbrowser.open(url)
+        is_update_found = True # 止まらないが、注意状態にする
+    elif status == "LATEST":
+        print(f"    └─ [Notice] バージョン {ver} は最新です。  [  OK  ]")
+    else:
+        print(f"    └─ [Warning] アップデート確認をスキップしました。 [  NG  ]")
+
+    print(f" [Step 3/7] Update Sequence Check.............. [  OK  ]")
+    print(f" [Step 4/7] Guardian System Health Check....... [  OK  ]")
+    print(f" [Step 5/7] Guardian Core Engine Initialized... [  OK  ]")
+    print(f"    └─ [RAM LIMIT {DEFAULT_RAM_LIMIT}MB , ReportEvery {DEFAULT_REPORT_INT}Seconds]")
+
+    # --- [Step 6-7] 環境チェック ---
+    config = load_config()
+    if config["is_env_ok"]:
+        print(f" [Step 6/7] Link Check EqMax Connector....... [  OK  ]")
+        print(f"    └─ Path: {config['eqmax_dir']}")
+    else:
+        print(f" [Step 6/7] Link Check EqMax Connector....... [  !!  ]")
+        print(f"    └─ [Error] EqMax.exe が見つかりません。")
+        is_all_ok = False
+
+    if config["destinations"]:
+        print(f" [Step 7/7] Discord Webhook Standby.......... [  OK  ]")
+    else:
+        print(f" [Step 7/7] Discord Webhook Standby.......... [  NG  ]")
+        print(f"    └─ [Error] 有効な送信先が設定されていません。")
+        is_all_ok = False
+
+    # --- [Final Status] ---
+    print(f"\n" + "="*52)
+    if not is_all_ok:
+        print(f"    SYSTEM STATUS: ATTENTION REQUIRED / CHECK LOGS")
+        print(f"    [Error] 設定や環境に致命的な問題があるため、開始できません。")
+        print(f"    [Help] 上記の [ !! ] または [ NG ] の項目を確認してください。")
+        print(f"="*52 + "\n")
+        print(f"\n    Enterキーを押すと終了します...")
+        input()
+        sys.exit(1)
+    elif is_update_found:
+        print(f"    SYSTEM STATUS: UPDATE AVAILABLE / STARTING MONITOR")
+        print(f"    WELCOME TO EQMAX DISCORD BRIDGE V{CURRENT_VERSION}")
+        print(f"    Developed by Mustang_TIS")
+        print(f"="*52 + "\n")
+    else:
+        print(f"    SYSTEM STATUS: ALL GREEN / READY TO MONITOR")
+        print(f"    WELCOME TO EQMAX DISCORD BRIDGE V{CURRENT_VERSION}")
+        print(f"    Developed by Mustang_TIS")
+        print(f"="*52 + "\n")
+
+    # --- 監視処理開始 ---
+    exe_path = config["exe_path"]
+    log_file = os.path.join(config["eqmax_dir"], "Twitter.log")
+
+    if os.path.exists(log_file):
+        last_size = os.path.getsize(log_file)
+    else:
+        last_size = 0
+        with open(log_file, "a", encoding="utf-8") as f: pass
+        
     pending_block = ""
     health_counter = 0
 
@@ -228,12 +292,12 @@ def start_combined_monitor():
                                 if ".png" in raw_line and "C:\\" in raw_line:
                                     time.sleep(1)
                                     process_log_update(pending_block, config["destinations"])
-                                    pending_block = "" # 処理完了後にリセット
+                                    pending_block = ""
                     last_size = current_size
             
             health_counter += 1
             if health_counter % DEFAULT_REPORT_INT == 0:
-                mem_display = "停止中または見つかりません"
+                mem_display = "停止中"
                 for proc in psutil.process_iter(['name']):
                     if proc.info.get('name') == "EqMax.exe":
                         val = get_private_ram_mb(proc)
@@ -246,4 +310,16 @@ def start_combined_monitor():
             time.sleep(1)
 
 if __name__ == "__main__":
-    start_combined_monitor()
+    try:
+        start_combined_monitor()
+    except Exception as e:
+        print("\n" + "!"*60)
+        print(" 【CRITICAL ERROR】システム実行中に致命的なエラーが発生しました")
+        print("!"*60)
+        import traceback
+        traceback.print_exc()
+        print("\n" + "!"*60)
+        print(" 内容を確認し、Enterキーを押すと終了します。")
+        print("!"*60)
+        input()
+        sys.exit(1)

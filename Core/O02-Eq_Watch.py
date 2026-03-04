@@ -27,7 +27,7 @@ class EqWatchdogDeployer(ctk.CTk):
 
         # ウィンドウ基本設定
         self.title("EqMax 動作監視(Watchdog) 配置ツール")
-        self.geometry("620x880") 
+        self.geometry("620x920") 
         ctk.set_appearance_mode("dark")
 
         # アイコン設定
@@ -63,7 +63,7 @@ class EqWatchdogDeployer(ctk.CTk):
         self.btn_browse = ctk.CTkButton(self.path_frame, text="選択...", width=90, font=("Yu Gothic", 13, "bold"), command=self.browse_file)
         self.btn_browse.pack(side="left")
 
-        # 2. 監視パラメーター設定 (枠)
+        # 2. 監視パラメーター設定
         self.param_frame = ctk.CTkFrame(self)
         self.param_frame.pack(pady=15, padx=40, fill="x")
         ctk.CTkLabel(self.param_frame, text="2. 監視パラメーター設定:", font=("Yu Gothic", 15, "bold")).pack(pady=(15, 5), padx=20, anchor="w")
@@ -74,25 +74,19 @@ class EqWatchdogDeployer(ctk.CTk):
         ctk.CTkLabel(ram_f, text="再起動閾値 (MB):", font=("Yu Gothic", 14)).pack(side="left")
         self.entry_ram = ctk.CTkEntry(ram_f, width=100, font=("Consolas", 15, "bold")); self.entry_ram.insert(0, "1024"); self.entry_ram.pack(side="left", padx=15)
         
-        ctk.CTkLabel(self.param_frame, 
-            text="【推奨】1000MB以上 (最低500MB)\n※YouTube併用時などは 1280～1500MB 程度を推奨。", 
-            font=("Yu Gothic", 12), text_color="#AAAAAA", justify="left").pack(padx=30, anchor="w", pady=(0, 15))
+        ctk.CTkLabel(self.param_frame, text="【推奨】1000MB以上", font=("Yu Gothic", 12), text_color="#AAAAAA").pack(padx=30, anchor="w", pady=(0, 10))
 
         # 報告間隔
         int_f = ctk.CTkFrame(self.param_frame, fg_color="transparent")
         int_f.pack(fill="x", padx=30, pady=5)
         ctk.CTkLabel(int_f, text="生存報告間隔 (秒):", font=("Yu Gothic", 14)).pack(side="left")
         self.entry_int = ctk.CTkEntry(int_f, width=100, font=("Consolas", 15, "bold")); self.entry_int.insert(0, "3600"); self.entry_int.pack(side="left", padx=15)
-        
-        ctk.CTkLabel(self.param_frame, 
-            text="※標準 3600秒(1時間)。定期的にメモリ使用量をログへ出力します。", 
-            font=("Yu Gothic", 12), text_color="#AAAAAA").pack(padx=30, anchor="w", pady=(0, 15))
 
         # 3. ショートカットオプション
         self.option_frame = ctk.CTkFrame(self)
         self.option_frame.pack(pady=10, padx=40, fill="x")
         self.var_desktop = ctk.BooleanVar(value=True)
-        ctk.CTkCheckBox(self.option_frame, text="デスクトップにショートカットを作成", variable=self.var_desktop, font=("Yu Gothic", 14)).pack(pady=12, padx=30, anchor="w")
+        ctk.CTkCheckBox(self.option_frame, text="デスクトップにショートカットを作成（通常＆セーフ）", variable=self.var_desktop, font=("Yu Gothic", 14)).pack(pady=12, padx=30, anchor="w")
         self.var_startup = ctk.BooleanVar(value=True)
         ctk.CTkCheckBox(self.option_frame, text="スタートアップに登録（自動起動）", variable=self.var_startup, font=("Yu Gothic", 14)).pack(pady=12, padx=30, anchor="w")
 
@@ -103,7 +97,6 @@ class EqWatchdogDeployer(ctk.CTk):
         # ログ
         self.log_view = ctk.CTkTextbox(self, width=540, height=120, font=("Consolas", 11)); self.log_view.pack(pady=10)
 
-    # --- ロジック ---
     def browse_file(self):
         p = filedialog.askopenfilename(title="EqMax.exeを選択", filetypes=[("EqMax本体", "EqMax.exe"), ("すべて", "*.*")])
         if p:
@@ -114,9 +107,9 @@ class EqWatchdogDeployer(ctk.CTk):
         self.log_view.insert("end", f"{datetime.now().strftime('%H:%M:%S')} : {text}\n"); self.log_view.see("end")
 
     def create_shortcut(self, watch_dir, link_path):
+        """通常版：Pythonを直接起動しEqMaxのアイコンを適用する"""
         py_script = os.path.join(watch_dir, "Eq_Watchdog.py")
         exe_icon = self.entry_path.get().strip()
-        
         ps_cmd = (
             f"$s = (New-Object -ComObject WScript.Shell).CreateShortcut('{os.path.normpath(link_path)}'); "
             f"$s.TargetPath = 'python.exe'; "
@@ -130,50 +123,42 @@ class EqWatchdogDeployer(ctk.CTk):
             return True
         except: return False
 
+    def create_safe_shortcut(self, watch_dir, link_path):
+        """セーフモード版：バッチファイルを直接起動し、環境チェックを通す"""
+        target_bat = os.path.join(watch_dir, "Eq_Watchdog.bat")
+        ps_cmd = (
+            f"$s = (New-Object -ComObject WScript.Shell).CreateShortcut('{os.path.normpath(link_path)}'); "
+            f"$s.TargetPath = '{os.path.normpath(target_bat)}'; "
+            f"$s.WorkingDirectory = '{os.path.normpath(watch_dir)}'; "
+            f"$s.WindowStyle = 1; $s.Save()"
+        )
+        try:
+            subprocess.run(["powershell", "-Command", ps_cmd], check=True, capture_output=True)
+            return True
+        except: return False
+
     def run_deploy(self):
         exe_path = self.entry_path.get().strip()
         if not exe_path or not os.path.isfile(exe_path):
             messagebox.showerror("エラー", "EqMax.exeを選択してください。"); return
 
-        try:
-            ram = int(self.entry_ram.get())
-            rep = int(self.entry_int.get())
-        except:
-            messagebox.showerror("エラー", "数値は半角数字で入力してください。"); return
-
         eqmax_dir = os.path.dirname(exe_path)
         watch_dir = os.path.join(eqmax_dir, "Watchdog")
         
         try:
-            # 1. フォルダ作成のログ
-            if not os.path.exists(watch_dir):
-                os.makedirs(watch_dir, exist_ok=True)
-                self.write_log(f"監視フォルダを作成しました: {watch_dir}")
-            
+            os.makedirs(watch_dir, exist_ok=True)
             base_dir = os.path.dirname(os.path.dirname(__file__))
             
-            # 2. ファイルコピーのログを詳細化
-            copied_files = []
             for f in ["Eq_Watchdog.py", "Eq_Watchdog.bat"]:
                 src = os.path.join(base_dir, "Templates", f)
                 if os.path.exists(src):
                     shutil.copy2(src, watch_dir)
-                    copied_files.append(f)
             
-            if copied_files:
-                self.write_log(f"テンプレートファイルを配置しました: {', '.join(copied_files)}")
-            else:
-                self.write_log("警告: テンプレートファイルが見つかりませんでした。")
+            with open(os.path.join(watch_dir, "config.json"), "w", encoding="utf-8") as f:
+                json.dump({"eqmax_dir": eqmax_dir, "ram_limit_mb": int(self.entry_ram.get()), 
+                           "report_interval_sec": int(self.entry_int.get())}, f, indent=4)
 
-            # 3. JSON保存のログ
-            config_path = os.path.join(watch_dir, "config.json")
-            with open(config_path, "w", encoding="utf-8") as f:
-                json.dump({"eqmax_dir": eqmax_dir, "ram_limit_mb": ram, "report_interval_sec": rep}, f, indent=4)
-            self.write_log(f"設定を保存しました (RAM上限: {ram}MB / 報告間隔: {rep}s)")
-
-            # --- 確実なデスクトップパスの取得 ---
-            lnk_name = "EqMax-Watchdog.lnk"
-            desk_path = None
+            # ショートカット作成
             try:
                 key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders")
                 desk_path, _ = winreg.QueryValueEx(key, "Desktop")
@@ -181,24 +166,24 @@ class EqWatchdogDeployer(ctk.CTk):
             except:
                 desk_path = os.path.join(os.path.expanduser("~"), "Desktop")
 
-            # 4. ショートカット作成ログ
             if self.var_desktop.get() and desk_path:
-                if self.create_shortcut(watch_dir, os.path.join(desk_path, lnk_name)):
-                    self.write_log(f"デスクトップにショートカットを作成しました。")
+                # 通常版
+                self.create_shortcut(watch_dir, os.path.join(desk_path, "EqMax-Watchdog.lnk"))
+                # セーフモード版
+                self.create_safe_shortcut(watch_dir, os.path.join(desk_path, "EqMax-Watchdog(セーフモード).lnk"))
+                self.write_log("デスクトップにショートカットを作成しました。")
 
             if self.var_startup.get():
                 appdata = os.environ.get("APPDATA")
                 if appdata:
-                    start_path = os.path.join(appdata, r"Microsoft\Windows\Start Menu\Programs\Startup", lnk_name)
-                    if self.create_shortcut(watch_dir, start_path):
-                        self.write_log("スタートアップに登録完了。")
+                    start_path = os.path.join(appdata, r"Microsoft\Windows\Start Menu\Programs\Startup", "EqMax-Watchdog.lnk")
+                    self.create_shortcut(watch_dir, start_path)
 
-            self.write_log("すべての配置プロセスが正常に完了しました。")
-            messagebox.showinfo("完了", "配置と設定が完了しました！")
+            self.write_log("すべてのプロセスが完了しました。")
+            messagebox.showinfo("完了", "配置完了！\n動かない時はセーフモードを試してください。")
             self.destroy()
             
         except Exception as e:
-            self.write_log(f"エラー発生: {str(e)}")
             messagebox.showerror("エラー", str(e))
 
 if __name__ == "__main__":
