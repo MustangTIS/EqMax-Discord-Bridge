@@ -60,6 +60,7 @@
 
 <p align="center">
 <img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
+  
 <i>▲ 統合管理ハブ：環境チェックとアップデート照会を自動実行</i>
 </p>
 
@@ -68,6 +69,7 @@
 
 <p align="center">
 <img src="Assets/DiscordBridgePrompt.jpg" width="700" alt="Bot Boot Sequence">
+  
 <i>▲ 通知ボット：7段階の診断を経て「ALL GREEN」の状態へ</i>
 </p>
 
