@@ -5,17 +5,13 @@
 </p>
 
 <p align="center">
-  <b>「静かなる守護者（The Silent Guardian）」 — 通信の完全分離と、究極の安定性へ。</b>
+  「静かなる守護者（The Silent Guardian）」 — 通信の完全分離と、究極の安定性へ。
 </p>
-
-<div align="center">
 
 > [!IMPORTANT]
 > **最新版パッケージ (ZIP) を直接ダウンロード**
->
+> 
 > [![Download ZIP](https://img.shields.io/badge/Download-Latest_v6.0.0_.zip-red?style=for-the-badge&logo=github)](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/latest/download/EqMax-Discord-Bridge.zip)
-
-</div>
 
 ---
 <p align="right">Developer: MustangTIS</p>
