@@ -10,7 +10,7 @@ import webbrowser
 import subprocess
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "5.6"
+CURRENT_VERSION = "6.0.0"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"

@@ -201,7 +201,8 @@ class EqMaxSetupPatcher(ctk.CTk):
             "BearerObtainedAt": "1899-12-30T00:00:00.000+09:00",
             "ClientID": "dummy_id",
             "ConsumerKey": "dummy",
-            "AccessToken": "dummy"
+            "AccessToken": "dummy" ,
+            "TwitterDummyPost": "1"
         }
 
         target_updates = core_updates.copy()

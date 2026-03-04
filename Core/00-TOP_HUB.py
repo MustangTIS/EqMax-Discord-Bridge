@@ -20,7 +20,7 @@ class EqMAXTopHub(ctk.CTk):
         super().__init__()
         
         # --- 0. バージョン定義 ---
-        self.CURRENT_VERSION = "v5.6" 
+        self.CURRENT_VERSION = "v6.0.0" 
         self.REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
         
         # --- 1. アイコンと画像の設定 ---
