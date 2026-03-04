@@ -8,18 +8,16 @@
   <b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
 
+<div align="center">
+
 > [!IMPORTANT]
 > **最新版ダウンロード**
->
+> 
 > [![Download v5.6](https://img.shields.io/badge/Download-最新版_v5.6_をダウンロード-blue?style=for-the-badge&logo=github)](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/latest)
-
----
-<p align="right">Developer: MustangTIS</p>
 
 </div>
 
 ---
-
 <p align="right">Developer: MustangTIS</p>
 
 ### ■ メイン・デスクトップ
