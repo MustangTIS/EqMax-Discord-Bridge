@@ -8,14 +8,14 @@
   <b>「静かなる守護者（The Silent Guardian）」 — 通信の完全分離と、究極の安定性へ。</b>
 </p>
 
-<div align="center">
-
 > [!IMPORTANT]
 > **最新版パッケージ (ZIP) を直接ダウンロード**
->
-> [![Download ZIP](https://img.shields.io/badge/Download-Latest_v6.0.0_.zip-red?style=for-the-badge&logo=github)](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/latest/download/EqMax-Discord-Bridge.zip)
-
-</div>
+> <p align="center">
+>   <br>
+>   <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v6.0.0/EqMax-Discord-Bridge-v6.0.0.zip">
+>     <img src="https://img.shields.io/badge/Download-Latest_v6.0.0_.zip-red?style=for-the-badge&logo=github" alt="Download ZIP">
+>   </a>
+> </p>
 
 ---
 <p align="right">Developer: MustangTIS</p>
@@ -23,52 +23,68 @@
 ### ■ メイン・デスクトップ
 
 <p align="center">
-<img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
+  <img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
+</p>
 
-<i>▲ 統合管理ハブ展開イメージ</i>
+<p align="center">
+  <i>▲ 統合管理ハブ展開イメージ</i>
 </p>
 
 ---
 
 🚀 v6.0.0 の主な進化点：Twitter(X)通信の完全分離 
 
-* **Twitter(X)機能のデッドロック回避（DummyPost Mode）** * EqMax内部の通信フラグ `TwitterDummyPost=1` を強制適用。通信の直前で処理を離脱（exit）させることで、**CloudflareによるIPブロックやブラウザのフリーズを100%根絶**しました。
+* **Twitter(X)機能のデッドロック回避（DummyPost Mode）**
+  EqMax内部の通信フラグ `TwitterDummyPost=1` を強制適用。通信の直前で処理を離脱（exit）させることで、**CloudflareによるIPブロックやブラウザのフリーズを100%根絶**しました。
 
-* **初期設定パッチャーの刷新** * ボタン一つで「ダミー認証の生成」「通信遮断フラグの注入」「キャプチャ設定の最適化」を全自動で行います。専門知識なしで「Discord専用機」への変身が完了します。
+* **初期設定パッチャーの刷新**
+  ボタン一つで「ダミー認証の生成」「通信遮断フラグの注入」「キャプチャ設定の最適化」を全自動で行います。専門知識なしで「Discord専用機」への変身が完了します。
 
-* **インテリジェント・ブートシーケンスの深化** * 起動プロセス **Step 1/7 ～ 7/7** を可視化。ネットワークの火種を物理的に消し去ったことで、表示される **`ALL GREEN`** は文字通り「一切の不安がない状態」を意味します。
+* **インテリジェント・ブートシーケンスの深化**
+  起動プロセス **Step 1/7 ～ 7/7** を可視化。ネットワークの火種を物理的に消し去ったことで、表示される **`ALL GREEN`** は文字通り「一切の不安がない状態」を意味します。
 
-* **監視エンジンの継続進化 (Private Bytes 監視)** * アプリが確保している全領域を示す **Private Bytes** の監視を継承。物理メモリでは検知しきれなかった潜在的なメモリ肥大化を確実にキャッチし、対処します。
+* **監視エンジンの継続進化 (Private Bytes 監視)**
+  アプリが確保している全領域を示す **Private Bytes** の監視を継承。物理メモリでは検知しきれなかった潜在的なメモリ肥大化を確実にキャッチし、対処します。
 
 ---
 
 🛠️ 収録ツール一覧 
 
-1. **EqMAX 初期設定パッチ (v6.0.0仕様)** * レイアウト固定、キャプチャ設定に加え、**Twitterの物理通信遮断**を自動適用。
+1. **EqMAX 初期設定パッチ (v6.0.0仕様)**
+   レイアウト固定、キャプチャ設定に加え、**Twitterの物理通信遮断**を自動適用。
 
-2. **Discord 連携実装 / Guardian (v6.0.0)** * 最大5つのWebhookを管理。Private Bytes監視エンジンを標準搭載し、長期間の無人運用を支えます。
+2. **Discord 連携実装 / Guardian (v6.0.0)**
+   最大5つのWebhookを管理。Private Bytes監視エンジンを標準搭載し、長期間の無人運用を支えます。
 
-3. **メンテナンスツール (Cleaner / Watchdog)** * 肥大化する画像・ログの自動掃除や、単体動作に特化した監視ボットを完備しています。
+3. **メンテナンスツール (Cleaner / Watchdog)**
+   肥大化する画像・ログの自動掃除や、単体動作に特化した監視ボットを完備しています。
 
 ---
 
 ### 💻 起動シーケンス (Startup Manager)
+
 本システムでは、**「設定用の管理ハブ」と「実行用の通知ボット」**それぞれに、安定動作を支えるためのインテリジェントな起動シーケンスを搭載しています。
 
 ■ 統合管理ハブ (Hub System)
 ツールの司令塔となるハブコンソールです。起動時にランタイム環境とアップデートの有無を即座に判定します。
 
 <p align="center">
-<img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
-<i>▲ 統合管理ハブ：環境チェックとアップデート照会を自動実行</i>
+  <img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
+</p>
+
+<p align="center">
+  <i>▲ 統合管理ハブ：環境チェックとアップデート照会を自動実行</i>
 </p>
 
 ■ 通知ボット：インテリジェント・ブートシーケンス
 通知ボットの実行時には、より厳密な Step 1/7 ～ 7/7 の診断シーケンスが走ります。
 
 <p align="center">
-<img src="Assets/DiscordBridgePrompt.jpg" width="700" alt="Bot Boot Sequence">
-<i>▲ 通知ボット：7段階の診断を経て「ALL GREEN」の状態へ</i>
+  <img src="Assets/DiscordBridgePrompt.jpg" width="700" alt="Bot Boot Sequence">
+</p>
+
+<p align="center">
+  <i>▲ 通知ボット：7段階の診断を経て「ALL GREEN」の状態へ</i>
 </p>
 
 【診断ステップの詳細】
