@@ -1,3 +1,15 @@
+EEWがうまく受信出来ないリスクを考えv6.0.0は一時的に、公開取りやめます。
+
+
+> [!IMPORTANT]
+> **従来の5.6を最新版に。**
+> <p align="center">
+>   <br>
+>   <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.6/EqMax-Discord-Bridge-v5.6.zip">
+>     <img src="https://img.shields.io/badge/Download-Latest_v6.0.0_.zip-red?style=for-the-badge&logo=github" alt="Download ZIP">
+>   </a>
+> </p>
+
 # EqMax-Discord-Bridge v6.0.0 (Emergency Update)
 
 <p align="center">
