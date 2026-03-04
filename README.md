@@ -105,19 +105,49 @@
 
 ---
 
-💻 起動シーケンス (Startup Manager) 
+## 💻 起動シーケンス (Startup Manager)
 
-新設計の診断シーケンスにより、準備完了からハブの起動までを完璧にナビゲートします。 
+v5.6では、単なるランチャーから**「インテリジェント・ブートシーケンス」**へと進化しました。起動時にシステム全体の健全性を7段階で自動診断し、確実な動作を保証します。
 
-<p align="center">
-<img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
+| v5.5 以前 (旧シーケンス) | v5.6 以降 (最新診断シーケンス) |
+| --- | --- |
+| <img src="Assets/01TOPHUB-Prompt.jpg" width="450"> | <img src="Assets/DiscordBridgePrompt.jpg" width="450"> |
+| ライブラリの簡易チェックのみ | **7段階の厳密な診断プロセス**を実行 |
+
+### ■ v5.6 診断プロセスの詳細
+
+1. 
+**[Step 1/7] システムバージョンの整合性確認** 
+
+
+2. 
+**[Step 2/7] GitHub API連携による最新版照会** 
+
+
+3. 
+**[Step 3-4/7] アップデート及びコアシステムの健全性診断** 
+
+
+4. **[Step 5/7] 監視エンジン(Guardian)の初期化**
+* 
+`ReportEvery` 表記による定期報告サイクルの明示 
+
+
+* Private Bytes 監視エンジンのスタンバイ 
 
 
 
 
+5. 
+**[Step 6/7] EqMax 本体との接続パス確認** 
 
-<i>▲ v5.6 より導入された ALL GREEN ダッシュボード</i>
-</p>
+
+6. 
+**[Step 7/7] Discord Webhook の待機状態確認** 
+
+
+
+すべてのチェックが完了すると、コンソールに **`SYSTEM STATUS: ALL GREEN`** が表示され、安全に監視フェーズへと移行します 。
 
 ---
 
