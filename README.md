@@ -1,97 +1,150 @@
-# EqMax-Discord-Bridge v5.5.3
+# EqMax-Discord-Bridge v5.6
 
 <p align="center">
-  <img src="Assets/eq-dis.png" width="120" alt="Logo">
+<img src="Assets/eq-dis.png" width="120" alt="Logo">
 </p>
 
 <p align="center">
-  <b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
+<b>地震監視ソフト「EqMAX」の通知を、美しく、確実に Discord へ届ける統合管理システム</b>
 </p>
 
 <div align="center">
 
 > [!IMPORTANT]
 > **最新版ダウンロード**
->
-> <a href=https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.5.3/EqMax-Discord-Bridge-v5.5.3.zip>
->   <img src="https://img.shields.io/badge/Download-最新版_v5.5.3_をダウンロード-blue?style=for-the-badge&logo=github" alt="Download v5.5.3">
+> <a href="[https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.6/EqMax-Discord-Bridge-v5.6.zip](https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v5.6/EqMax-Discord-Bridge-v5.6.zip)">
+> <img src="[https://img.shields.io/badge/Download-最新版_v5.6_をダウンロード-blue?style=for-the-badge&logo=github](https://img.shields.io/badge/Download-最新版_v5.6_をダウンロード-blue?style=for-the-badge&logo=github)" alt="Download v5.6">
 > </a>
 
 </div>
 
 ---
+
 <p align="right">Developer: MustangTIS</p>
 
 ### ■ メイン・デスクトップ
+
 <p align="center">
 <img src="Assets/A1Desktop.jpg" width="800" alt="Main Visual">
-<br>
-<i>▲ v5.5 統合管理ハブと進化した Startup Manager</i>
+
+
+
+
+
+<i>▲ v5.6 統合管理ハブと刷新されたブートシーケンス</i>
 </p>
 
 ---
 
-## 📸 動作イメージ
+## 🚀 v5.6 の主な進化点：透明性と信頼性の追求
 
-### ■ リアルタイム通知 & ログ連携
-Discordへの通知（A2Discord.jpg）と、ボット側の処理ログ（DiscordBridgePrompt.jpg）を並べたイメージです。EEWの検知から送信完了まで、動作状況を完璧に把握できます。
+* 
+**インテリジェント・ブートシーケンス (Step 1/7 ～ 7/7)** 
 
-| Discord通知画面 | ボット・リアルタイムログ |
-| :---: | :---: |
-| <img src="Assets/A2Discord.jpg" width="450"> | <img src="Assets/DiscordBridgePrompt.jpg" width="450"> |
-<p align="center"><i>▲ 海域判定・津波警戒フラグが付与された最新の通知スタイル</i></p>
 
----
+* 起動プロセスを完全に可視化 。全てのチェックを通過した際の **`ALL GREEN`** 表示は、確かなシステム健全性の証です 。
 
-## 🚀 v5.5 の主な進化点
-* **インテリジェンス・ランチャー**: Python環境や必須ライブラリを自動チェック。環境構築の手間をゼロにしました。
-* **🛰️ GitHub API 連携**: 起動時に最新タグを自動照会。更新がある場合は即座に通知・誘導を行います。
-* **📊 安定化監視（Watchdog）の可視化**: 1時間ごとの報告に EqMax のメモリ使用量(MB)を記録。リソース消費の推移を可視化しました。
-* **🚨 津波警戒判定**: マグニチュードと震源地を解析し、海域地震時に「大津波警戒」等のフラグを自動付与します。
+
+
+
+* 
+**監視エンジンの再設計 (Private Bytes 移行)** 
+
+
+* 従来の物理メモリ監視では検知しきれなかった「予約領域」を含む **Private Bytes** の監視を採用 。真の意味でのメモリリーク対策を実現しました 。
+
+
+
+
+* 
+**セーフモード診断機能の導入** 
+
+
+* 起動トラブル時、バッチファイルから直接環境の自己診断・修復を行える構造を強化 。OS移行やPython環境の変化にも柔軟に対応します。
+
+
+
+
+* 
+**プロフェッショナルな情報表示への洗練** 
+
+
+* 定時報告の表記を **`ReportEvery`** へ刷新し、管理者にとってより直感的で整理されたコンソール出力を提供します 。
+
+
+
+
 
 ---
 
 ## 🛠️ 収録ツール一覧
-1. **EqMAX 初期設定パッチ**: レイアウト固定、キャプチャ設定、疑似認証を自動適用。
-2. **Discord 連携実装 (v5.5)**: 最大5つのWebhookを管理。embed / simple スタイル切り替え対応。
-3. **メンテナンスツール**: 肥大化する画像・ログの自動掃除（Cleaner）や、メモリリーク対策（Watchdog）を完備。
+
+1. 
+**EqMAX 初期設定パッチ** 
+
+
+* レイアウト固定、キャプチャ設定、疑似認証を自動適用。
+
+
+2. 
+**Discord 連携実装 / Guardian (v5.6)** 
+
+
+* 最大5つのWebhookを管理。Private Bytes監視エンジンを標準搭載し、長期間の無人運用を支えます 。
+
+
+
+
+3. 
+**メンテナンスツール (Cleaner / Watchdog)** 
+
+
+* 肥大化する画像・ログの自動掃除や、単体動作に特化した監視ボットを完備 。
+
+
+
+
 
 ---
 
 ## 💻 起動シーケンス (Startup Manager)
-新設計のバッチファイルにより、準備完了からハブの起動までを視覚的にナビゲートします。
+
+新設計の診断シーケンスにより、ライブラリの整合性からWebhookの待機状態までを完璧にナビゲートします。
 
 <p align="center">
 <img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
+
+
+
+
+
+<i>▲ v5.6 より導入された ALL GREEN ダッシュボード</i>
 </p>
 
 ---
 
 ## 🚀 クイックスタート
-1. 上記の **[最新版 v5.5 をダウンロード]** ボタンからZIPを取得して展開します。
-2. フォルダ内の **`EqMax-Discord-Bridge.bat`** を実行してください。
-3. 自動チェックが完了すると統合ハブが立ち上がるので、指示に従いセットアップを進めます。
+
+1. 上記の **[最新版 v5.6 をダウンロード]** ボタンからZIPを取得して展開します。
+2. フォルダ内の **`EqMax-Discord-Bridge.bat`** を実行してください 。
+
+
+3. **Step 1/7 ～ 7/7** の自動チェックが完了し、ハブが立ち上がったら指示に従いセットアップを進めます。
 
 > [!TIP]
-> **アイコンの設定について**
-> ショートカットを作成したい場合は、`Assets/eq-dis.ico` を指定して適用してください。
+> **トラブル時の「セーフモード」**
+> もし黒い画面がすぐ閉じてしまう場合は、作成された「(セーフモード)」ショートカット、または各フォルダ内のバッチファイルを直接実行して自己診断を行ってください 。
+> 
+> 
 
 ---
 
-## 🖼️ 設定画面ギャラリー
+### 修正のポイント
 
-### ■ メイン操作・設定
-ツールの司令塔となるHUBを中心に、導入時に必要な設定ツールを並べています。
+* **バージョンの統一**: 全ての記述を `v5.5` から `v5.6` へ更新しました。
+* 
+**新機能の強調**: ChangeLog  に基づき、**Private Bytes 監視** や **ALL GREEN**、**ReportEvery** といった v5.6 の象徴的な機能を「主な進化点」としてまとめました。
 
-| 統合管理ハブ (v5.5) | 初期設定パッチ | Discord 連携実装 |
-| :---: | :---: | :---: |
-| <img src="Assets/01HUB.jpg" width="300"> | <img src="Assets/01EqSetting.jpg" width="300"> | <img src="Assets/02Bridge.jpg" width="300"> |
-| アプリの開始画面 | EqMaxの設定を自動最適化 | Discord連携の管理 |
 
-### ■ メンテナンス・補助ツール
-安定運用を支えるためのクリーナーや監視、トラブル時のリセットツールです。
-
-| ログ・画像掃除 | 動作監視 (Watchdog) | 初期化処理 |
-| :---: | :---: | :---: |
-| <img src="Assets/O1Cleaner.jpg" width="300"> | <img src="Assets/O2Watchdog.jpg" width="300"> | <img src="Assets/03Initialization.jpg" width="300"> |
-| 不要ファイルの自動削除 | RAM超過時の自動復旧 | 困った時の設定初期化ツール |
+* 
+**ReadMe.txt との整合性**: ユーザーがダウンロード後に読む `ReadMe.txt`  と用語や手順（セーフモード診断など）を合わせることで、混乱を防いでいます。
