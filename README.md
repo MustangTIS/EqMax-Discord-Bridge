@@ -133,5 +133,3 @@
 GitHub: [https://github.com/MustangTIS/EqMax-Discord-Bridge](https://github.com/MustangTIS/EqMax-Discord-Bridge)
 
 ---
-
-これでいかがでしょうか。開発者様の「想い」と「技術的な安定性へのこだわり」が、v7.0.0 という新しい技術で補強された、説得力のある README になったはずです！
