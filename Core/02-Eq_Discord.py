@@ -83,7 +83,7 @@ class EqMaxBotDeployer(ctk.CTk):
         self.entry_path.pack(side="left", padx=(0, 5))
         # --- ショートカット作成オプション ---
         self.var_desktop = ctk.BooleanVar(value=True)
-        self.var_startup = ctk.BooleanVar(value=False)
+        self.var_startup = ctk.BooleanVar(value=True)
 
         self.check_desktop = ctk.CTkCheckBox(self, text="デスクトップにショートカットを作成", variable=self.var_desktop)
         self.check_desktop.pack(pady=5)
@@ -125,6 +125,11 @@ class EqMaxBotDeployer(ctk.CTk):
             matrix_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
             token_entry = ctk.CTkEntry(matrix_frame, placeholder_text="Access Token", width=200)
             room_entry = ctk.CTkEntry(matrix_frame, placeholder_text="Room ID", width=200)
+            
+            # 貼り付けメニューを紐付ける
+            token_entry.bind("<Button-3>", lambda e, en=token_entry: self.show_context_menu(e, en))
+            room_entry.bind("<Button-3>", lambda e, en=room_entry: self.show_context_menu(e, en))
+            
             token_entry.pack(side="left", padx=(10, 5), pady=5)
             room_entry.pack(side="left", padx=5, pady=5)
             
@@ -253,24 +258,29 @@ class EqMaxBotDeployer(ctk.CTk):
             
             for item in self.webhook_entries:
                 url = item["entry"].get().strip()
-                if url:
-                    style_raw = item["style"].get()
+                style_raw = item["style"].get()
+                
+                if not url: continue # 入力がない場合はスキップ
 
-                    # 「通知タイプを選択...」のままの場合はデフォルト（disembed）にする
-                    if style_raw == "通知タイプを選択...":
-                        style_normalized = "disembed"
-                    else:
-                        style_normalized = style_map.get(style_raw, "disembed")
-                    
-                    # 基本データ
-                    data = {"url": url, "style": style_normalized}
-                    
-                    # Matrixの場合は追加情報を付与
-                    if style_normalized == "matrix":
-                        data["token"] = item["token"].get().strip()
-                        data["room"] = item["room"].get().strip()
-                    
-                    webhooks_data.append(data)
+                # 1. 形式の正規化（Matrixかどうかにかかわらず先にやる）
+                style_normalized = style_map.get(style_raw, "disembed")
+                
+                # 2. ガードレール
+                if style_normalized == "matrix":
+                    if not url.startswith("https://"):
+                        messagebox.showerror("設定エラー", "MatrixのサーバーURLは 'https://' から始めてください。")
+                        return
+                    if not item["token"].get().strip() or not item["room"].get().strip():
+                        messagebox.showerror("設定エラー", "MatrixのTokenとRoom IDは必須です。")
+                        return
+                
+                # 3. データ作成
+                data = {"url": url, "style": style_normalized}
+                if style_normalized == "matrix":
+                    data["token"] = item["token"].get().strip()
+                    data["room"] = item["room"].get().strip()
+                
+                webhooks_data.append(data)
             
             config = {"eqmax_dir": eqmax_dir, "destinations": webhooks_data}
             with open(os.path.join(bot_dir, "config.json"), "w", encoding="utf-8") as f:
