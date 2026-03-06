@@ -12,7 +12,7 @@
 > **最新版パッケージ (ZIP) を直接ダウンロード**
 >
 > <p align="center">
->   <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v7.0.0/EqMax-Discord-Bridge-v7.0.0.zip">
+>   <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v7.0.0/EqMax-Discord-Bridge.v7.0.0.zip">
 >     <img src="https://img.shields.io/badge/Download-Latest_v7.0.0_.zip-blue?style=for-the-badge&logo=github" alt="Download ZIP">
 >   </a>
 > </p>
