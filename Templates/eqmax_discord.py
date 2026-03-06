@@ -8,9 +8,10 @@ import ctypes
 import sys
 import webbrowser
 import subprocess
+import senders
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "6.0.0"
+CURRENT_VERSION = "7.0.0"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
@@ -126,41 +127,45 @@ def get_alert_details(text_block):
 
 # --- 6. Discord送信ロジック ---
 def process_log_update(content, config_dest):
+    # (解析ロジック部分はそのまま)
     pattern = re.compile(r"(緊急地震速報：.*?)(C:\\.*?\.png)", re.DOTALL)
     matches = pattern.findall(content)
     if not matches: return
 
     full_text, image_path = matches[-1]
     title, description, color = get_alert_details(full_text)
+    
     if not title: return
 
+    # --- ここで情報を表示 ---
     timestamp = time.strftime('%H:%M:%S')
-    print(f"[{timestamp}] 📢 EEW検知: {title}")
+    bot_name = "EqMax EEW Bridge" # ここで定義します
+    
+    # 地震情報のタイトルと詳細を表示
+    print(f"\n[{timestamp}] 📢 {title} (Powered by {bot_name})")
+    if description:
+        print(f"[{timestamp}]    {description.splitlines()[0]}")
 
+    # --- 送信ループ ---
     for dest in config_dest:
         url = dest.get("url")
-        style = str(dest.get("style", "embed")).lower()
+        style = dest.get("style", "disembed").lower()
         if not url: continue
         
-        if style == "simple":
-            payload = {"content": f"📢 **{title}** / {description}".replace("\n", " / ").strip()}
+        # 組み立てから送信までをすべて司令塔（senders.py）に依頼
+        response = senders.dispatch(
+        style, title, description, color, image_path, url, bot_name, CURRENT_VERSION,
+        matrix_token=dest.get("token"), 
+        matrix_room=dest.get("room")
+    )
+        
+        # 結果判定
+        if isinstance(response, Exception):
+            print(f"[{timestamp}]  └─ [Error] 送信失敗: {response}")
+        elif response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
+            print(f"[{timestamp}]  └─ [Success] 送信完了 ({style})")
         else:
-            payload = {"embeds": [{"title": title, "description": description, "color": color,
-                                   "image": {"url": "attachment://image.png"},
-                                   "footer": {"text": f"EqMax Guardian v{CURRENT_VERSION}"}}]}
-        try:
-            path_to_img = image_path.strip()
-            if os.path.exists(path_to_img):
-                with open(path_to_img, "rb") as f:
-                    response = requests.post(url, data={"payload_json": json.dumps(payload)}, 
-                                  files={"file": ("image.png", f, "image/png")}, timeout=10)
-            else:
-                response = requests.post(url, json=payload, timeout=5)
-            
-            status = "Success" if response.status_code in [200, 204] else f"Failed({response.status_code})"
-            print(f"[{timestamp}]  └─ [{status}] Discord送信完了 ({style})")
-        except Exception as e:
-            print(f"[{timestamp}]  └─ [Error] 送信エラー: {e}")
+            print(f"[{timestamp}]  └─ [Failed] 送信失敗 ({style})")
 
 # --- 7. 死活監視 ---
 def maintain_eqmax_health(exe_path):

@@ -47,13 +47,16 @@ class EqMaxBotDeployer(ctk.CTk):
 
         # --- 2. ウィンドウ基本設定 ---
         self.title("EqMax 多機能通知連携 - ボット配置ツール")
-        self.geometry("750x920")
+        self.geometry("750x1000")
         ctk.set_appearance_mode("dark")
 
+        self.log_view = ctk.CTkTextbox(self, height=150)
+        self.log_view.pack(pady=10, padx=20, fill="x")
+        self.log_view.insert("0.0", "待機中...\n")
         self.context_menu = tk.Menu(self, tearoff=0)
         self.context_menu.add_command(label="貼り付け", command=self.paste_to_entry)
 
-        # --- 3. タイトルエリア ---
+# --- 3. タイトルエリア ---
         self.label_title = ctk.CTkLabel(
             self, 
             text=" EqMax Discord連携ボット配置", 
@@ -61,7 +64,15 @@ class EqMaxBotDeployer(ctk.CTk):
             compound="left", 
             font=("Yu Gothic", 24, "bold")
         )
-        self.label_title.pack(pady=(20, 10))
+        self.label_title.pack(pady=(20, 0)) # 下の余白を少し調整
+
+        self.label_subtitle = ctk.CTkLabel(
+            self, 
+            text="マルチ通知対応版 (Discord / Slack / Matrix)", 
+            font=("Yu Gothic", 12),
+            text_color="gray"
+        )
+        self.label_subtitle.pack(pady=(0, 10))
 
         # --- 4. メインコンテンツ ---
         self.label_path = ctk.CTkLabel(self, text="1. EqMax.exe があるフォルダを選択してください:", font=("Yu Gothic", 12, "bold"))
@@ -70,41 +81,66 @@ class EqMaxBotDeployer(ctk.CTk):
         self.path_frame.pack(pady=5)
         self.entry_path = ctk.CTkEntry(self.path_frame, width=530)
         self.entry_path.pack(side="left", padx=(0, 5))
+        # --- ショートカット作成オプション ---
+        self.var_desktop = ctk.BooleanVar(value=True)
+        self.var_startup = ctk.BooleanVar(value=False)
+
+        self.check_desktop = ctk.CTkCheckBox(self, text="デスクトップにショートカットを作成", variable=self.var_desktop)
+        self.check_desktop.pack(pady=5)
+        self.check_startup = ctk.CTkCheckBox(self, text="スタートアップに登録", variable=self.var_startup)
+        self.check_startup.pack(pady=5)
+
+        # --- 配置ボタン ---
+        self.btn_deploy = ctk.CTkButton(self, text="ボットを配置する", command=self.run_deploy, fg_color="green")
+        self.btn_deploy.pack(pady=20)
         self.btn_browse = ctk.CTkButton(self.path_frame, text="選択...", width=80, command=self.browse_file)
         self.btn_browse.pack(side="left")
 
         self.label_webhook = ctk.CTkLabel(self, text="2. 送信先Webhook (最大5つ) と通知形式を選択してください:", font=("Yu Gothic", 12, "bold"))
         self.label_webhook.pack(pady=(20, 5))
         
+        # --- ループ開始 ---
         self.webhook_entries = []
-        self.style_options = ["embed", "simple"]
+        self.style_options = ["通知タイプを選択...", "DiscordEmbed", "DiscordSimple", "Slack", "Matrix"]
 
         for i in range(5):
-            frame = ctk.CTkFrame(self)
-            frame.pack(pady=3, padx=20, fill="x")
-            entry = ctk.CTkEntry(frame, placeholder_text=f"Discord Webhook URL {i+1}", width=480)
-            entry.pack(side="left", padx=10, pady=10)
+            # メインフレーム
+            main_frame = ctk.CTkFrame(self)
+            main_frame.pack(pady=3, padx=20, fill="x")
+            
+            # コンテナ（上段・下段を管理）
+            container = ctk.CTkFrame(main_frame, fg_color="transparent")
+            container.pack(fill="x", pady=5)
+            
+            entry = ctk.CTkEntry(container, placeholder_text=f"Webhook / Matrix Homeserver URL {i+1}", width=480)
+            entry.pack(side="left", padx=10)
             entry.bind("<Button-3>", lambda e, en=entry: self.show_context_menu(e, en))
-            style_var = ctk.StringVar(value="embed")
-            combo = ctk.CTkOptionMenu(frame, values=self.style_options, variable=style_var, width=100)
+            
+            style_var = ctk.StringVar(value=self.style_options[0])
+            combo = ctk.CTkOptionMenu(container, values=self.style_options, variable=style_var, 
+                                     width=120, command=lambda c, m=main_frame: self.on_style_change(c, m))
             combo.pack(side="right", padx=10)
-            self.webhook_entries.append({"entry": entry, "style": style_var})
+            
+            # 下段用（最初は非表示）
+            matrix_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
+            token_entry = ctk.CTkEntry(matrix_frame, placeholder_text="Access Token", width=200)
+            room_entry = ctk.CTkEntry(matrix_frame, placeholder_text="Room ID", width=200)
+            token_entry.pack(side="left", padx=(10, 5), pady=5)
+            room_entry.pack(side="left", padx=5, pady=5)
+            
+            self.webhook_entries.append({
+                "entry": entry, "style": style_var, 
+                "matrix_frame": matrix_frame, "token": token_entry, "room": room_entry
+            })
 
-        self.option_frame = ctk.CTkFrame(self)
-        self.option_frame.pack(pady=20, padx=20, fill="x")
-        self.var_desktop = ctk.BooleanVar(value=True)
-        self.check_desktop = ctk.CTkCheckBox(self.option_frame, text="デスクトップにショートカットを作成する（通常版＆セーフモード）", variable=self.var_desktop, font=("Yu Gothic", 11))
-        self.check_desktop.pack(pady=5, padx=20, anchor="w")
-        self.var_startup = ctk.BooleanVar(value=True)
-        self.check_startup = ctk.CTkCheckBox(self.option_frame, text="Windows起動時に自動実行する（推奨）", variable=self.var_startup, font=("Yu Gothic", 11))
-        self.check_startup.pack(pady=5, padx=20, anchor="w")
-
-        self.btn_run = ctk.CTkButton(self, text="ボットを配置して設定を保存", fg_color="#28a745", hover_color="#218838", height=60, 
-                                     font=("Yu Gothic", 14, "bold"), command=self.run_deploy)
-        self.btn_run.pack(pady=10)
-
-        self.log_view = ctk.CTkTextbox(self, width=690, height=120, fg_color="#1a1a1a", text_color="#00FF00", border_width=1, border_color="#444444", font=("Consolas", 12))
-        self.log_view.pack(pady=10)
+    def on_style_change(self, choice, main_frame):
+        # 該当する webhook_entries を探して表示制御
+        for item in self.webhook_entries:
+            if item["style"].get() == choice:
+                if choice == "Matrix":
+                    item["matrix_frame"].pack(fill="x", padx=10)
+                else:
+                    item["matrix_frame"].pack_forget()
 
     def browse_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("EqMax.exe", "EqMax.exe")])
@@ -190,23 +226,51 @@ class EqMaxBotDeployer(ctk.CTk):
         assets_dir = os.path.join(base_dir, "Assets")
 
         try:
-            for f in ["eqmax_discord.py", "eqmax_discord.bat"]:
+            # --- 修正: コピー対象のリストに "senders.py" を追加 ---
+            for f in ["eqmax_discord.py", "eqmax_discord.bat", "senders.py"]:
                 src = os.path.join(templates_dir, f)
                 if os.path.exists(src):
                     shutil.copy2(src, bot_dir)
                     self.write_log(f"{f} をコピーしました。")
-            
+
             ico_src = os.path.join(assets_dir, "eq-dis.ico")
             if os.path.exists(ico_src):
                 shutil.copy2(ico_src, bot_dir)
+                self.write_log("eq-dis.ico をコピーしました。")
 
             target_bat = os.path.join(bot_dir, "eqmax_discord.bat")
 
+            # --- 修正箇所: run_deploy メソッド内のループ部分 ---
             webhooks_data = []
+            
+            # マッピング定義（UI表記 -> 内部コード）
+            style_map = {
+                "DiscordEmbed": "disembed",
+                "DiscordSimple": "dissimple",
+                "Slack": "slack",
+                "Matrix": "matrix"
+            }
+            
             for item in self.webhook_entries:
                 url = item["entry"].get().strip()
                 if url:
-                    webhooks_data.append({"url": url, "style": item["style"].get()})
+                    style_raw = item["style"].get()
+
+                    # 「通知タイプを選択...」のままの場合はデフォルト（disembed）にする
+                    if style_raw == "通知タイプを選択...":
+                        style_normalized = "disembed"
+                    else:
+                        style_normalized = style_map.get(style_raw, "disembed")
+                    
+                    # 基本データ
+                    data = {"url": url, "style": style_normalized}
+                    
+                    # Matrixの場合は追加情報を付与
+                    if style_normalized == "matrix":
+                        data["token"] = item["token"].get().strip()
+                        data["room"] = item["room"].get().strip()
+                    
+                    webhooks_data.append(data)
             
             config = {"eqmax_dir": eqmax_dir, "destinations": webhooks_data}
             with open(os.path.join(bot_dir, "config.json"), "w", encoding="utf-8") as f:
@@ -235,7 +299,17 @@ class EqMaxBotDeployer(ctk.CTk):
                     start_path = os.path.join(appdata, r"Microsoft\Windows\Start Menu\Programs\Startup", lnk_name)
                     self.create_shortcut_wsh(target_bat, start_path)
 
-            messagebox.showinfo("成功", "ボットの配置が完了しました。\nデスクトップのショートカットを確認してください。")
+            msg = (
+                "ボットの配置が完了しました。\n\n"
+                "【アイコン表示についてのご案内】\n"
+                "このWebhookを本ボット専用にしている場合、\n"
+                "DiscordのWebhook設定からアイコンを「eq-dis.png」に変更して保存すると、\n"
+                "通知がより見分けやすくなります。\n\n"
+                "※他のツールとWebhookを共有している場合は、\n"
+                "そのままでも動作に影響はありません。\n\n"
+                "デスクトップのショートカットを確認してください。"
+            )
+            messagebox.showinfo("成功", msg)
             self.destroy()
 
         except Exception as e:
