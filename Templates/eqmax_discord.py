@@ -11,7 +11,7 @@ import subprocess
 import senders
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "7.0.2"
+CURRENT_VERSION = "7.1.0"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
@@ -139,25 +139,31 @@ def process_log_update(content, config_dest):
 
     # --- ここで情報を表示 ---
     timestamp = time.strftime('%H:%M:%S')
-    bot_name = "EqMax EEW Bridge" # ここで定義します
+    bot_name = "EqMax EEW Bridge"
     
-    # 地震情報のタイトルと詳細を表示
     print(f"\n[{timestamp}] 📢 {title} (Powered by {bot_name})")
     if description:
         print(f"[{timestamp}]    {description.splitlines()[0]}")
 
-    # --- 送信ループ ---
+    # --- 修正: senders.dispatch に timestamp を追加 ---
     for dest in config_dest:
         url = dest.get("url")
         style = dest.get("style", "disembed").lower()
         if not url: continue
         
-        # 組み立てから送信までをすべて司令塔（senders.py）に依頼
         response = senders.dispatch(
-        style, title, description, color, image_path, url, bot_name, CURRENT_VERSION,
-        matrix_token=dest.get("token"), 
-        matrix_room=dest.get("room")
-    )
+            style=style, 
+            title=title, 
+            description=description, 
+            color=color, 
+            image_path=image_path, 
+            url=url, 
+            bot_name=bot_name, 
+            current_version=CURRENT_VERSION,
+            timestamp=timestamp, # 追加
+            matrix_token=dest.get("token"), 
+            matrix_room=dest.get("room")
+        )
         
         # 結果判定
         if isinstance(response, Exception):

@@ -6,7 +6,7 @@ echo ==========================================
 echo    EqMax Discord Bridge - Startup Manager
 echo ==========================================
 echo [Status]  : Initializing system...
-echo [Version] : v7.0.2
+echo [Version] : v7.1.0
 echo [Author]  : Mustang_TIS
 echo ==========================================
 echo.
