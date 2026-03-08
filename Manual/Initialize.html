@@ -42,92 +42,38 @@
         <li><a href="Reset.html">初期化ツール</a></li>
       </ul>
     </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
-  <h1>EqMax最適化アプリ</h1>
-  <div class="card">
-    <p>総合ハブの <code>EqMax-最適化設定</code> (③の部分)を実行してください。</p>
-<p><span class="feature-grid"><img src="image/HUBSystemMain.jpg" width="444" height="633" alt="総合ハブ起動状態" /></span></p></div>
-    <h2>ハブシステムの各機能</h2>
-    <div class="feature-grid">
-        <figure></figure>
-        
-        <dl class="feature-list">
-          <img src="image/Initialize.jpg" width="456" height="766" alt="初期設定ツール" />
-          <ul>
-            <li>EqMaxのサイトを開く
-              <ul>
-                <li>EqMaxの公式サイトを開きますダウンロードしてない人はここからEqMax本体をダウンロードしてください。</li>
-              </ul>
-            </li>
-            <li>EqMax.exeの選択
-              <ul>
-                <li>EqMaxの場所を選択します。</li>
-              </ul>
-            </li>
-            <li>☑Twitter(X)の疑似認証でバイパスする
-              <ul>
-                <li>EqMaxのTwitterbotを使ってない人でもbotを動かす必要があるのでEqMaxにTwitter認証を得ているようにごまかします。</li>
-                <li>隠しモードTwitterDummyモードのフラグを入れているのでEqMaxのTwitteｒbotを正規に利用している人は解除か初期化ツールで一度初期化してください
-                  <ul>
-                    <li>INIファイルの選択</li>
-</ul>
-                </li>
-              </ul>
-            </li>
-            <ul>
-              <li>
-                <table border="1">
-                  <tr>
-                    <td>&nbsp;</td>
-                    <td>EEW通知</td>
-                    <td>YOUTUBE自動再生</td>
-                    <td>地震情報読み上げ</td>
-                    <td>Dummyモード</td>
-                    <td>メモリリーク</td>
-                  </tr>
-                  <tr>
-                    <td><p>現状のINIを維持<br />
-                    元々の設定を維持しながら最低限のカスタマイズを行う</p></td>
-                    <td><div align="center">現状</div></td>
-                    <td><div align="center">現状</div></td>
-                    <td><div align="center">現状</div></td>
-                    <td><div align="center">強制有効</div></td>
-                    <td><div align="center">現状</div></td>
-                  </tr>
-                  <tr>
-                    <td>Full構成<br />
-                    クライアント向けの反応構成</td>
-                    <td><div align="center">○</div></td>
-                    <td><div align="center">○</div></td>
-                    <td><div align="center">○</div></td>
-                    <td><div align="center">強制有効</div></td>
-                    <td><div align="center">大</div></td>
-                  </tr>
-                  <tr>
-                    <td>Server用<br />
-                    メモリリークCPU仕様率を抑えた構成</td>
-                    <td><div align="center">✖</div></td>
-                    <td><div align="center">✖</div></td>
-                    <td><div align="center">✖</div></td>
-                    <td><div align="center">強制有効</div></td>
-                    <td><div align="center">小</div></td>
-                  </tr>
-                </table>
-              </li>
-            </ul>
-            <li>☑キャプチャと投稿用フォーマットを有効化
-              <ul>
-                <li>EEW送信用にキャプチャ画像を保存、Twitter投稿用フォーマットを強制的適応</li>
-                <li>☑は解除できない</li>
-                <li>Twitter投稿用フォーマットは画面中央に出ている例と同じ後で変更は可能だが、構成によっては連携が動かなくなる可能性があります。</li>
-              </ul>
-            </li>
-            <li>☑速報の間引き投稿 
-              <ul>
-                <li>未チェックで間引き無しの全ての速報が流れる。</li>
-              </ul>
-      </li></ul></dl>
-    </div><!-- InstanceEndEditable --><!-- end .content --></div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
+    <h1>EqMax最適化アプリ</h1>
+    
+    <div class="card">
+        <p>総合ハブの <code>EqMax-最適化設定</code> (③の部分)を実行してください。</p>
+        <img src="image/HUBSystemMain.jpg" width="300" alt="総合ハブ起動状態" />
+    </div>
+
+    <h2>初期設定ツールの機能</h2>
+    <div class="card">
+        <div class="flex-container">
+            <img src="image/Initialize.jpg" width="456" alt="初期設定ツール" />
+            <div class="description">
+                <ul>
+                    <li><strong>EqMaxの公式サイト:</strong> 公式サイトから最新版をダウンロードしてください。</li>
+                    <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+                    <li><strong>Twitter(X) 疑似認証(Dummyモード):</strong> バイパス設定を強制します。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3>構成設定の比較</h3>
+    <div class="card">
+        <table>
+            <tr><th>設定</th><th>EEW</th><th>YouTube</th><th>読み上げ</th><th>Dummy</th><th>メモリ</th></tr>
+            <tr><td>現状維持</td><td>現状</td><td>現状</td><td>現状</td><td>強制</td><td>現状</td></tr>
+            <tr><td>Full構成</td><td>○</td><td>○</td><td>○</td><td>強制</td><td>大</td></tr>
+            <tr><td>Server用</td><td>×</td><td>×</td><td>×</td><td>強制</td><td>小</td></tr>
+        </table>
+    </div>
+</div><!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
 <!-- InstanceEnd --></html>

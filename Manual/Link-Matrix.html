@@ -42,27 +42,68 @@
         <li><a href="Reset.html">初期化ツール</a></li>
       </ul>
     </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
-    <p>アプリの起動</p>
-    <p>このアプリの使い方
-      フォルダ内のEqMax-Discord-Bridge.batを実行してください。 </p>
-    <p>※安全じゃない趣旨の警告が出てきますが無視してそのまま実行してください。</p>
-    <p>まもなくプロンプト画面が起動しPython（実行するためのトリガーになるアプリ群）の確認必要ライブラリのインストールが始まります。</p>
-    <p>確認が完了すると、ハブシステム(集中管理アプリ)が起動します。</p>
-    <p>ハブシステムが起動すると、メニューから必要アプリを起動していきます。</p>
-    <p>ハブシステムの構成。</p>
-    <ol>
-      <li>初期設定ツール</li>
-      <li>Discord連携ツール</li>
-      <li>初期化ツール</li>
-      <li>クリーンアップツール</li>
-      <li>安定化ツール</li>
-    </ol>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
+    <h1>Matrix連携設定</h1>
+    
+    <div class="card">
+        <p>総合ハブの <code>Discord連携設定</code> (➃の部分)を実行してください。</p>
+        <img src="image/HUBSystemMain.jpg" width="300" alt="総合ハブ起動状態" />
+    </div>
+
+    <h2>Discord連携でMatrixへ接続する</h2>
+    <div class="card">
+        <div class="flex-container"><img src="image/DiscordBridgeChange.png" width="460" alt="Discord連携" />
+            <div class="description">
+              <ol>
+                <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+                <li><strong>選択タイプからMatrixを選ぶ</strong></li>
+              </ol>
+          </div>
+        </div>
+    </div>
+
+    <h3>Matrix の設定を作っていきます。</h3>
+    <div class="card">
+      <p>ホームサーバーURLの取得</p>
+      <div class="flex-container"><img src="image/MatrixURL.jpg" width="800" alt="Discord連携" />
+        <div class="description">
+          <ol>
+            <li><strong>MatrixのホームサーバーURLはログイン時に使うアドレスです。</strong></li>
+            <li>ホームサーバーURLをDiscord連携側に貼りつけます</li>
+          </ol>
+        </div>
+      </div>
+      <div class="flex-container">
+        <p>ルームIDの取得</p>
+        <p><img src="image/MatrixRoomID1.jpg" width="400" alt="RoomID1" /><img src="image/MatrixRoomID2.jpg" width="400" alt="RoomID2" /><br />
+          <img src="image/MatrixRoomID3.jpg" width="800" alt="RoomID3" />        </p>
+        <div class="description">
+          <ol>
+            <li><strong>ルームの右上にあるギアマークから設定を選びます。</strong></li>
+            <li><strong>詳細にあるルームIDを</strong>Discord連携側に貼りつけます。</li>
+          </ol>
+    </div>
+    </div>
+      <div class="flex-container">
+        <p>アクセストークンの取得</p>
+        <p><img src="image/MatrixToken1.jpg" width="400" alt="MatrixToken1" /><img src="image/MatrixToken2.jpg" width="400" alt="MatrixToken2" /><br />
+          <img src="image/MatrixToken3.jpg" width="800" alt="matrixToken3" />
+        </p>
+        <div class="description">
+          <ol>
+            <li><strong>左下にあるギアマークから全ての設定</strong>を開く</li>
+            <li><strong>開いたメニューの一番下のヘルプを選択し『▷アクセストークン</strong>』を押して現れたTokenを貼りつける
+              <ol>
+                <li>※注意 アクセストークンは他人にバレてしまうと簡単に乗っ取られてしまいます。</li>
+                <li>とてもリスクが大きいので決して公開しないようにお願いします</li>
+              </ol>
+            </li>
+            </ol>
+    </div>
+      </div>
+    </div>
     <p>&nbsp;</p>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-<!-- TemplateBeginEditable name="head" -->
-<!-- TemplateEndEditable -->
-<!-- InstanceEndEditable --><!-- end .content --></div>
+  </div><!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
 <!-- InstanceEnd --></html>
