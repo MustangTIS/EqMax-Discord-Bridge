@@ -4,7 +4,7 @@ import subprocess
 import sys
 import requests
 import webbrowser
-from datetime import datetime # 時刻表示用に追加
+from datetime import datetime
 from tkinter import messagebox
 
 try:
@@ -20,7 +20,7 @@ class EqMAXTopHub(ctk.CTk):
         super().__init__()
         
         # --- 0. バージョン定義 ---
-        self.CURRENT_VERSION = "v7.1.0" 
+        self.CURRENT_VERSION = "v7.2.0" 
         self.REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
         
         # --- 1. アイコンと画像の設定 ---
@@ -44,11 +44,10 @@ class EqMAXTopHub(ctk.CTk):
 
         # --- 2. ウィンドウ基本設定 ---
         self.title(f"EqMAX Discord Bridge {self.CURRENT_VERSION} - 統合管理ハブ")
-        self.geometry("650x850")
+        self.geometry("650x900")
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
-        # プロンプトへの起動通知
         print(f"[{datetime.now().strftime('%H:%M:%S')}] Running EqMax-Discord-Bridge {self.CURRENT_VERSION}")
 
         # --- 3. タイトルエリア ---
@@ -64,7 +63,15 @@ class EqMAXTopHub(ctk.CTk):
         self.label_ver = ctk.CTkLabel(self, text=f"Version {self.CURRENT_VERSION.replace('v','')}", font=("Yu Gothic", 12))
         self.label_ver.pack(pady=(0, 5))
 
-        # 更新通知ボタン（GitHub API連動）
+        # ヘルプボタン
+        self.btn_help = ctk.CTkButton(
+            self, text="📖 ヘルプ・使い方ガイド (HTML)", 
+            fg_color="#28a745", hover_color="#218838", font=("Yu Gothic", 12, "bold"),
+            command=self.open_manual
+        )
+        self.btn_help.pack(pady=(10, 10))
+
+        # 更新通知ボタン
         self.update_label = ctk.CTkButton(
             self, text="", fg_color="transparent", text_color="#3b8ed0", 
             hover_color="#2b2b2b", font=("Yu Gothic", 11, "underline"),
@@ -81,21 +88,27 @@ class EqMAXTopHub(ctk.CTk):
         self.create_menu_button("1. EqMAX 初期設定", "01-Eq_Initialize.py", "EEWレイアウト・キャプチャ・疑似認証を自動適用します")
         self.create_menu_button("2. Discord 連携実装", "02-Eq_Discord.py", "Webhook URLを登録し、通知システムを完成させます")
 
-        # 【トラブルシューティング】
-        ctk.CTkLabel(self.btn_frame, text="▼ 困った時は...", font=("Yu Gothic", 12, "bold"), text_color="#e74c3c").pack(anchor="w", padx=10, pady=(20, 0))
-        self.create_menu_button("3. EqMAX初期化処理", "03-Eq_Reset.py", "注意：すべての設定をインストール直後の状態に戻します", fg="#c0392b") 
-
-        # 【おまけ機能】
+        # 【おまけ】
         ctk.CTkLabel(self.btn_frame, text="▼ メンテナンス・補助ツール", font=("Yu Gothic", 12, "bold"), text_color="gray").pack(anchor="w", padx=10, pady=(20, 0))
         self.create_menu_button("おまけ1. ログ・画像掃除", "O01-Eq_Cleaner.py", "溜まった不要な画像やログを一括削除", height=40, fg="#444444")
         self.create_menu_button("おまけ2. EqMAX安定化", "O02-Eq_Watch.py", "メモリリーク対策用ウォッチドッグの起動", height=40, fg="#444444")
+
+        # 【トラブルシューティング】
+        ctk.CTkLabel(self.btn_frame, text="▼ 困った時は...", font=("Yu Gothic", 12, "bold"), text_color="#e74c3c").pack(anchor="w", padx=10, pady=(20, 0))
+        self.create_menu_button("おまけ3. EqMAX初期化処理", "O03-Eq_Reset.py", "注意：すべての設定をインストール直後の状態に戻します", fg="#c0392b") 
 
         # 足跡
         self.label_footer = ctk.CTkLabel(self, text="© 2026 Mustang_TIS", font=("Yu Gothic", 10), text_color="gray")
         self.label_footer.pack(pady=10)
 
-        # 起動時に更新チェックを実行
         self.after(1000, self.check_for_updates)
+
+    def open_manual(self):
+        manual_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "Manual", "Index.html"))
+        if os.path.exists(manual_path):
+            webbrowser.open(f"file://{os.path.abspath(manual_path)}")
+        else:
+            messagebox.showerror("Error", f"マニュアルが見つかりません:\n{manual_path}")
 
     def create_menu_button(self, text, script_name, info, state="normal", fg=None, height=50):
         btn = ctk.CTkButton(
@@ -113,14 +126,10 @@ class EqMAXTopHub(ctk.CTk):
 
     def launch_script(self, script_name):
         script_path = os.path.join(os.path.dirname(__file__), script_name)
-        
-        # --- プロンプト用ログ出力強化 ---
         print("-" * 50)
         print(f"[{datetime.now().strftime('%H:%M:%S')}] Launching: {script_name}")
-        
         if os.path.exists(script_path):
             try:
-                print(f"[Status] : Found script. Starting process...")
                 subprocess.Popen([sys.executable, script_path])
                 print(f"[Info]   : Process for {script_name} has been detached.")
             except Exception as e:
@@ -128,30 +137,23 @@ class EqMAXTopHub(ctk.CTk):
         else:
             print(f"[Error]  : {script_name} NOT FOUND.")
             messagebox.showerror("Error", f"{script_name} が見つかりません。")
-        
         print("-" * 50)
 
     def check_for_updates(self):
         api_url = f"https://api.github.com/repos/{self.REPO_URL}/releases/latest"
-        print(f"[{datetime.now().strftime('%H:%M:%S')}] Checking for updates from GitHub...")
         try:
             response = requests.get(api_url, timeout=5)
             if response.status_code == 200:
                 data = response.json()
                 latest_tag = data.get("tag_name")
                 if latest_tag and latest_tag != self.CURRENT_VERSION:
-                    print(f"[Update] : New version found ({latest_tag})")
                     self.update_url = data.get("html_url")
                     self.update_label.configure(text=f"🚀 新バージョン {latest_tag} が公開されています")
                     self.update_label.pack(pady=5)
-                else:
-                    print(f"[Update] : You are using the latest version.")
-        except Exception as e:
-            print(f"[Update] : Failed to check updates. ({e})")
+        except: pass
 
     def open_release_page(self):
-        if self.update_url:
-            webbrowser.open(self.update_url)
+        if self.update_url: webbrowser.open(self.update_url)
 
 if __name__ == "__main__":
     app = EqMAXTopHub()

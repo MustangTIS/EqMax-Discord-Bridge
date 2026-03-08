@@ -80,7 +80,7 @@ class EqMaxSetupPatcher(ctk.CTk):
         ctk.CTkLabel(self.option_frame, text="2. セットアップオプション:", font=("Yu Gothic", 12, "bold")).pack(pady=(10, 5), padx=20, anchor="w")
 
         # Twitterバイパスチェック
-        self.check_tw_reset = ctk.CTkCheckBox(self.option_frame, text="Twitter(X)機能を疑似認証でバイパスする\n(Discord専用として構成/既存の認証は上書きされます)", 
+        self.check_tw_reset = ctk.CTkCheckBox(self.option_frame, text="Twitter(X)機能を疑似認証でバイパスする\n(Discord連携専用として構築/既存の認証は消えてしまいます)", 
                                               variable=self.var_tw_reset, 
                                               command=self.toggle_template_options,
                                               font=("Yu Gothic", 11))
@@ -90,27 +90,27 @@ class EqMaxSetupPatcher(ctk.CTk):
         self.ini_select_frame = ctk.CTkFrame(self.option_frame, fg_color="#333333")
         self.ini_select_frame.pack(pady=5, padx=40, fill="x")
         
-        self.r_current = ctk.CTkRadioButton(self.ini_select_frame, text="現状のINIを維持 (推奨)", variable=self.init_mode, value="current", font=("Yu Gothic", 10))
+        self.r_current = ctk.CTkRadioButton(self.ini_select_frame, text="現状のINIを維持", variable=self.init_mode, value="current", font=("Yu Gothic", 10))
         self.r_current.pack(pady=2, padx=20, anchor="w")
         
         self.r_full = ctk.CTkRadioButton(self.ini_select_frame, text="Full構成テンプレート(通知＆YOUTUBE自動再生)を適用", variable=self.init_mode, value="full", font=("Yu Gothic", 10))
         self.r_full.pack(pady=2, padx=20, anchor="w")
         
-        self.r_server = ctk.CTkRadioButton(self.ini_select_frame, text="Server用メモリリーク対策構成(通知＆YOUTUBE自動再生無効化)テンプレートを適用", variable=self.init_mode, value="server", font=("Yu Gothic", 10))
+        self.r_server = ctk.CTkRadioButton(self.ini_select_frame, text="Server用テンプレート(通知＆YOUTUBE自動再生無効化のメモリリーク対策構成)を適用", variable=self.init_mode, value="server", font=("Yu Gothic", 10))
         self.r_server.pack(pady=2, padx=20, anchor="w")
 
         # キャプチャ強制チェック（表示用）
         ctk.CTkCheckBox(self.option_frame, text="キャプチャと投稿用フォーマットを有効化 (強制)", variable=ctk.BooleanVar(value=True), state="disabled", font=("Yu Gothic", 11)).pack(pady=5, padx=20, anchor="w")
         
         # 間引き設定
-        self.check_count = ctk.CTkCheckBox(self.option_frame, text="速報の速報間引き(未チェックで全報通知)", variable=self.var_check_count, font=("Yu Gothic", 11))
+        self.check_count = ctk.CTkCheckBox(self.option_frame, text="速報の間引き(未チェックで全報通知)", variable=self.var_check_count, font=("Yu Gothic", 11))
         self.check_count.pack(pady=5, padx=20, anchor="w")
 
         # 3. 表示例
         self.example_frame = ctk.CTkFrame(self, fg_color="#2b2b2b")
         self.example_frame.pack(pady=10, padx=20, fill="x")
         ctk.CTkLabel(self.example_frame, text="【Discord通知レイアウト例】", font=("Yu Gothic", 10, "bold")).pack(pady=(5, 0))
-        example_text = "緊急地震速報：第5報(終)予報\n震源地：奄美大島近海(28.0N 129.2E)\nマグニチュード：M3.8\n深さ：10km\n推定最大震度：3\n\n(ここに画像ファイルが添付されます)"
+        example_text = "緊急地震速報：第5報(終)予報\n震源地：奄美大島近海(28.0N 129.2E)\nマグニチュード：M3.8\n深さ：10km\n推定最大震度：3\n(ここに画像ファイルが添付されます)"
         ctk.CTkLabel(self.example_frame, text=example_text, justify="left", font=("Consolas", 11)).pack(pady=10, padx=10)
 
         # 実行ボタン
@@ -185,7 +185,7 @@ class EqMaxSetupPatcher(ctk.CTk):
             lines = f.readlines()
 
         S = "\\t"
-        eew_line = "EEWItems=" + S.join(["", "[緊急地震速報：]", "報番号", "最終報", "警報", "<改行>", "[震源地：]", "震央名", "[(]", "緯度経度", "[)]", "<改行>", "[マグニチュード：M]", "マグニチュード", "<改行>", "[深さ：]", "深さ", "<改行>", "[推定最大震度：]", "最大震度", "<改行>", "<改行>", "画像"])
+        eew_line = "EEWItems=" + S.join(["", "[緊急地震速報：]", "報番号", "最終報", "警報", "<改行>", "[震源地：]", "震央名", "[(]", "緯度経度", "[)]", "<改行>", "[マグニチュード：M]", "マグニチュード", "<改行>", "[深さ：]", "深さ", "<改行>", "[推定最大震度：]", "最大震度", "<改行>", "画像"])
         
         # 常に適用する項目
         core_updates = {
