@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>使い方ガイド</title>
+<!-- InstanceEndEditable -->
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+
+<body>
+
+<div class="container">
+    <div class="sidebar1">
+      <div class="sidebar-title">基礎情報</div>
+      <ul class="nav">
+        <li><a href="Index.html">はじめに</a></li>
+        <li><a href="ChangeLog.html">更新履歴</a></li>
+      </ul>
+
+      <div class="sidebar-title">スタートアップ</div>
+      <ul class="nav">
+		<li><a href="HUBSystem.html">起動とハブシステム</a></li>      </ul>
+      <div class="sidebar-title">EqMax設定</div>
+      <ul class="nav">
+        <li><a href="Initialize.html">初期設定ツール</a></li>
+      </ul>
+      
+      <div class="sidebar-title">各種連携設定</div>
+      <ul class="nav">
+        <li><a href="Link-Discord.html">Discord連携</a></li>
+        <li><a href="Link-Slack.html">Slack連携</a></li>
+        <li><a href="Link-Matrix.html">Matrix連携</a></li>
+      </ul>
+    
+      <div class="sidebar-title">その他ツール</div>
+      <ul class="nav">
+        <li><a href="Cleaner.html">クリーナーソフト</a></li>
+        <li><a href="Watchdog.html">安定化ツール</a></li>
+        <li><a href="Reset.html">初期化ツール</a></li>
+      </ul>
+    </div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" --><h1>アプリの起動</h1>
+    <p>フォルダ内の <code>EqMax-Discord-Bridge.bat</code> を実行してください。</p>
+    
+    <div class="card">
+        <img src="image/bootcaution.jpg" width="315" height="230" alt="起動警告" />
+        <p>※デジタル署名エラーが出ますが、無視して実行してください。<br />
+        「このファイルを開く前に常に確認する」のチェックを外すと、次回以降警告は非表示になります。</p>
+    </div>
+
+    <p>プロンプト起動後、必要なライブラリのインストールが自動で行われます。    </p>
+    <div class="card">
+    <h3>起動時の画面表示</h3>
+    <div class="flex-container">
+        <figure>
+            <img src="image/TOPHUB-Prompt.jpg" width="400" alt="起動時のコマンドプロンプト画面" />
+        </figure>
+        <div class="description">
+            <p><strong>正常に起動すると、左記のようにシステムチェックおよび各スクリプト（01-Eq_Initialize.py等）の読み込みが開始されます。</strong></p>
+            <p>※黒い画面が表示されますが、正常な挙動です。処理が完了し、自動的にプロセスがデタッチ（バックグラウンド移行）されるまでそのままお待ちください。</p>
+        </div>
+    </div>
+</div>
+    <h2>ハブシステムの各機能</h2>
+    <div class="feature-grid">
+        <figure>
+            <img src="image/HUBSystemMain.jpg" width="444" height="633" alt="総合ハブ起動状態" />
+        </figure>
+        
+        <dl class="feature-list">
+            <dt>① バージョン情報</dt>
+            <dd>更新がある時はバージョンアップ通知が表示されます。</dd>
+            
+            <dt>② ヘルプ・ガイドの表示</dt>
+            <dd>このHTMLマニュアルを起動します。</dd>
+            
+            <dt>③ EqMax 初期設定</dt>
+            <dd>EqMax本体を連携用に最適化します。</dd>
+            
+            <dt>④ Discord連携実装</dt>
+            <dd>SNS通知用アプリをインストールします。</dd>
+            
+            <dt>⑤ ログ・画像クリーナー</dt>
+            <dd>不要なキャッシュやログを一括削除します。</dd>
+            
+            <dt>⑥ EqMax 安定化アプリ</dt>
+            <dd>フリーズやメモリリークを検知し、自動再起動を行う監視ツールです。</dd>
+            
+            <dt>⑦ EqMax 初期化処理</dt>
+            <dd>全ての設定をリセットし、インストール直後の状態に初期化します。</dd>
+        </dl>
+    </div><!-- InstanceEndEditable --><!-- end .content --></div>
+  <!-- end .container --></div>
+</body>
+<!-- InstanceEnd --></html>

@@ -1,0 +1,31 @@
+/* --- 基本設定 --- */
+body { font-family: "Meiryo", sans-serif; background-color: #f0f2f5; margin: 0; padding: 30px; }
+.container { max-width: 1200px; background: #FFF; margin: 0 auto; display: flex; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 80vh; }
+
+/* --- レイアウト・共通 --- */
+.content { padding: 40px; flex: 1; line-height: 1.8; }
+.text-center { text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
+
+/* カードデザイン */
+.card { border: 1px solid #ccc; padding: 15px; background: #fff; margin-bottom: 20px; display: flex; gap: 20px; align-items: center; }
+
+/* 画像・Flexbox用 */
+.flex-container { display: flex; align-items: center; gap: 20px; }
+.description { max-width: 600px; }
+.guide-row { display: flex; gap: 30px; align-items: flex-start; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid #ddd; }
+.guide-row img { max-width: 400px; border: 1px solid #ddd; box-shadow: 3px 3px 10px rgba(0,0,0,0.1); }
+
+/* --- サイドバー・見出し・その他 --- */
+.sidebar1 { width: 240px; background-color: #34495e; color: #fff; }
+.sidebar-title { color: #ffd700; font-weight: bold; padding: 20px 20px 5px 20px; }
+ul.nav { list-style: none; padding: 0; margin: 0; }
+ul.nav li a { display: block; padding: 12px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+ul.nav li a:hover { background: #6c84a3; }
+h1 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 30px; }
+code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .flex-container, .card { flex-direction: column; }
+}

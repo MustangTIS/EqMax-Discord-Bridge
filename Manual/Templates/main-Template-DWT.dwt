@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>使い方ガイド</title>
+<!-- TemplateEndEditable -->
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+</head>
+
+<body>
+
+<div class="container">
+    <div class="sidebar1">
+      <div class="sidebar-title">基礎情報</div>
+      <ul class="nav">
+        <li><a href="../Index.html">はじめに</a></li>
+        <li><a href="../ChangeLog.html">更新履歴</a></li>
+      </ul>
+
+      <div class="sidebar-title">スタートアップ</div>
+      <ul class="nav">
+		<li><a href="../HUBSystem.html">起動とハブシステム</a></li>      </ul>
+      <div class="sidebar-title">EqMax設定</div>
+      <ul class="nav">
+        <li><a href="../Initialize.html">初期設定ツール</a></li>
+      </ul>
+      
+      <div class="sidebar-title">各種連携設定</div>
+      <ul class="nav">
+        <li><a href="../Link-Discord.html">Discord連携</a></li>
+        <li><a href="../Link-Slack.html">Slack連携</a></li>
+        <li><a href="../Link-Matrix.html">Matrix連携</a></li>
+      </ul>
+    
+      <div class="sidebar-title">その他ツール</div>
+      <ul class="nav">
+        <li><a href="../Cleaner.html">クリーナーソフト</a></li>
+        <li><a href="../Watchdog.html">安定化ツール</a></li>
+        <li><a href="../Reset.html">初期化ツール</a></li>
+      </ul>
+    </div>
+  <div class="content"><!-- TemplateBeginEditable name="main_content" -->
+    <h1>テキストベース</h1>
+    <p>テキストベース</p>
+  <!-- TemplateEndEditable --><!-- end .content --></div>
+  <!-- end .container --></div>
+</body>
+</html>
