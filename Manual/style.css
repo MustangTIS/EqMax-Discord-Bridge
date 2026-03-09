@@ -1,51 +1,68 @@
-/* --- 基本設定 --- */
+/* --- 1. 基本設定・レイアウト --- */
 body { font-family: "Meiryo", sans-serif; background-color: #f0f2f5; margin: 0; padding: 30px; }
 .container { max-width: 1200px; background: #FFF; margin: 0 auto; display: flex; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 80vh; }
-
-/* --- コンテンツエリア --- */
 .content { padding: 40px; flex: 1; line-height: 1.8; }
 .text-center { text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
-
-/* --- 汎用デザインパーツ --- */
 .card { border: 1px solid #ccc; padding: 20px; background: #fff; margin-bottom: 20px; border-radius: 4px; }
-.flex-container { display: flex; gap: 20px; align-items: flex-start; }
 .description { flex: 1; }
 
-/* --- コンポーネント系 --- */
-table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.9em; }
-table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-table th { background-color: #f8f9fa; color: #333; font-weight: bold; }
-
-.card ul { margin: 5px 0; padding-left: 20px; }
-.card li { margin-bottom: 8px; }
-.card img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid #eee; }
-
-/* --- サイドバー・見出し --- */
-.sidebar1 { width: 240px; background-color: #34495e; color: #fff; }
-.sidebar-title { color: #ffd700; font-weight: bold; padding: 20px 20px 5px 20px; }
-ul.nav { list-style: none; padding: 0; margin: 0; }
-ul.nav li a { display: block; padding: 12px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
-ul.nav li a:hover { background: #6c84a3; }
-h1 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 30px; }
-code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
-
-/* --- レスポンシブ --- */
-@media (max-width: 768px) {
-    .container { flex-direction: column; }
-    .flex-container { flex-direction: column; }
+/* --- 2. Flexboxレイアウト（画像並列） --- */
+.flex-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-start; /* ★画像が縦に引き伸ばされるのを防ぐ重要設定 */
 }
-/* カード内の画像に一括適用 */
+
+/* --- 3. 画像の一括設定（全カード共通） --- */
+/* --- 3. 画像の一括設定（全カード共通） --- */
 .card img {
+    /* 1. 幅は親枠に合わせるが、最大でも枠をはみ出さない */
+    max-width: 100%;
+    
+    /* 2. 【重要】HTMLのwidth/height指定を無視して、比率を強制固定する */
+    width: auto !important;
+    height: auto !important;
+    
+    /* 3. これ以上デカくしたくない場合、ここだけ書き換える */
+    max-height: 400px; /* ★画像が縦に長すぎて突き抜けるのを防ぐ */
+    
+    display: block;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    
+    /* ホバーアニメーション設定 */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     cursor: pointer;
     position: relative;
     z-index: 1;
 }
 
-/* マウスオーバーで拡大＆最前面へ */
 .card img:hover {
-    transform: scale(1.8); /* 1.8倍に拡大。邪魔なら1.5等に調整してください */
+    transform: scale(1.8);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 999; /* 他の画像や文字の上に重なるようにする */
-    border: 2px solid #3498db; /* どこを拡大しているか分かりやすく */
+    z-index: 999;
+    border: 2px solid #3498db;
+}
+
+/* --- 4. コンポーネント・その他（テーブル・リスト等） --- */
+table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.9em; }
+table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+table th { background-color: #f8f9fa; color: #333; font-weight: bold; }
+.card ul { margin: 5px 0; padding-left: 20px; }
+.card li { margin-bottom: 8px; }
+code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+
+/* --- 5. サイドバー・見出し --- */
+.sidebar1 { width: 240px; background-color: #34495e; color: #fff; }
+.sidebar-title { color: #ffd700; font-weight: bold; padding: 20px 20px 5px 20px; }
+ul.nav { list-style: none; padding: 0; margin: 0; }
+ul.nav li a { display: block; padding: 12px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+ul.nav li a:hover { background: #6c84a3; }
+h1 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 30px; }
+
+/* --- 6. レスポンシブ --- */
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .flex-container { flex-direction: column; }
 }
