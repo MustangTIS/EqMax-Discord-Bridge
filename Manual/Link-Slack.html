@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -11,183 +12,155 @@
 </head>
 
 <body>
-
 <div class="container">
-    <div class="sidebar1">
-      <div class="sidebar-title">基礎情報</div>
-      <ul class="nav">
-        <li><a href="Index.html">はじめに</a></li>
-        <li><a href="ChangeLog.html">更新履歴</a></li>
-      </ul>
-
-      <div class="sidebar-title">スタートアップ</div>
-      <ul class="nav">
-		<li><a href="HUBSystem.html">起動とハブシステム</a></li>      </ul>
-      <div class="sidebar-title">EqMax設定</div>
-      <ul class="nav">
-        <li><a href="Initialize.html">初期設定ツール</a></li>
-      </ul>
-      
-      <div class="sidebar-title">各種連携設定</div>
-      <ul class="nav">
-        <li><a href="Link-Discord.html">Discord連携</a></li>
-        <li><a href="Link-Slack.html">Slack連携</a></li>
-        <li><a href="Link-Matrix.html">Matrix連携</a></li>
-      </ul>
-    
-      <div class="sidebar-title">その他ツール</div>
-      <ul class="nav">
-        <li><a href="Cleaner.html">クリーナーソフト</a></li>
-        <li><a href="Watchdog.html">安定化ツール</a></li>
-        <li><a href="Reset.html">初期化ツール</a></li>
-      </ul>
-    </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
+  <div class="sidebar1">
+    <div class="sidebar-title">基礎情報</div>
+    <ul class="nav">
+      <li><a href="Index.html">はじめに</a></li>
+      <li><a href="ChangeLog.html">更新履歴</a></li>
+    </ul>
+    <div class="sidebar-title">スタートアップ</div>
+    <ul class="nav">
+      <li><a href="HUBSystem.html">起動とハブシステム</a></li>
+    </ul>
+    <div class="sidebar-title">EqMax設定</div>
+    <ul class="nav">
+      <li><a href="Initialize.html">初期設定ツール</a></li>
+    </ul>
+    <div class="sidebar-title">各種連携設定</div>
+    <ul class="nav">
+      <li><a href="Link-Discord.html">Discord連携</a></li>
+      <li><a href="Link-Slack.html">Slack連携</a></li>
+      <li><a href="Link-Matrix.html">Matrix連携</a></li>
+    </ul>
+    <div class="sidebar-title">その他ツール</div>
+    <ul class="nav">
+      <li><a href="Cleaner.html">クリーナーソフト</a></li>
+      <li><a href="Watchdog.html">安定化ツール</a></li>
+      <li><a href="Reset.html">初期化ツール</a></li>
+    </ul>
+  </div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
+    <div class="content">
     <h1>Slack連携設定</h1>
     <h2>SlackのIncoming Webhookの取得</h2>
     <div class="card">
-    <div class="flex-container">
+      <div class="flex-container">
         <div class="description">
-            <p><strong>Slackの「Incoming Webhook」を利用して、EqMaxの通知を送信できます。</strong></p>
-            <ul>
-                <li><strong>Discordに近い感覚で設定可能</strong>
-                    <ul>
-                        <li>Webhook URLを取得して貼り付けるだけで連携が完了します。</li>
-                        <li>内部処理はSlack専用に最適化済みですので、URLを貼るだけで動作します。</li>
-                    </ul>
-                </li>
-                <li><strong>【重要】画像送信について</strong>
-                    <ul>
-                        <li>Slackの仕様上、Webhook経由での直接画像投稿には対応していません。</li>
-                        <li><strong>本ツールでは「テキスト通知のみ」のサポートとなります。</strong> 画像が必要な場合はDiscordまたはMatrixをご利用ください。</li>
-                    </ul>
-                </li>
-                <li><strong>作成権限について</strong>
-                    <ul>
-                        <li>一般ユーザーでも作成可能ですが、ワークスペースの設定（管理者の制限）によっては作成できない場合があります。</li>
-                        <li>設定メニューの深い場所にありますが、次項の手順通りに進めば作成可能です。</li>
-                    </ul>
-                </li>
-            </ul>
+          <p><strong>Slackの「Incoming Webhook」を利用して、EqMaxの通知を送信できます。</strong></p>
+          <ul>
+            <li><strong>Discordに近い感覚で設定可能</strong>
+              <ul>
+                <li>Webhook URLを取得して貼り付けるだけで連携が完了します。</li>
+                <li>内部処理はSlack専用に最適化済みですので、URLを貼るだけで動作します。</li>
+              </ul>
+            </li>
+            <li><strong>【重要】画像送信について</strong>
+              <ul>
+                <li>Slackの仕様上、Webhook経由での直接画像投稿には対応していません。</li>
+                <li><strong>本ツールでは「テキスト通知のみ」のサポートとなります。</strong> 画像が必要な場合はDiscordまたはMatrixをご利用ください。</li>
+              </ul>
+            </li>
+            <li><strong>作成権限について</strong>
+              <ul>
+                <li>一般ユーザーでも作成可能ですが、ワークスペースの設定（管理者の制限）によっては作成できない場合があります。</li>
+                <li>設定メニューの深い場所にありますが、次項の手順通りに進めば作成可能です。</li>
+              </ul>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
-</div>
     <h2>Slackの設定手順</h2>
     <div class="card">
-    <h4>Slack Appの登録</h4>
-    <div class="description">
+      <h4>Slack Appの登録</h4>
+      <div class="description">
         <p><strong>【重要】設定はブラウザから行います</strong></p>
         <p>Slackアプリ内に設定ボタンはありません。以下のリンクからブラウザで設定画面を開いてください。</p>
         <ul>
-            <li><a href="https://api.slack.com/apps" target="_blank"><strong>Slack API: Your Apps (設定ページ)</strong></a></li>
+          <li><a href="https://api.slack.com/apps" target="_blank"><strong>Slack API: Your Apps (設定ページ)</strong></a></li>
         </ul>
-    </div>
-
-    <div style="margin-top: 30px;">
+      </div>
+      <div style="margin-top: 30px;">
         <p><strong>① アプリの登録</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;">
-            <img src="image/SlackApp1.jpg" alt="登録1" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp2.jpg" alt="登録2" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp3.jpg" alt="登録3" width="230" style="width: 230px; height: auto; display: block;" />
-        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;"> <img src="image/SlackApp1.jpg" alt="登録1" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp2.jpg" alt="登録2" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp3.jpg" alt="登録3" width="230" style="width: 230px; height: auto; display: block;" /> </div>
         <ol>
-            <li>「<strong>Create an App</strong>」から「<strong>From scratch</strong>」を選択します。</li>
-            <li>AppNameとWorkspaceを入力して「<strong>Create App</strong>」をクリックします。</li>
+          <li>「<strong>Create an App</strong>」から「<strong>From scratch</strong>」を選択します。</li>
+          <li>AppNameとWorkspaceを入力して「<strong>Create App</strong>」をクリックします。</li>
         </ol>
-    </div>
-
-    <div style="margin-top: 30px;">
+      </div>
+      <div style="margin-top: 30px;">
         <p><strong>② アプリ名の登録</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;">
-            <img src="image/SlackApp4.jpg" alt="名称設定1" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp5.jpg" alt="名称設定2" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp6.jpg" alt="名称設定3" width="230" style="width: 230px; height: auto; display: block;" />
-        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;"> <img src="image/SlackApp4.jpg" alt="名称設定1" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp5.jpg" alt="名称設定2" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp6.jpg" alt="名称設定3" width="230" style="width: 230px; height: auto; display: block;" /> </div>
         <ol>
-            <li>「App Home」メニューから「App Display Name」の「<strong>Edit</strong>」を選びます。</li>
-            <li><strong>Display Name</strong>と<strong>Default username</strong>を設定して「<strong>Save</strong>」します。</li>
+          <li>「App Home」メニューから「App Display Name」の「<strong>Edit</strong>」を選びます。</li>
+          <li><strong>Display Name</strong>と<strong>Default username</strong>を設定して「<strong>Save</strong>」します。</li>
         </ol>
-    </div>
-
-    <div style="margin-top: 30px;">
+      </div>
+      <div style="margin-top: 30px;">
         <p><strong>③ Incoming Webhookの有効化</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;">
-            <img src="image/SlackApp7.jpg" alt="Webhook1" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp8.jpg" alt="Webhook2" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp9.jpg" alt="Webhook3" width="230" style="width: 230px; height: auto; display: block;" />
-            <img src="image/SlackApp10.jpg" alt="Webhook4" width="230" style="width: 230px; height: auto; display: block;" />
-        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;"> <img src="image/SlackApp7.jpg" alt="Webhook1" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp8.jpg" alt="Webhook2" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp9.jpg" alt="Webhook3" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp10.jpg" alt="Webhook4" width="230" style="width: 230px; height: auto; display: block;" /> </div>
         <ol>
-            <li>左メニューの「<strong>Incoming Webhook</strong>」を開き、「<strong>Activate</strong>」をONにします。</li>
-            <li>ページ下部の「<strong>Add New Webhook to Workspace</strong>」をクリックします。</li>
-            <li>通知先チャンネルを選択して「許可」すれば、Webhook URLが発行されます。</li>
+          <li>左メニューの「<strong>Incoming Webhook</strong>」を開き、「<strong>Activate</strong>」をONにします。</li>
+          <li>ページ下部の「<strong>Add New Webhook to Workspace</strong>」をクリックします。</li>
+          <li>通知先チャンネルを選択して「許可」すれば、Webhook URLが発行されます。</li>
         </ol>
+      </div>
     </div>
-</div>
     <h1>SlackをDiscord設定に登録</h1>
     <div class="card">
-    <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
-        <div style="margin-bottom: 20px;">
-            <img src="image/HUBSystemMain.jpg" alt="総合ハブ起動状態" width="300" />
-        </div>
+      <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;"> <img src="image/HUBSystemMain.jpg" alt="総合ハブ起動状態" width="300" /> </div>
         <div style="flex: 1; min-width: 200px;">総合ハブの <code><strong>Discord連携設定</strong></code> (➃の部分)を実行してください。</div>
-    </div>
-
-    <h2 style="margin-top: 30px;">Discord連携でSlackへ接続する</h2>
-
-    <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
-        <img src="image/DiscordBridgeChange.png" alt="Discord連携" width="300" />
+      </div>
+      <h2 style="margin-top: 30px;">Discord連携でSlackへ接続する</h2>
+      <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;"> <img src="image/DiscordBridgeChange.png" alt="Discord連携" width="300" />
         <div style="flex: 1; min-width: 300px;">
-            <ol>
-                <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-                <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
+          <ol>
+            <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+            <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
           </ol>
         </div>
-    </div>
-
-    <div style="margin-top: 30px;">
+      </div>
+      <div style="margin-top: 30px;">
         <h3 style="margin-bottom: 15px;">Discord連携登録</h3>
-        <div style="display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap;">
-          <img src="image/SlackAppA10.jpg" alt="Discord連携登録" width="500" />
-            <div style="flex: 1; min-width: 400px;">
-              <p>SlackのWebhook URLを貼りつけてbotを配置するを選ぶ</p>
+        <div style="display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap;"> <img src="image/SlackAppA10.jpg" alt="Discord連携登録" width="500" />
+          <div style="flex: 1; min-width: 400px;">
+            <p>SlackのWebhook URLを貼りつけてbotを配置するを選ぶ</p>
           </div>
         </div>
+      </div>
     </div>
-</div><h1>Discord連携を起動する</h1>
+    <h1>Discord連携を起動する</h1>
     <div class="card">
-    <h3>起動方法</h3>
-    <div class="flex-container">
-        <div style="flex: 0 0 220px;">
-            <img src="image/DiscordBridgeicon.jpg"  alt="起動用アイコン" />
-        </div>
+      <h3>起動方法</h3>
+      <div class="flex-container">
+        <div style="flex: 0 0 220px;"> <img src="image/DiscordBridgeicon.jpg"  alt="起動用アイコン" /> </div>
         <div class="description">
-            <p>Discord起動用ショートカットは二種類あります。</p>
-            <ul>
-                <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
-                <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br>
-                    <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
-            </ul>
+          <p>Discord起動用ショートカットは二種類あります。</p>
+          <ul>
+            <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
+            <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br>
+              <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
+          </ul>
         </div>
-    </div>
-
-    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
-
-    <h3>bot実行時プロンプトの見方</h3>
-    <div class="flex-container">
-        <div style="flex: 0 0 420px;">
-            <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="500" />
-        </div>
+      </div>
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+      <h3>bot実行時プロンプトの見方</h3>
+      <div class="flex-container">
+        <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="500" /> </div>
         <div class="description">
-            <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
-            <ul>
-                <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
-                <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
-                <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
-            </ul>
+          <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
+          <ul>
+            <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
+            <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
+            <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
+          </ul>
         </div>
+      </div>
     </div>
-</div><!-- InstanceEndEditable --><!-- end .content --></div>
+    <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>

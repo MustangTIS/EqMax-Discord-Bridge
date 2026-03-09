@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -11,75 +12,73 @@
 </head>
 
 <body>
-
 <div class="container">
-    <div class="sidebar1">
-      <div class="sidebar-title">基礎情報</div>
-      <ul class="nav">
-        <li><a href="Index.html">はじめに</a></li>
-        <li><a href="ChangeLog.html">更新履歴</a></li>
-      </ul>
-
-      <div class="sidebar-title">スタートアップ</div>
-      <ul class="nav">
-		<li><a href="HUBSystem.html">起動とハブシステム</a></li>      </ul>
-      <div class="sidebar-title">EqMax設定</div>
-      <ul class="nav">
-        <li><a href="Initialize.html">初期設定ツール</a></li>
-      </ul>
-      
-      <div class="sidebar-title">各種連携設定</div>
-      <ul class="nav">
-        <li><a href="Link-Discord.html">Discord連携</a></li>
-        <li><a href="Link-Slack.html">Slack連携</a></li>
-        <li><a href="Link-Matrix.html">Matrix連携</a></li>
-      </ul>
-    
-      <div class="sidebar-title">その他ツール</div>
-      <ul class="nav">
-        <li><a href="Cleaner.html">クリーナーソフト</a></li>
-        <li><a href="Watchdog.html">安定化ツール</a></li>
-        <li><a href="Reset.html">初期化ツール</a></li>
-      </ul>
-    </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
-    <h1>EqMaxに蓄積されたログやキャッシュファイルを安全削除    </h1>
-    <div class="card">
-      <h2>起動方法</h2>
-    <div class="card" style="text-align: center;">
-    <p><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" /></p>
-    <p>総合ハブの <code><strong>ログ・画像掃除</strong></code> (⑤の部分)を実行してください。</p>
-</div>
-    <div class="card">
-    <h3>クリーナー概要</h3>
-    
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"><img src="image/Cleaner.jpg" width="300" alt="EqCleaner" /></div>
-    
-    <div class="description">
-        <ol>
+  <div class="sidebar1">
+    <div class="sidebar-title">基礎情報</div>
+    <ul class="nav">
+      <li><a href="Index.html">はじめに</a></li>
+      <li><a href="ChangeLog.html">更新履歴</a></li>
+    </ul>
+    <div class="sidebar-title">スタートアップ</div>
+    <ul class="nav">
+      <li><a href="HUBSystem.html">起動とハブシステム</a></li>
+    </ul>
+    <div class="sidebar-title">EqMax設定</div>
+    <ul class="nav">
+      <li><a href="Initialize.html">初期設定ツール</a></li>
+    </ul>
+    <div class="sidebar-title">各種連携設定</div>
+    <ul class="nav">
+      <li><a href="Link-Discord.html">Discord連携</a></li>
+      <li><a href="Link-Slack.html">Slack連携</a></li>
+      <li><a href="Link-Matrix.html">Matrix連携</a></li>
+    </ul>
+    <div class="sidebar-title">その他ツール</div>
+    <ul class="nav">
+      <li><a href="Cleaner.html">クリーナーソフト</a></li>
+      <li><a href="Watchdog.html">安定化ツール</a></li>
+      <li><a href="Reset.html">初期化ツール</a></li>
+    </ul>
+  </div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
+    <div class="content">
+      <h1>EqMaxに蓄積されたログやキャッシュファイルを安全削除</h1>
+      <div class="card">
+        <h2>起動方法</h2>
+        <p>総合ハブの <code><strong>ログ・画像掃除</strong></code> (⑤の部分)を実行してください。</p>
+        <div style="text-align: center;"> <img src="image/HUBSystemMain.jpg" alt="総合ハブ起動状態" width="300" /> </div>
+      </div>
+      <div class="card">
+        <h3>クリーナー概要</h3>
+        <div style="text-align: center; margin-bottom: 20px;"> <img src="image/Cleaner.jpg" alt="EqCleaner" width="300" /> </div>
+        <div class="description">
+          <ol>
             <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
             <li><strong>各種ログのリセット</strong>
               <ol>
                 <li><strong>EqMax内部のログファイルの中身を削除します。</strong></li>
-                <li>Twitterフォルダ内の未送信データの削除をします。</li>
+                <li>Twitterフォルダ内の未送信データを削除します。</li>
               </ol>
             </li>
-            <li>Captureフォルダの画像処理
+            <li><strong>Captureフォルダの画像処理</strong>
               <ol>
                 <li>Twitter(X)やEqMaxフォルダ内のデータを削除します。</li>
-                <li>画像の削除は過去7日30日及びすべてて削除を選べます</li>
+                <li>画像の削除は「過去7日」「30日」「すべて削除」から選べます。</li>
               </ol>
             </li>
-            <li>クリーンアップを実行するを選ぶとファイルを削除します<br>
-              ※Chips：Discord連携ツールはTwitter.LOGを参照してEEWを送信しています。<br />
-              　また、画像送信にはCaptureフォルダに生成される画像を参照し投稿します。<br />
-              　Twitter.logのサイズが肥大化するとEEWの検索速度が低下する可能性があります。<br />
-              　スペックにもよるとおもいますが、10M程度なら全然問題無いと思われますが、100MBぐらいになると速度に影響してくるかもしれないので清掃することをオススメします。<br />
-            　画像ファイルに関しては恐らくかなりため込んでも影響は起きにくいとおもいますが、pngファイルのため、それなりに肥大化します。</li>
-        </ol>
+            <li><strong>クリーンアップを実行:</strong> 上記設定に基づきファイルを削除します。</li>
+          </ol>
+        </div>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; margin-top: 20px;">
+          <p><strong>※Tips：Discord連携ツールについて</strong></p>
+          <p>Discord連携ツールは <code>Twitter.LOG</code> を参照してEEWを送信し、<code>Capture</code> フォルダ内の画像を投稿します。<br>
+            <code>Twitter.log</code> のサイズが肥大化するとEEWの検索速度が低下する可能性があります。10MB程度なら問題ありませんが、100MBを超えてくると速度に影響が出る場合があるため、定期的な清掃を推奨します。<br>
+            画像ファイルに関しては大量に溜まっても影響は起きにくいですが、PNG形式のためディスク容量を圧迫します。定期的な整理をおすすめします。</p>
+        </div>
+      </div>
     </div>
-    </div>
-    </div><!-- InstanceEndEditable --><!-- end .content --></div>
+    <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>

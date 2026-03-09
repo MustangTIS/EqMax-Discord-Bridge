@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -11,202 +12,172 @@
 </head>
 
 <body>
-
 <div class="container">
-    <div class="sidebar1">
-      <div class="sidebar-title">基礎情報</div>
-      <ul class="nav">
-        <li><a href="Index.html">はじめに</a></li>
-        <li><a href="ChangeLog.html">更新履歴</a></li>
-      </ul>
-
-      <div class="sidebar-title">スタートアップ</div>
-      <ul class="nav">
-		<li><a href="HUBSystem.html">起動とハブシステム</a></li>      </ul>
-      <div class="sidebar-title">EqMax設定</div>
-      <ul class="nav">
-        <li><a href="Initialize.html">初期設定ツール</a></li>
-      </ul>
-      
-      <div class="sidebar-title">各種連携設定</div>
-      <ul class="nav">
-        <li><a href="Link-Discord.html">Discord連携</a></li>
-        <li><a href="Link-Slack.html">Slack連携</a></li>
-        <li><a href="Link-Matrix.html">Matrix連携</a></li>
-      </ul>
-    
-      <div class="sidebar-title">その他ツール</div>
-      <ul class="nav">
-        <li><a href="Cleaner.html">クリーナーソフト</a></li>
-        <li><a href="Watchdog.html">安定化ツール</a></li>
-        <li><a href="Reset.html">初期化ツール</a></li>
-      </ul>
-    </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
+  <div class="sidebar1">
+    <div class="sidebar-title">基礎情報</div>
+    <ul class="nav">
+      <li><a href="Index.html">はじめに</a></li>
+      <li><a href="ChangeLog.html">更新履歴</a></li>
+    </ul>
+    <div class="sidebar-title">スタートアップ</div>
+    <ul class="nav">
+      <li><a href="HUBSystem.html">起動とハブシステム</a></li>
+    </ul>
+    <div class="sidebar-title">EqMax設定</div>
+    <ul class="nav">
+      <li><a href="Initialize.html">初期設定ツール</a></li>
+    </ul>
+    <div class="sidebar-title">各種連携設定</div>
+    <ul class="nav">
+      <li><a href="Link-Discord.html">Discord連携</a></li>
+      <li><a href="Link-Slack.html">Slack連携</a></li>
+      <li><a href="Link-Matrix.html">Matrix連携</a></li>
+    </ul>
+    <div class="sidebar-title">その他ツール</div>
+    <ul class="nav">
+      <li><a href="Cleaner.html">クリーナーソフト</a></li>
+      <li><a href="Watchdog.html">安定化ツール</a></li>
+      <li><a href="Reset.html">初期化ツール</a></li>
+    </ul>
+  </div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
+    <div class="content">
     <h1>Discord連携設定</h1>
     <h2>Discord Webhookの取得</h2>
     <div class="card">
-    <div class="description">
-    <p><strong>Discordの「Webhook」を利用して、EqMaxの通知を送信できます。</strong></p>
-    <ul>
-        <li><strong>DiscordのWebhookは高性能な送信が可能です。</strong>
+      <div class="description">
+        <p><strong>Discordの「Webhook」を利用して、EqMaxの通知を送信できます。</strong></p>
+        <ul>
+          <li><strong>DiscordのWebhookは高性能な送信が可能です。</strong>
             <ul>
-                <li>リッチ表示なEmbed形式と、シンプルな1行表示のどちらも選択可能です。</li>
-                <li>発信者名やアイコンのカスタマイズ、画像送信にも対応しています。</li>
-                <li>Discordのアプリ上から簡単に作成・編集が行えます。</li>
+              <li>リッチ表示なEmbed形式と、シンプルな1行表示のどちらも選択可能です。</li>
+              <li>発信者名やアイコンのカスタマイズ、画像送信にも対応しています。</li>
+              <li>Discordのアプリ上から簡単に作成・編集が行えます。</li>
             </ul>
-        </li>
-        <li><strong>【重要】利用上の注意点</strong>
+          </li>
+          <li><strong>【重要】利用上の注意点</strong>
             <ul>
-                <li><strong>Webhook URLは「家の鍵」です：</strong> URLを知っている人は誰でもあなたのチャンネルに投稿可能です。他人に絶対教えないでください。</li>
-                <li><strong>権限の確認：</strong> サーバー管理者に「Webhookの管理」権限が付与されているか確認してください。</li>
-                <li><strong>送信頻度について：</strong> 一定時間内にあまりに大量の通知を連投すると、Discord側から一時的にブロックされる場合があります。</li>
+              <li><strong>Webhook URLは「家の鍵」です：</strong> URLを知っている人は誰でもあなたのチャンネルに投稿可能です。他人に絶対教えないでください。</li>
+              <li><strong>権限の確認：</strong> サーバー管理者に「Webhookの管理」権限が付与されているか確認してください。</li>
+              <li><strong>送信頻度について：</strong> 一定時間内にあまりに大量の通知を連投すると、Discord側から一時的にブロックされる場合があります。</li>
             </ul>
-        </li>
-    </ul>
-</div>
-</div>
+          </li>
+        </ul>
+      </div>
+    </div>
     <h2>DiscordにWebhook登録</h2>
     <div class="card">
-    <h3>DiscordでのWebhook登録手順</h3>
-    
-    <div class="card" style="text-align: center;">
-    <h3>DiscordでのWebhook登録手順</h3>
-    
-    <div style="display: flex; gap: 15px; flex-wrap: nowrap; justify-content: center; width: 100%;">
-        
-        <div style="width: 230px; flex: 0 0 230px;">
+      <h3>DiscordでのWebhook登録手順</h3>
+      <div class="card" style="text-align: center;">
+        <h3>DiscordでのWebhook登録手順</h3>
+        <div style="display: flex; gap: 15px; flex-wrap: nowrap; justify-content: center; width: 100%;">
+          <div style="width: 230px; flex: 0 0 230px;">
             <div style="font-weight: bold; margin-bottom: 5px;">①</div>
-            <img src="image/DiscordWebhook1.jpg" alt="手順1" width="230" style="display: block; width: 230px;" />
-        </div>
-
-        <div style="width: 230px; flex: 0 0 230px;">
+            <img src="image/DiscordWebhook1.jpg" alt="手順1" width="230" style="display: block; width: 230px;" /> </div>
+          <div style="width: 230px; flex: 0 0 230px;">
             <div style="font-weight: bold; margin-bottom: 5px;">②</div>
-            <img src="image/DiscordWebhook2.jpg" alt="手順3" width="230" style="display: block; width: 230px; margin-bottom: 5px;" />
-        </div>
-
-        <div style="width: 230px; flex: 0 0 230px;">
+            <img src="image/DiscordWebhook2.jpg" alt="手順3" width="230" style="display: block; width: 230px; margin-bottom: 5px;" /> </div>
+          <div style="width: 230px; flex: 0 0 230px;">
             <div style="font-weight: bold; margin-bottom: 5px;">③</div>
-            <img src="image/DiscordWebhook3.jpg" alt="手順2" width="230" style="display: block; width: 230px;" />
+            <img src="image/DiscordWebhook3.jpg" alt="手順2" width="230" style="display: block; width: 230px;" /> </div>
         </div>
-        
-    </div>
-    
-    <div class="description" style="text-align: left; max-width: 800px; margin: 20px auto 0;">
-        <ol>
+        <div class="description" style="text-align: left; max-width: 800px; margin: 20px auto 0;">
+          <ol>
             <li>チャンネルの「ギアマーク」をクリックします。</li>
             <li>「連携サービス」から「ウェブフックを作成」を選択します。<br>
-                <small>※既存がある場合は「新しいウェブフック」をクリック</small></li>
+              <small>※既存がある場合は「新しいウェブフック」をクリック</small></li>
             <li>名前を自由に設定し、通知を送りたいチャンネルを選択します。</li>
             <li>「変更を保存」をクリックします。</li>
-        </ol>
-    </div>
-</div>
-    <h1>Discord連携にDiscordのWebhookを登録</h1>
-    <div class="card" style="text-align: center;">
-    <p><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" /></p>
-    <p>総合ハブの <code><strong>Discord連携設定</strong></code> (➃の部分)を実行してください。</p>
-</div>
-    <div class="card">
-    <h3>Discord連携ツールの設定</h3>
-    
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;">
-    <img src="image/DiscordBridgeChange.png" alt="Discord連携設定1" width="200" style="height: auto; display: block;" />
-    <img src="image/DiscordWebhook4.jpg" alt="Discord連携設定2" width="500" style="height: auto; display: block;" />
-</div>
-    
-    <div class="description">
-        <ol>
+          </ol>
+        </div>
+      </div>
+      <h1>Discord連携にDiscordのWebhookを登録</h1>
+      <div class="card" style="text-align: center;">
+        <p><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" /></p>
+        <p>総合ハブの <code><strong>Discord連携設定</strong></code> (➃の部分)を実行してください。</p>
+      </div>
+      <div class="card">
+        <h3>Discord連携ツールの設定</h3>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"> <img src="image/DiscordBridgeChange.png" alt="Discord連携設定1" width="200" style="height: auto; display: block;" /> <img src="image/DiscordWebhook4.jpg" alt="Discord連携設定2" width="500" style="height: auto; display: block;" /> </div>
+        <div class="description">
+          <ol>
             <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
             <li><strong>連携タイプの選択:</strong> 「DiscordEmbed」または「DiscordSimple」からお好みの形式を選びます。</li>
             <li><strong>Webhook U</strong><strong>RLの入力:</strong> 先ほど取得したURLをDiscord連携側の入力欄に貼り付けます。<br>
-            <small>※入力欄はマウス右クリックまたは「Ctrl + V」で貼り付け可能です。</small></li>
+              <small>※入力欄はマウス右クリックまたは「Ctrl + V」で貼り付け可能です。</small></li>
             <li><strong>ボットの作成:</strong> 最後に「ボットを作成」をクリックすれば連携完了です。</li>
-        </ol>
-    </div>
-</div>
-    <h1>Discord連携を起動する</h1>
-    <div class="card">
-    <h3>起動方法</h3>
-    <div class="flex-container">
-        <div style="flex: 0 0 220px;">
-            <img src="image/DiscordBridgeicon.jpg"  alt="起動用アイコン" />
+          </ol>
         </div>
-        <div class="description">
+      </div>
+      <h1>Discord連携を起動する</h1>
+      <div class="card">
+        <h3>起動方法</h3>
+        <div class="flex-container">
+          <div style="flex: 0 0 220px;"> <img src="image/DiscordBridgeicon.jpg"  alt="起動用アイコン" /> </div>
+          <div class="description">
             <p>Discord起動用ショートカットは二種類あります。</p>
             <ul>
-                <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
-                <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br>
-                    <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
+              <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
+              <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br>
+                <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
             </ul>
+          </div>
         </div>
-    </div>
-
-    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
-
-    <h3>bot実行時プロンプトの見方</h3>
-    <div class="flex-container">
-        <div style="flex: 0 0 420px;">
-            <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="400" />
-        </div>
-        <div class="description">
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+        <h3>bot実行時プロンプトの見方</h3>
+        <div class="flex-container">
+          <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="400" /> </div>
+          <div class="description">
             <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
             <ul>
-                <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
-                <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
-                <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
+              <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
+              <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
+              <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
             </ul>
+          </div>
         </div>
-    </div>
-</div>
-<h1>Chips、その他情報</h1>
-    <div class="card">
-    <h3>Embed投稿とSimple投稿の違い</h3>
-    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 300px;">
-            <img src="image/disembed.jpg" width="350" alt="DiscordEmbed" style="max-width: 400px;" />
+      </div>
+      <h1>Chips、その他情報</h1>
+      <div class="card">
+        <h3>Embed投稿とSimple投稿の違い</h3>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 300px;"> <img src="image/disembed.jpg" width="350" alt="DiscordEmbed" style="max-width: 400px;" />
             <ul>
-                <li><strong>Embedモード（リッチ表示）</strong>
-                    <ul>
-                        <li>震度や津波リスクに応じたエッジカラー表示</li>
-                        <li>ジャンル毎の改行で見やすいレイアウト</li>
-                        <li>地図の埋め込み表示に対応</li>
-                    </ul>
-                </li>
+              <li><strong>Embedモード（リッチ表示）</strong>
+                <ul>
+                  <li>震度や津波リスクに応じたエッジカラー表示</li>
+                  <li>ジャンル毎の改行で見やすいレイアウト</li>
+                  <li>地図の埋め込み表示に対応</li>
+                </ul>
+              </li>
             </ul>
-        </div>
-        
-        <div style="flex: 1; min-width: 300px;">
-            <img src="image/dissimple.jpg" width="350" alt="Simpleモード" style="max-width: 400px;" />
+          </div>
+          <div style="flex: 1; min-width: 300px;"> <img src="image/dissimple.jpg" width="350" alt="Simpleモード" style="max-width: 400px;" />
             <ul>
-                <li><strong>Simpleモード（プレーンテキスト）</strong>
-                    <ul>
-                        <li>エッジなしの1行表示</li>
-                        <li>画像URLの単体取得が可能</li>
-                        <li>外部連携サービスでのトラブル回避に有効</li>
-                    </ul>
-                </li>
+              <li><strong>Simpleモード（プレーンテキスト）</strong>
+                <ul>
+                  <li>エッジなしの1行表示</li>
+                  <li>画像URLの単体取得が可能</li>
+                  <li>外部連携サービスでのトラブル回避に有効</li>
+                </ul>
+              </li>
             </ul>
+          </div>
         </div>
+        <div class="card">
+          <h3>botのアイコンを変更する</h3>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 15px;"> <img src="image/AssetFolder.jpg" alt="Assetフォルダ" width="200" style="height: auto; display: block;" /> <img src="image/botIcon.jpg" alt="アイコン変更1" width="200" style="height: auto; display: block;" /> <img src="image/IconChange.jpg" alt="アイコン変更2" width="200" style="height: auto; display: block;" /> </div>
+          <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404; font-size: 0.9em;"> <strong>アイコン変更の手順:</strong><br>
+            Discordの設定画面にあるアイコン横のボタンから、Assetフォルダ内のPNGファイルを<strong>「選択（アップロード）」</strong>してください。<br>
+            <br>
+            <strong>⚠️ 注意点:</strong><br>
+            この設定はWebhook単位で適用されます。同じWebhook URLを他の連携ツールと使い回している場合、その連携先のアイコンもすべて変更されてしまいます。<br>
+            <strong>※EqMax Discord Bridge専用のWebhook URLを作成して運用することを強く推奨します。</strong> </div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h3>botのアイコンを変更する</h3>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 15px;"> 
-    <img src="image/AssetFolder.jpg" alt="Assetフォルダ" width="200" style="height: auto; display: block;" /> 
-    <img src="image/botIcon.jpg" alt="アイコン変更1" width="200" style="height: auto; display: block;" /> 
-    <img src="image/IconChange.jpg" alt="アイコン変更2" width="200" style="height: auto; display: block;" /> 
-</div>
-    
-    <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404; font-size: 0.9em;">
-    <strong>アイコン変更の手順:</strong><br>
-    Discordの設定画面にあるアイコン横のボタンから、Assetフォルダ内のPNGファイルを<strong>「選択（アップロード）」</strong>してください。<br><br>
-    <strong>⚠️ 注意点:</strong><br>
-    この設定はWebhook単位で適用されます。同じWebhook URLを他の連携ツールと使い回している場合、その連携先のアイコンもすべて変更されてしまいます。<br>
-    <strong>※EqMax Discord Bridge専用のWebhook URLを作成して運用することを強く推奨します。</strong>
-</div>
-</div>
-    </div>
-  </div><!-- InstanceEndEditable --><!-- end .content --></div>
+    <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>

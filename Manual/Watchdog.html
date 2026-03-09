@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -11,121 +12,117 @@
 </head>
 
 <body>
-
 <div class="container">
-    <div class="sidebar1">
-      <div class="sidebar-title">基礎情報</div>
-      <ul class="nav">
-        <li><a href="Index.html">はじめに</a></li>
-        <li><a href="ChangeLog.html">更新履歴</a></li>
-      </ul>
-
-      <div class="sidebar-title">スタートアップ</div>
-      <ul class="nav">
-		<li><a href="HUBSystem.html">起動とハブシステム</a></li>      </ul>
-      <div class="sidebar-title">EqMax設定</div>
-      <ul class="nav">
-        <li><a href="Initialize.html">初期設定ツール</a></li>
-      </ul>
-      
-      <div class="sidebar-title">各種連携設定</div>
-      <ul class="nav">
-        <li><a href="Link-Discord.html">Discord連携</a></li>
-        <li><a href="Link-Slack.html">Slack連携</a></li>
-        <li><a href="Link-Matrix.html">Matrix連携</a></li>
-      </ul>
-    
-      <div class="sidebar-title">その他ツール</div>
-      <ul class="nav">
-        <li><a href="Cleaner.html">クリーナーソフト</a></li>
-        <li><a href="Watchdog.html">安定化ツール</a></li>
-        <li><a href="Reset.html">初期化ツール</a></li>
-      </ul>
-    </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
-    <h1>EqMaxに蓄積されたログやキャッシュファイルを安全削除    </h1>
-    <div class="card">
-      <h2>起動方法</h2>
-    <div class="card" style="text-align: center;">
-    <p><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" /></p>
-    <p>総合ハブの <code><strong>EqMax安定化</strong></code> (⑥の部分)を実行してください。</p>
-</div>
-    <div class="card">
-    <h3>安定化ツール概要</h3>
-    
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"><img src="image/Watchdog.jpg" width="300" alt="Watchdog" /></div>
-    <div class="description">
-      <ol>
-        <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-        <li>監視パラメーター設定
+  <div class="sidebar1">
+    <div class="sidebar-title">基礎情報</div>
+    <ul class="nav">
+      <li><a href="Index.html">はじめに</a></li>
+      <li><a href="ChangeLog.html">更新履歴</a></li>
+    </ul>
+    <div class="sidebar-title">スタートアップ</div>
+    <ul class="nav">
+      <li><a href="HUBSystem.html">起動とハブシステム</a></li>
+    </ul>
+    <div class="sidebar-title">EqMax設定</div>
+    <ul class="nav">
+      <li><a href="Initialize.html">初期設定ツール</a></li>
+    </ul>
+    <div class="sidebar-title">各種連携設定</div>
+    <ul class="nav">
+      <li><a href="Link-Discord.html">Discord連携</a></li>
+      <li><a href="Link-Slack.html">Slack連携</a></li>
+      <li><a href="Link-Matrix.html">Matrix連携</a></li>
+    </ul>
+    <div class="sidebar-title">その他ツール</div>
+    <ul class="nav">
+      <li><a href="Cleaner.html">クリーナーソフト</a></li>
+      <li><a href="Watchdog.html">安定化ツール</a></li>
+      <li><a href="Reset.html">初期化ツール</a></li>
+    </ul>
+  </div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
+    <div class="content">
+      <h1>EqMax安定化ツール（Watchdog）</h1>
+      <div class="card">
+        <h2>起動方法</h2>
+        <p>総合ハブの <code><strong>EqMax安定化</strong></code> (⑥の部分)を実行してください。</p>
+        <div style="text-align: center;"> <img src="image/HUBSystemMain.jpg" alt="総合ハブ起動状態" width="300" /> </div>
+      </div>
+      <div class="card">
+        <h3>安定化ツール概要</h3>
+        <div style="text-align: center; margin-bottom: 20px;"> <img src="image/Watchdog.jpg" alt="Watchdog" width="300" /> </div>
+        <div class="description">
           <ol>
-            <li>再起動<strong></strong>閾値<br />
-              メモリーリークの閾値を設定します（標準は1024MB)<br />
-              ※最低でも512MB以上は割り当てるのを推奨します。</li>
-            <li>生存報告感覚<br />
-              一定時間毎にアプリの状態を報告します。(標準は3600秒) <br />
-              ※プロンプトに生存報告を送る感覚であって、監視は毎秒で行っています。 </li>
+            <li><strong>EqMax.exeの選択:</strong> 対象のファイルを選択します。</li>
+            <li><strong>監視パラメーター設定</strong>
+              <ol>
+                <li><strong>再起動閾値:</strong> メモリーリークの閾値を設定します（標準: 1024MB、推奨: 512MB以上）。</li>
+                <li><strong>生存報告間隔:</strong> 一定時間毎にアプリの状態を報告します（標準: 3600秒）。<br>
+                  <small>※監視は毎秒行われており、この設定はログ出力の間隔です。</small></li>
+              </ol>
+            </li>
+            <li><strong>ショートカット作成:</strong> デスクトップおよびスタートアップへの登録を選択します。</li>
+            <li><strong>セットアップ完了:</strong> 「監視ボットを配置」ボタンで完了です。<br>
+              <small>※Tips：本機能はDiscord連携ツール内の「Guardian Core」を独立させたものです。Discord連携アプリを導入済みの環境ではインストール不要です。</small></li>
           </ol>
-        </li>
-        <li>デスクトップ・及びスタートアップにショートカットを作成するかの確認をする。</li>
-        <li>各種設定が完了したら監視ボットを配置ボタンでセットアップが完了します。<br />
-          Chips：このアプリの機能Discord連携機能に統合されているGuardian Coreシステムを切り離したもので、Discord連携アプリがインストールされている端末はインストール不要です。</li>
-      </ol>
-    </div>
-<h3>DiscordBridgeとの比較</h3>
-    <div class="card">
+        </div>
+      </div>
+      <h3>DiscordBridgeとの比較</h3>
+      <div class="card">
         <table>
-            <tr>
+          <tr>
             <th>アプリ</th>
             <th>SNS EEW通知</th>
-            <th>メモリーリーク監視</th>
+            <th>メモリー監視</th>
             <th>停止監視</th>
-            <th>フリーズ検知</th></tr>
-            <tr>
-              <td>DiscordBridge</td>
-              <td>搭載</td>
-              <td>搭載(1024GBで再起動)</td>
-              <td>搭載</td>
-              <td>搭載</td></tr>
-            <tr>
-              <td>安定化ツール</td>
-              <td>非搭載</td>
-              <td>搭載(カスタム値で設定感情)</td>
-              <td>搭載</td>
-              <td>搭載</td></tr>
-          </table>
-    </div>
-    </div>
-    </div>
-    <h1>Watchdogを起動する</h1>
-    <div class="card">
-      <h3>起動方法</h3>
-      <div class="flex-container">
-        <div style="flex: 0 0 220px;"> <img src="image/WatchdogIcon.jpg"  alt="起動用アイコン" /> </div>
-        <div class="description">
-          <p>Watchdogのショートカットは二種類あります。</p>
-          <ul>
-            <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
-            <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br />
-              <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
-          </ul>
+            <th>フリーズ検知</th>
+          </tr>
+          <tr>
+            <td>DiscordBridge</td>
+            <td>搭載</td>
+            <td>搭載 (1024MB)</td>
+            <td>搭載</td>
+            <td>搭載</td>
+          </tr>
+          <tr>
+            <td>安定化ツール</td>
+            <td>非搭載</td>
+            <td>搭載 (カスタム可)</td>
+            <td>搭載</td>
+            <td>搭載</td>
+          </tr>
+        </table>
+      </div>
+      <h1>Watchdogを起動する</h1>
+      <div class="card">
+        <h3>起動方法</h3>
+        <div class="flex-container">
+          <div style="flex: 0 0 220px;"> <img src="image/WatchdogIcon.jpg" alt="起動用アイコン" /> </div>
+          <div class="description">
+            <p>ショートカットは二種類あります。</p>
+            <ul>
+              <li><strong>通常起動用:</strong> 最小化起動し、スタートアップに登録されます。</li>
+              <li><strong>セーフモード起動用:</strong> トラブルシューティング用です。一度正常に起動できれば次回から通常起動が可能です。<br>
+                <small>※初回はセキュリティ警告を許可してください。</small></li>
+            </ul>
+          </div>
+        </div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+        <h3>bot実行時プロンプトの見方</h3>
+        <div class="flex-container">
+          <div style="flex: 0 0 420px;"> <img src="image/WatchdogPrompt.jpg" alt="WatchdogPrompt" width="400" /> </div>
+          <div class="description">
+            <p>最小化中のウィンドウを展開して確認できるログ画面です。</p>
+            <ul>
+              <li><strong>赤枠:</strong> プロセスの状態を表示します。</li>
+              <li><strong>黄枠 (Eq_Guardian):</strong> フリーズ検知・自動再起動・メモリリーク監視・定期生存報告を行います。</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;" />
-      <h3>bot実行時プロンプトの見方</h3>
-      <div class="flex-container">
-        <div style="flex: 0 0 420px;"><img src="image/WatchdogPrompt.jpg" width="400" alt="WatchdogPrompt" /> </div>
-        <div class="description">
-          <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
-          <ul>
-            <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
-            <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視・定期生存報告を行います。</li>
-          </ul>
-        </div>
-      </div>
     </div>
-    <p>&nbsp;</p>
-  <!-- InstanceEndEditable --><!-- end .content --></div>
+    <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>

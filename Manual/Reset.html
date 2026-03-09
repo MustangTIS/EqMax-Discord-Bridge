@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -11,62 +12,63 @@
 </head>
 
 <body>
-
 <div class="container">
-    <div class="sidebar1">
-      <div class="sidebar-title">基礎情報</div>
-      <ul class="nav">
-        <li><a href="Index.html">はじめに</a></li>
-        <li><a href="ChangeLog.html">更新履歴</a></li>
-      </ul>
-
-      <div class="sidebar-title">スタートアップ</div>
-      <ul class="nav">
-		<li><a href="HUBSystem.html">起動とハブシステム</a></li>      </ul>
-      <div class="sidebar-title">EqMax設定</div>
-      <ul class="nav">
-        <li><a href="Initialize.html">初期設定ツール</a></li>
-      </ul>
-      
-      <div class="sidebar-title">各種連携設定</div>
-      <ul class="nav">
-        <li><a href="Link-Discord.html">Discord連携</a></li>
-        <li><a href="Link-Slack.html">Slack連携</a></li>
-        <li><a href="Link-Matrix.html">Matrix連携</a></li>
-      </ul>
-    
-      <div class="sidebar-title">その他ツール</div>
-      <ul class="nav">
-        <li><a href="Cleaner.html">クリーナーソフト</a></li>
-        <li><a href="Watchdog.html">安定化ツール</a></li>
-        <li><a href="Reset.html">初期化ツール</a></li>
-      </ul>
-    </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
-    <h1>EqMaxの設定が解らなく成ったら使用前の状態に戻せる。</h1>
-    <div class="card">
-      <h2>起動方法</h2>
-    <div class="card" style="text-align: center;">
-    <p><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" /></p>
-    <p>総合ハブの <code><strong>EqMax初期化処理</strong></code> (⑦の部分)を実行してください。</p>
-</div>
-    <div class="card">
-    <h3>クリーナー概要</h3>
-    
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"><img src="image/Reset1.jpg" width="300" alt="ResetMain" /><img src="image/Reset2.jpg" width="200" alt="ResetCheck" /></div>
-    
-    <div class="description">手順：
-      <ol>
+  <div class="sidebar1">
+    <div class="sidebar-title">基礎情報</div>
+    <ul class="nav">
+      <li><a href="Index.html">はじめに</a></li>
+      <li><a href="ChangeLog.html">更新履歴</a></li>
+    </ul>
+    <div class="sidebar-title">スタートアップ</div>
+    <ul class="nav">
+      <li><a href="HUBSystem.html">起動とハブシステム</a></li>
+    </ul>
+    <div class="sidebar-title">EqMax設定</div>
+    <ul class="nav">
+      <li><a href="Initialize.html">初期設定ツール</a></li>
+    </ul>
+    <div class="sidebar-title">各種連携設定</div>
+    <ul class="nav">
+      <li><a href="Link-Discord.html">Discord連携</a></li>
+      <li><a href="Link-Slack.html">Slack連携</a></li>
+      <li><a href="Link-Matrix.html">Matrix連携</a></li>
+    </ul>
+    <div class="sidebar-title">その他ツール</div>
+    <ul class="nav">
+      <li><a href="Cleaner.html">クリーナーソフト</a></li>
+      <li><a href="Watchdog.html">安定化ツール</a></li>
+      <li><a href="Reset.html">初期化ツール</a></li>
+    </ul>
+  </div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
+    <div class="content">
+      <h1>EqMaxを初期状態に戻す</h1>
+      <div class="card">
+        <h2>起動方法</h2>
+        <p>総合ハブの <code><strong>EqMax初期化処理</strong></code> (⑦の部分)を実行してください。</p>
+        <div style="text-align: center;"> <img src="image/HUBSystemMain.jpg" alt="総合ハブ起動状態" width="300" /> </div>
+      </div>
+      <div class="card">
+        <h3>初期化ツール概要</h3>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"> <img src="image/Reset1.jpg" alt="ResetMain" width="300" /> <img src="image/Reset2.jpg" alt="ResetCheck" width="200" /> </div>
+        <div class="description">
+          <p><strong>手順：</strong></p>
+          <ol>
             <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-            <li><strong>免責事項に同意にチェックする</strong>。</li>
-            <li>クリーンアップを実行をが押せるようになります。</li>
-            <li>追加警告が出てくるのでそこではいを実行するとEqMaxが初期化されます。<br>
-              ※Chips：このツールを実行するとEqMaxの設定だけでなくDiscordBridgeやWatchdogも全てEqMaxから削除されます。<br />
-              　またバックアップなども自動では行われないでバックアップが必要と感じたら必ずバックアップを事項しましょう。            </li>
-        </ol>
+            <li><strong>免責事項にチェック:</strong> 内容を確認し同意します。</li>
+            <li><strong>クリーンアップ実行:</strong> ボタンが有効化されるのでクリックします。</li>
+            <li><strong>最終確認:</strong> 追加の警告が表示されるので「はい」を選択すると初期化が開始されます。</li>
+          </ol>
+        </div>
+        <div style="background: #fff3f3; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; margin-top: 20px;">
+          <p><strong>※Tips：実行時の注意点</strong></p>
+          <p>このツールを実行すると、EqMax本体の設定だけでなく、<strong>DiscordBridgeやWatchdogの設定もすべて削除されます。</strong><br>
+            また、バックアップは自動作成されません。必要なデータがある場合は、必ず事前に手動でバックアップを行ってください。</p>
+        </div>
+      </div>
     </div>
-    </div>
-    </div><!-- InstanceEndEditable --><!-- end .content --></div>
+    <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>
