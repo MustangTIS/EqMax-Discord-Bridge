@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>使い方ガイド</title>
+<title>各種連携：Slack連携</title>
 <!-- InstanceEndEditable -->
 <link href="style.css" rel="stylesheet" type="text/css" />
 <!-- InstanceBeginEditable name="head" -->
@@ -80,72 +80,81 @@
         <p>Slackアプリ内に設定ボタンはありません。以下のリンクからブラウザで設定画面を開いてください。</p>
         <ul>
             <li><a href="https://api.slack.com/apps" target="_blank"><strong>Slack API: Your Apps (設定ページ)</strong></a></li>
-            <li>※ワークスペースにログインした状態で開くとスムーズです。</li>
         </ul>
     </div>
 
     <div style="margin-top: 30px;">
         <p><strong>① アプリの登録</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-            <img src="image/SlackApp1.jpg"  alt="登録1" />
-            <img src="image/SlackApp2.jpg"  alt="登録2" />
-            <img src="image/SlackApp3.jpg"  alt="登録3" />
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;">
+            <img src="image/SlackApp1.jpg" alt="登録1" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp2.jpg" alt="登録2" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp3.jpg" alt="登録3" width="230" style="width: 230px; height: auto; display: block;" />
         </div>
         <ol>
-            <li>「Create an App」から「From scratch」を選択します。</li>
-            <li>AppNameとWorkspaceを入力して「Create App」をクリックします。</li>
+            <li>「<strong>Create an App</strong>」から「<strong>From scratch</strong>」を選択します。</li>
+            <li>AppNameとWorkspaceを入力して「<strong>Create App</strong>」をクリックします。</li>
         </ol>
     </div>
 
     <div style="margin-top: 30px;">
         <p><strong>② アプリ名の登録</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-            <img src="image/SlackApp4.jpg"  alt="名称設定1" />
-            <img src="image/SlackApp5.jpg"  alt="名称設定2" />
-            <img src="image/SlackApp6.jpg"  alt="名称設定3" />
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;">
+            <img src="image/SlackApp4.jpg" alt="名称設定1" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp5.jpg" alt="名称設定2" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp6.jpg" alt="名称設定3" width="230" style="width: 230px; height: auto; display: block;" />
         </div>
         <ol>
-            <li>「App Home」メニューから「App Display Name」の「Edit」を選びます。</li>
-            <li>Display NameとDefault usernameを設定して「Save」します。</li>
+            <li>「App Home」メニューから「App Display Name」の「<strong>Edit</strong>」を選びます。</li>
+            <li><strong>Display Name</strong>と<strong>Default username</strong>を設定して「<strong>Save</strong>」します。</li>
         </ol>
     </div>
 
     <div style="margin-top: 30px;">
-    <p><strong>③ Incoming Webhookの有効化</strong></p>
-    
-    <div class="flex-container">
-        <img src="image/SlackApp7.jpg" alt="Webhook1" />
-        <img src="image/SlackApp8.jpg" alt="Webhook2" />
-        <img src="image/SlackApp9.jpg" alt="Webhook3" />
-        <img src="image/SlackApp10.jpg" alt="Webhook4" />
+        <p><strong>③ Incoming Webhookの有効化</strong></p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;">
+            <img src="image/SlackApp7.jpg" alt="Webhook1" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp8.jpg" alt="Webhook2" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp9.jpg" alt="Webhook3" width="230" style="width: 230px; height: auto; display: block;" />
+            <img src="image/SlackApp10.jpg" alt="Webhook4" width="230" style="width: 230px; height: auto; display: block;" />
+        </div>
+        <ol>
+            <li>左メニューの「<strong>Incoming Webhook</strong>」を開き、「<strong>Activate</strong>」をONにします。</li>
+            <li>ページ下部の「<strong>Add New Webhook to Workspace</strong>」をクリックします。</li>
+            <li>通知先チャンネルを選択して「許可」すれば、Webhook URLが発行されます。</li>
+        </ol>
     </div>
-
-    <ol>
-        <li>左メニューの「Incoming Webhook」を開き、「Activate」をONにします。</li>
-        <li>ページ下部の「Add New Webhook to Workspace」をクリックします。</li>
-        <li>通知先チャンネルを選択して「許可」すれば、Webhook URLが発行されます。</li>
-    </ol>
-</div>
 </div>
     <h1>SlackをDiscord設定に登録</h1>
     <div class="card">
-      <p>総合ハブの <code>Discord連携設定</code> (➃の部分)を実行してください。</p>
-      <img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" /> </div>
-    <h2>Discord連携でSlackへ接続する</h2>
-    <div class="card">
-      <div class="flex-container"> <img src="image/DiscordBridgeChange.png"  alt="Discord連携" />
-        <div class="description">
-          <ol>
-            <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-            <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
+    <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <img src="image/HUBSystemMain.jpg" alt="総合ハブ起動状態" width="300" />
+        </div>
+        <div style="flex: 1; min-width: 200px;">総合ハブの <code><strong>Discord連携設定</strong></code> (➃の部分)を実行してください。</div>
+    </div>
+
+    <h2 style="margin-top: 30px;">Discord連携でSlackへ接続する</h2>
+
+    <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
+        <img src="image/DiscordBridgeChange.png" alt="Discord連携" width="300" />
+        <div style="flex: 1; min-width: 300px;">
+            <ol>
+                <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+                <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
           </ol>
         </div>
-      </div>
     </div>
-    <div class="card">
-      <h3><img src="image/SlackAppA10.jpg"   alt="Discord連携登録" /></h3>
-      <div class="flex-container">
-        <div class="description">SlackのWebhook URLを貼りつけてbotを配置するを選ぶ</div></div></div><h1>Discord連携を起動する</h1>
+
+    <div style="margin-top: 30px;">
+        <h3 style="margin-bottom: 15px;">Discord連携登録</h3>
+        <div style="display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap;">
+          <img src="image/SlackAppA10.jpg" alt="Discord連携登録" width="500" />
+            <div style="flex: 1; min-width: 400px;">
+              <p>SlackのWebhook URLを貼りつけてbotを配置するを選ぶ</p>
+          </div>
+        </div>
+    </div>
+</div><h1>Discord連携を起動する</h1>
     <div class="card">
     <h3>起動方法</h3>
     <div class="flex-container">
@@ -167,7 +176,7 @@
     <h3>bot実行時プロンプトの見方</h3>
     <div class="flex-container">
         <div style="flex: 0 0 420px;">
-            <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" />
+            <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="500" />
         </div>
         <div class="description">
             <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>

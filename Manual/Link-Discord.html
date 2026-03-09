@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>使い方ガイド</title>
+<title>各種連携：Discord連携</title>
 <!-- InstanceEndEditable -->
 <link href="style.css" rel="stylesheet" type="text/css" />
 <!-- InstanceBeginEditable name="head" -->
@@ -70,25 +70,32 @@
     <div class="card">
     <h3>DiscordでのWebhook登録手順</h3>
     
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
-        <div style="text-align: center;">
+    <div class="card" style="text-align: center;">
+    <h3>DiscordでのWebhook登録手順</h3>
+    
+    <div style="display: flex; gap: 15px; flex-wrap: nowrap; justify-content: center; width: 100%;">
+        
+        <div style="width: 230px; flex: 0 0 230px;">
             <div style="font-weight: bold; margin-bottom: 5px;">①</div>
-            <p><img src="image/DiscordWebhook1.jpg"  alt="手順1" width="230" /></p>
-            <p>&nbsp;</p>
+            <img src="image/DiscordWebhook1.jpg" alt="手順1" width="230" style="display: block; width: 230px;" />
         </div>
-        <div style="text-align: center;">
+
+        <div style="width: 230px; flex: 0 0 230px;">
             <div style="font-weight: bold; margin-bottom: 5px;">②</div>
-            <img src="image/DiscordWebhook3.jpg"  alt="手順3" width="230" /><img src="image/DiscordWebhook2.jpg"  alt="手順2" width="230" />
+            <img src="image/DiscordWebhook2.jpg" alt="手順3" width="230" style="display: block; width: 230px; margin-bottom: 5px;" />
         </div>
-        <div style="text-align: center;">
+
+        <div style="width: 230px; flex: 0 0 230px;">
             <div style="font-weight: bold; margin-bottom: 5px;">③</div>
+            <img src="image/DiscordWebhook3.jpg" alt="手順2" width="230" style="display: block; width: 230px;" />
         </div>
+        
     </div>
     
-    <div class="description">
+    <div class="description" style="text-align: left; max-width: 800px; margin: 20px auto 0;">
         <ol>
             <li>チャンネルの「ギアマーク」をクリックします。</li>
-            <li>「インテグレーション」から「ウェブフックを作成」を選択します。<br>
+            <li>「連携サービス」から「ウェブフックを作成」を選択します。<br>
                 <small>※既存がある場合は「新しいウェブフック」をクリック</small></li>
             <li>名前を自由に設定し、通知を送りたいチャンネルを選択します。</li>
             <li>「変更を保存」をクリックします。</li>
@@ -103,17 +110,17 @@
     <div class="card">
     <h3>Discord連携ツールの設定</h3>
     
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
-    <img src="image/DiscordBridgeChange.png" alt="Discord連携設定1" width="300" />
-    <img src="image/DiscordWebhook4.jpg" alt="Discord連携設定2" width="365" />
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;">
+    <img src="image/DiscordBridgeChange.png" alt="Discord連携設定1" width="200" style="height: auto; display: block;" />
+    <img src="image/DiscordWebhook4.jpg" alt="Discord連携設定2" width="500" style="height: auto; display: block;" />
 </div>
     
     <div class="description">
         <ol>
             <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
             <li><strong>連携タイプの選択:</strong> 「DiscordEmbed」または「DiscordSimple」からお好みの形式を選びます。</li>
-            <li><strong>Webhook URLの入力:</strong> 先ほど取得したURLをDiscord連携側の入力欄に貼り付けます。<br>
-                <small>※入力欄はマウス右クリックまたは「Ctrl + V」で貼り付け可能です。</small></li>
+            <li><strong>Webhook U</strong><strong>RLの入力:</strong> 先ほど取得したURLをDiscord連携側の入力欄に貼り付けます。<br>
+            <small>※入力欄はマウス右クリックまたは「Ctrl + V」で貼り付け可能です。</small></li>
             <li><strong>ボットの作成:</strong> 最後に「ボットを作成」をクリックすれば連携完了です。</li>
         </ol>
     </div>
@@ -140,7 +147,7 @@
     <h3>bot実行時プロンプトの見方</h3>
     <div class="flex-container">
         <div style="flex: 0 0 420px;">
-            <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" />
+            <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="400" />
         </div>
         <div class="description">
             <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
@@ -157,7 +164,7 @@
     <h3>Embed投稿とSimple投稿の違い</h3>
     <div style="display: flex; gap: 20px; flex-wrap: wrap;">
         <div style="flex: 1; min-width: 300px;">
-            <img src="image/disembed.jpg" width="100%" alt="DiscordEmbed" style="max-width: 400px;" />
+            <img src="image/disembed.jpg" width="350" alt="DiscordEmbed" style="max-width: 400px;" />
             <ul>
                 <li><strong>Embedモード（リッチ表示）</strong>
                     <ul>
@@ -170,7 +177,7 @@
         </div>
         
         <div style="flex: 1; min-width: 300px;">
-            <img src="image/dissimple.jpg" width="100%" alt="Simpleモード" style="max-width: 400px;" />
+            <img src="image/dissimple.jpg" width="350" alt="Simpleモード" style="max-width: 400px;" />
             <ul>
                 <li><strong>Simpleモード（プレーンテキスト）</strong>
                     <ul>
@@ -184,11 +191,11 @@
     </div>
     <div class="card">
       <h3>botのアイコンを変更する</h3>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px;"> 
-        <img src="image/AssetFolder.jpg"  alt="Assetフォルダ" /> 
-        <img src="image/botIcon.jpg"  alt="アイコン変更1" /> 
-        <img src="image/IconChange.jpg"  alt="アイコン変更2" /> 
-    </div>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 15px;"> 
+    <img src="image/AssetFolder.jpg" alt="Assetフォルダ" width="200" style="height: auto; display: block;" /> 
+    <img src="image/botIcon.jpg" alt="アイコン変更1" width="200" style="height: auto; display: block;" /> 
+    <img src="image/IconChange.jpg" alt="アイコン変更2" width="200" style="height: auto; display: block;" /> 
+</div>
     
     <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404; font-size: 0.9em;">
     <strong>アイコン変更の手順:</strong><br>

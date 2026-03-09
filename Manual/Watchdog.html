@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>使い方ガイド</title>
+<title>その他ツール：安定化ツール</title>
 <!-- InstanceEndEditable -->
 <link href="style.css" rel="stylesheet" type="text/css" />
 <!-- InstanceBeginEditable name="head" -->
@@ -42,27 +42,90 @@
         <li><a href="Reset.html">初期化ツール</a></li>
       </ul>
     </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
-    <p>アプリの起動</p>
-    <p>このアプリの使い方
-      フォルダ内のEqMax-Discord-Bridge.batを実行してください。 </p>
-    <p>※安全じゃない趣旨の警告が出てきますが無視してそのまま実行してください。</p>
-    <p>まもなくプロンプト画面が起動しPython（実行するためのトリガーになるアプリ群）の確認必要ライブラリのインストールが始まります。</p>
-    <p>確認が完了すると、ハブシステム(集中管理アプリ)が起動します。</p>
-    <p>ハブシステムが起動すると、メニューから必要アプリを起動していきます。</p>
-    <p>ハブシステムの構成。</p>
-    <ol>
-      <li>初期設定ツール</li>
-      <li>Discord連携ツール</li>
-      <li>初期化ツール</li>
-      <li>クリーンアップツール</li>
-      <li>安定化ツール</li>
-    </ol>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
+    <h1>EqMaxに蓄積されたログやキャッシュファイルを安全削除    </h1>
+    <div class="card">
+      <h2>起動方法</h2>
+    <div class="card" style="text-align: center;">
+    <p><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" /></p>
+    <p>総合ハブの <code><strong>EqMax安定化</strong></code> (⑥の部分)を実行してください。</p>
+</div>
+    <div class="card">
+    <h3>安定化ツール概要</h3>
+    
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"><img src="image/Watchdog.jpg" width="300" alt="Watchdog" /></div>
+    <div class="description">
+      <ol>
+        <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+        <li>監視パラメーター設定
+          <ol>
+            <li>再起動<strong></strong>閾値<br />
+              メモリーリークの閾値を設定します（標準は1024MB)<br />
+              ※最低でも512MB以上は割り当てるのを推奨します。</li>
+            <li>生存報告感覚<br />
+              一定時間毎にアプリの状態を報告します。(標準は3600秒) <br />
+              ※プロンプトに生存報告を送る感覚であって、監視は毎秒で行っています。 </li>
+          </ol>
+        </li>
+        <li>デスクトップ・及びスタートアップにショートカットを作成するかの確認をする。</li>
+        <li>各種設定が完了したら監視ボットを配置ボタンでセットアップが完了します。<br />
+          Chips：このアプリの機能Discord連携機能に統合されているGuardian Coreシステムを切り離したもので、Discord連携アプリがインストールされている端末はインストール不要です。</li>
+      </ol>
+    </div>
+<h3>DiscordBridgeとの比較</h3>
+    <div class="card">
+        <table>
+            <tr>
+            <th>アプリ</th>
+            <th>SNS EEW通知</th>
+            <th>メモリーリーク監視</th>
+            <th>停止監視</th>
+            <th>フリーズ検知</th></tr>
+            <tr>
+              <td>DiscordBridge</td>
+              <td>搭載</td>
+              <td>搭載(1024GBで再起動)</td>
+              <td>搭載</td>
+              <td>搭載</td></tr>
+            <tr>
+              <td>安定化ツール</td>
+              <td>非搭載</td>
+              <td>搭載(カスタム値で設定感情)</td>
+              <td>搭載</td>
+              <td>搭載</td></tr>
+          </table>
+    </div>
+    </div>
+    </div>
+    <h1>Watchdogを起動する</h1>
+    <div class="card">
+      <h3>起動方法</h3>
+      <div class="flex-container">
+        <div style="flex: 0 0 220px;"> <img src="image/WatchdogIcon.jpg"  alt="起動用アイコン" /> </div>
+        <div class="description">
+          <p>Watchdogのショートカットは二種類あります。</p>
+          <ul>
+            <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
+            <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br />
+              <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
+          </ul>
+        </div>
+      </div>
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;" />
+      <h3>bot実行時プロンプトの見方</h3>
+      <div class="flex-container">
+        <div style="flex: 0 0 420px;"><img src="image/WatchdogPrompt.jpg" width="400" alt="WatchdogPrompt" /> </div>
+        <div class="description">
+          <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
+          <ul>
+            <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
+            <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視・定期生存報告を行います。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <p>&nbsp;</p>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-<!-- TemplateBeginEditable name="head" -->
-<!-- TemplateEndEditable -->
-<!-- InstanceEndEditable --><!-- end .content --></div>
+  <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
 <!-- InstanceEnd --></html>

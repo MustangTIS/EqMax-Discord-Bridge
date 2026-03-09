@@ -1,6 +1,6 @@
 /* --- 1. 基本設定・レイアウト --- */
 body { font-family: "Meiryo", sans-serif; background-color: #f0f2f5; margin: 0; padding: 30px; }
-.container { max-width: 1200px; background: #FFF; margin: 0 auto; display: flex; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 80vh; }
+.container { max-width: 1200px; background: #FFF; margin: 0 auto; display: flex; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 80vh; border-radius: 15px; overflow: hidden; }
 .content { padding: 40px; flex: 1; line-height: 1.8; }
 .text-center { text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
 .card { border: 1px solid #ccc; padding: 20px; background: #fff; margin-bottom: 20px; border-radius: 4px; }
