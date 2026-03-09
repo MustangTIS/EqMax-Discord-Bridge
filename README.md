@@ -112,10 +112,10 @@ p align="center">
 
 | 総合管理ハブ (Hub) | 初期設定パッチ (Patcher) | 監視・通知 (Guardian) |
 | :--- | :--- | :--- |
-| <img src="Assets/01HUB.jpg" width="200"> | <img src="Assets/01EqSetting.jpg" width="200"> | <img src="Assets/02Bridge.jpg" width="200"> |
+| <img src="Assets/01HUB.jpg" width="280"> | <img src="Assets/01EqSetting.jpg" width="280"> | <img src="Assets/02Bridge.jpg" width="280"> |
 | 全機能の司令塔 | ワンクリック最適化 | マルチ通知エンジン |
 | **ログ・画像掃除 (Cleaner)** | **動作監視 (Watchdog)** | **初期化ツール (Reset)** |
-| <img src="Assets/O1Cleaner.jpg" width="200"> | <img src="Assets/O2Watchdog.jpg" width="200"> | <img src="Assets/03Initialization.jpg" width="200"> |
+| <img src="Assets/O1Cleaner.jpg" width="280"> | <img src="Assets/O2Watchdog.jpg" width="280"> | <img src="Assets/03Initialization.jpg" width="280"> |
 | 不要ファイルの自動削除 | RAM超過時の自動復旧 | 導入直後の状態へ復元 |
 
 ---
