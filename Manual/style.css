@@ -34,3 +34,18 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: mono
     .container { flex-direction: column; }
     .flex-container { flex-direction: column; }
 }
+/* カード内の画像に一括適用 */
+.card img {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+/* マウスオーバーで拡大＆最前面へ */
+.card img:hover {
+    transform: scale(1.8); /* 1.8倍に拡大。邪魔なら1.5等に調整してください */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 999; /* 他の画像や文字の上に重なるようにする */
+    border: 2px solid #3498db; /* どこを拡大しているか分かりやすく */
+}

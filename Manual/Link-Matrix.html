@@ -42,7 +42,7 @@
         <li><a href="Reset.html">初期化ツール</a></li>
       </ul>
     </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content"><div class="content">
+  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
     <h1>Matrix連携設定</h1>
     
     <div class="card">
@@ -50,76 +50,73 @@
         <img src="image/HUBSystemMain.jpg" width="300" alt="総合ハブ起動状態" />
     </div>
 
-    <h2>1. Discord連携ツールの起動と選択</h2>
+    <h2>Discord連携でMatrixへ接続する</h2>
     <div class="card">
         <div class="flex-container">
-            <img src="image/DiscordBridgeChange.png" width="460" alt="Discord連携" />
+            <img src="image/DiscordBridgeChange.png" width="400" alt="Discord連携" />
             <div class="description">
                 <ol>
-                    <li><strong>EqMax.exeの選択:</strong> 連携したいEqMax本体を選択します。</li>
-                    <li><strong>連携先タイプ:</strong> 「Matrix」を選択してください。</li>
+                    <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+                    <li><strong>選択タイプからMatrixを選ぶ:</strong> これによりMatrix専用設定項目が表示されます。</li>
                 </ol>
             </div>
         </div>
     </div>
 
-    <h2>2. 各情報の取得方法</h2>
+    <h2>Matrixの設定手順</h2>
+
     <div class="card">
-        <h3>ホームサーバーURL</h3>
+        <h3>ホームサーバーURLの取得</h3>
         <div class="flex-container">
             <img src="image/MatrixURL.jpg" width="400" alt="MatrixURL" />
             <div class="description">
-                <p>ログイン時に使用するアドレスです。これをツール側の <code>ホームサーバーURL</code> 欄に入力してください。</p>
-            </div>
-        </div>
-
-        <h3 style="margin-top:40px;">ルームID</h3>
-        <div class="flex-container">
-            <div>
-                <img src="image/MatrixRoomID1.jpg" width="200" alt="RoomID1" />
-                <img src="image/MatrixRoomID2.jpg" width="200" alt="RoomID2" />
-                <img src="image/MatrixRoomID3.jpg" width="400" alt="RoomID3" />
-            </div>
-            <div class="description">
                 <ol>
-                    <li>ルーム右上の「ギアマーク」＞「設定」を開きます。</li>
-                    <li>「詳細」タブ内の「ルームID」をコピーし、ツール側の <code>Room ID</code> 欄に入力してください。</li>
+                    <li>ログイン時に使うアドレスをコピーします。</li>
+                    <li>Discord連携側の「ホームサーバーURL」欄に貼り付けます。</li>
                 </ol>
             </div>
         </div>
+    </div>
 
-        <h3 style="margin-top:40px;">アクセストークン</h3>
+    <div class="card">
+        <h3>ルームIDの取得</h3>
         <div class="flex-container">
-            <div>
-                <img src="image/MatrixToken1.jpg" width="200" alt="MatrixToken1" />
-                <img src="image/MatrixToken2.jpg" width="200" alt="MatrixToken2" />
-                <img src="image/MatrixToken3.jpg" width="400" alt="matrixToken3" />
+            <div style="flex: 0 0 400px;">
+                <img src="image/MatrixRoomID1.jpg" width="190" alt="RoomID1" />
+                <img src="image/MatrixRoomID2.jpg" width="190" alt="RoomID2" />
+                <img src="image/MatrixRoomID3.jpg" width="390" alt="RoomID3" />
             </div>
             <div class="description">
                 <ol>
-                    <li>左下の「ギアマーク」＞「すべて設定」を開きます。</li>
-                    <li>「ヘルプ」＞「アクセストークン」を選択し表示されたTokenをコピーします。</li>
-                    <li>ツール側の <code>Access Token</code> 欄に入力してください。</li>
+                    <li>右上のギアマークから設定を開きます。</li>
+                    <li>「詳細」タブ内のルームIDをコピーします。</li>
+                    <li>Discord連携側の「Room ID」欄に貼り付けます。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>アクセストークンの取得</h3>
+        <div class="flex-container">
+            <div style="flex: 0 0 400px;">
+                <img src="image/MatrixToken1.jpg" width="190" alt="MatrixToken1" />
+                <img src="image/MatrixToken2.jpg" width="190" alt="MatrixToken2" />
+                <img src="image/MatrixToken3.jpg" width="390" alt="MatrixToken3" />
+            </div>
+            <div class="description">
+                <ol>
+                    <li>左下のギアマークから「すべて設定」を開きます。</li>
+                    <li>「ヘルプ」＞「アクセストークン」の順に進み、Tokenをコピーします。</li>
+                    <li>Discord連携側の「Access Token」欄に貼り付けます。</li>
                 </ol>
                 <div style="background:#fff3f3; padding:10px; border-left:4px solid #e74c3c; margin-top:10px;">
-                    <p style="margin:0; font-size:0.9em;"><strong>※警告:</strong> アクセストークンは乗っ取りのリスクがあります。決して他人に教えないでください。</p>
+                    <p style="margin:0; font-size:0.9em;"><strong>※警告:</strong> このトークンは他人に教えないでください。公開すると乗っ取られるリスクがあります。</p>
                 </div>
             </div>
         </div>
     </div>
-
-    <h2>3. ツール側への入力・保存</h2>
-    <div class="card">
-        <p>取得した情報を、Discord連携ツール（アプリ）の以下の各欄に貼り付け、「保存」ボタンを押してください。</p>
-        <img src="image/DiscordBridgeChange.png" width="400" alt="アプリへの入力例" />
-        <ul>
-            <li><strong>ホームサーバーURL:</strong> 手順2-1で取得したURL</li>
-            <li><strong>Room ID:</strong> 手順2-2で取得したRoom ID</li>
-            <li><strong>Access Token:</strong> 手順2-3で取得したToken</li>
-        </ul>
-        <p>設定完了後、一度テスト通知を行い、正しくメッセージが届くか確認してください。</p>
-    </div>
-</div></div><!-- InstanceEndEditable --><!-- end .content --></div>
+</div><!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
 <!-- InstanceEnd --></html>

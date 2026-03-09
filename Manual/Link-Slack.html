@@ -42,27 +42,111 @@
         <li><a href="Reset.html">初期化ツール</a></li>
       </ul>
     </div>
-  <div class="content"><!-- InstanceBeginEditable name="main_content" -->
-    <p>アプリの起動</p>
-    <p>このアプリの使い方
-      フォルダ内のEqMax-Discord-Bridge.batを実行してください。 </p>
-    <p>※安全じゃない趣旨の警告が出てきますが無視してそのまま実行してください。</p>
-    <p>まもなくプロンプト画面が起動しPython（実行するためのトリガーになるアプリ群）の確認必要ライブラリのインストールが始まります。</p>
-    <p>確認が完了すると、ハブシステム(集中管理アプリ)が起動します。</p>
-    <p>ハブシステムが起動すると、メニューから必要アプリを起動していきます。</p>
-    <p>ハブシステムの構成。</p>
-    <ol>
-      <li>初期設定ツール</li>
-      <li>Discord連携ツール</li>
-      <li>初期化ツール</li>
-      <li>クリーンアップツール</li>
-      <li>安定化ツール</li>
-    </ol>
-    <p>&nbsp;</p>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-<!-- TemplateBeginEditable name="head" -->
-<!-- TemplateEndEditable -->
-<!-- InstanceEndEditable --><!-- end .content --></div>
+  <div class="content"><!-- InstanceBeginEditable name="main_content" --><div class="content">
+    <h1>Slack連携設定</h1>
+    <h2>SlackのIncoming Webhookの取得</h2>
+    <div class="card">
+    <div class="flex-container">
+        <div class="description">
+            <p><strong>Slackの「Incoming Webhook」を利用して、EqMaxの通知を送信できます。</strong></p>
+            <ul>
+                <li><strong>Discordに近い感覚で設定可能</strong>
+                    <ul>
+                        <li>Webhook URLを取得して貼り付けるだけで連携が完了します。</li>
+                        <li>内部処理はSlack専用に最適化済みですので、URLを貼るだけで動作します。</li>
+                    </ul>
+                </li>
+                <li><strong>【重要】画像送信について</strong>
+                    <ul>
+                        <li>Slackの仕様上、Webhook経由での直接画像投稿には対応していません。</li>
+                        <li><strong>本ツールでは「テキスト通知のみ」のサポートとなります。</strong> 画像が必要な場合はDiscordまたはMatrixをご利用ください。</li>
+                    </ul>
+                </li>
+                <li><strong>作成権限について</strong>
+                    <ul>
+                        <li>一般ユーザーでも作成可能ですが、ワークスペースの設定（管理者の制限）によっては作成できない場合があります。</li>
+                        <li>設定メニューの深い場所にありますが、次項の手順通りに進めば作成可能です。</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+    <h2>Slackの設定手順</h2>
+    <div class="card">
+    <h4>ホームサーバーURLの取得 </h4>
+    <div class="description">
+      <p><strong>【重要】設定はブラウザから行います</strong></p>
+      <p>Slackアプリ内に設定ボタンはありません。以下のリンクからブラウザで設定画面を開いてください。</p>
+      <ul>
+        <li> <a href="https://api.slack.com/apps" target="_blank"><strong>Slack API: Your Apps (設定ページ)</strong></a></li>
+        <li>※ワークスペースにログインした状態で開くと、スムーズに作成へ進めます。</li>
+      </ul>
+      <div class="flex-container">
+        <div style="flex: 0 0 400px;">
+          <p><strong>アプリの登録</strong></p>
+          <p><img src="image/SlackApp1.jpg" width="190" alt="Slackアプリ登録1" /><img src="image/SlackApp2.jpg" width="190" alt="Slackアプリ登録2" /><img src="image/SlackApp3.jpg" alt="Slackアプリ登録3" width="190" /></p>
+        </div>
+        <div class="description">
+          <ol>
+            <li>Create an Appを選ぶ</li>
+            <li>From scaratchを選ぶ</li>
+            <li>AppNameとWorkSpaceを選んでCreate Appを選ぶ</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="description">
+      <div class="flex-container">
+        <div style="flex: 0 0 400px;">
+          <p><strong>アプリ名の登録</strong></p>
+          <p><img src="image/SlackApp4.jpg" width="190" alt="SlackAppEdit" /><img src="image/SlackApp5.jpg" width="190" alt="SlackAppEdit" /><img src="image/SlackApp6.jpg" width="190" height="767" alt="SlackAppEdit" /></p>
+        </div>
+        <div class="description">
+          <ol>
+            <li>App HomeからApp Display NameのEditを選ぶ</li>
+            <li>Display NameとDefault usernameを設定しSaveする</li>
+            <li>App Display Nameを確認してください。</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="description">
+      <div class="flex-container">
+        <div style="flex: 0 0 400px;">
+          <p><strong>Incoming Webhookの登録</strong></p>
+          <p><img src="image/SlackApp7.jpg" width="190" alt="Webhook登録1" /><img src="image/SlackApp8.jpg" width="190" alt="Webhook登録2" /><img src="image/SlackApp9.jpg" width="190" alt="Webhook登録3" /><img src="image/SlackApp10.jpg" width="190" alt="Webhook登録4" /></p>
+        </div>
+        <div class="description">
+          <ol>
+            <li>Incoming WebhookからActivateをONにする。</li>
+            <li>Activateが完了するとAdd New Webhookが現れるので、それを選ぶ</li>
+            <li>Webhookを使いたいWorkspaceとチャンネルを選び許可をする。</li>
+            <li>Webhook URLが追加されれば準備完了</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    </div>
+    <h1>SlackをDiscord設定に登録</h1>
+    <div class="card">
+      <p>総合ハブの <code>Discord連携設定</code> (➃の部分)を実行してください。</p>
+      <img src="image/HUBSystemMain.jpg" width="300" alt="総合ハブ起動状態" /> </div>
+    <h2>Discord連携でSlackへ接続する</h2>
+    <div class="card">
+      <div class="flex-container"> <img src="image/DiscordBridgeChange.png" width="400" alt="Discord連携" />
+        <div class="description">
+          <ol>
+            <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+            <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3><img src="image/SlackAppA10.jpg" width="400" height="2088" alt="Discord連携登録" /></h3>
+      <div class="flex-container">
+        <div class="description">SlackのWebhook URLを貼りつけてbotを配置するを選ぶ</div></div></div></div><!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
 <!-- InstanceEnd --></html>
