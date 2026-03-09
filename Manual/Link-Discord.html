@@ -68,161 +68,135 @@
 </div>
     <h2>DiscordにWebhook登録</h2>
     <div class="card">
-      <div class="description">
-        <p><strong>DiscordでWebhookを登録する。</strong>      </p>
-        <div class="flex-container">
-          <div style="flex: 0 0 400px;">
-  <p><img src="image/DiscordWebhook1.jpg" width="200" alt="DiscordWebhook登録1" /><img src="image/DiscordWebhook2.jpg" width="200" alt="DiscordWebhook登録2" /><img src="image/DiscordWebhook3.jpg" width="200" alt="DiscordWebhook登録3" /></p>
+    <h3>DiscordでのWebhook登録手順</h3>
+    
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
+        <div style="text-align: center;">
+            <div style="font-weight: bold; margin-bottom: 5px;">①</div>
+            <img src="image/DiscordWebhook1.jpg" width="200" alt="手順1" />
         </div>
-        <div class="description">
-          <ol>
-            <li>Discordアプリでチャンネルマウスオーバーすると出てくるギアマークを選ぶ</li>
-            <li>開かれたチャンネル設定からウェブフックを作製を選ぶ<br />
-            ※すでに登録されているウェブフックが有る場合は新しいウェブフックを選ぶ</li>
-            <li>出来上がったウェブフックに覚えやすいユニーク名(推奨)と地震速報を送信したいチャンネルを選ぶ。</li>
-            <li>変更を保存するを選ぶ</li>
-          </ol>
+        <div style="text-align: center;">
+            <div style="font-weight: bold; margin-bottom: 5px;">②</div>
+            <img src="image/DiscordWebhook2.jpg" width="200" alt="手順2" />
         </div>
-  </div>
-  </div>
+        <div style="text-align: center;">
+            <div style="font-weight: bold; margin-bottom: 5px;">③</div>
+            <img src="image/DiscordWebhook3.jpg" width="200" alt="手順3" />
+        </div>
     </div>
+    
+    <div class="description">
+        <ol>
+            <li>チャンネルの「ギアマーク」をクリックします。</li>
+            <li>「インテグレーション」から「ウェブフックを作成」を選択します。<br>
+                <small>※既存がある場合は「新しいウェブフック」をクリック</small></li>
+            <li>名前を自由に設定し、通知を送りたいチャンネルを選択します。</li>
+            <li>「変更を保存」をクリックします。</li>
+        </ol>
+    </div>
+</div>
     <h1>Discord連携にDiscordのWebhookを登録</h1>
     <div class="card">
-      <p>総合ハブの <code>Discord連携設定</code> (➃の部分)を実行してください。</p>
-      <img src="image/HUBSystemMain.jpg" width="300" alt="総合ハブ起動状態" /></div>
+      <p><img src="image/HUBSystemMain.jpg" width="300" alt="総合ハブ起動状態" /></p>
+      <p>総合ハブの <code><strong>Discord連携設定</strong></code> (➃の部分)を実行してください。</p></div>
     <div class="card">
-      <div class="flex-container"> <img src="image/DiscordBridgeChange.png" width="400" alt="Discord連携" /><img src="image/DiscordWebhook4.jpg" width="400" alt="Discord連携処理" />
-        <div class="description">
-          <ol>
+    <h3>Discord連携ツールの設定</h3>
+    
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
+        <img src="image/DiscordBridgeChange.png" width="380" alt="Discord連携設定1" />
+        <img src="image/DiscordWebhook4.jpg" width="380" alt="Discord連携設定2" />
+    </div>
+    
+    <div class="description">
+        <ol>
             <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-            <li><strong>選択タイプからDiscordEmbedかDiscordSimple(お好みの方)を選ぶ</strong><br />
-              これによりDiscord送信設定が適応されます。</li>
-            <li>DiscordのウェブフックURLをコピーする</li>
-            <li>Discord連携をWebhookに貼りつける<br />
-              ※Discord連携にWebhookURLを貼りつけるにはキーボードのCtul+Vとマウス右クリックで貼りつけができます。</li>
-            <li>最後にボットを作製するを選べば操作派完了します。<br />
-            </li>
-          </ol>
-      </div>
-      </div>
-  </div>
+            <li><strong>連携タイプの選択:</strong> 「DiscordEmbed」または「DiscordSimple」からお好みの形式を選びます。</li>
+            <li><strong>Webhook URLの入力:</strong> 先ほど取得したURLをDiscord連携側の入力欄に貼り付けます。<br>
+                <small>※入力欄はマウス右クリックまたは「Ctrl + V」で貼り付け可能です。</small></li>
+            <li><strong>ボットの作成:</strong> 最後に「ボットを作成」をクリックすれば連携完了です。</li>
+        </ol>
+    </div>
+</div>
     <h1>Discord連携を起動する</h1>
     <div class="card">
-      <div class="flex-container">
-        <div class="description">
-          <h3>起動方法</h3>
-          <p><img src="image/DiscordBridgeicon.jpg" width="190" height="312" alt="起動用アイコン" /></p>
+    <h3>起動方法</h3>
+    <div class="flex-container">
+        <div style="flex: 0 0 220px;">
+            <img src="image/DiscordBridgeicon.jpg" width="190" alt="起動用アイコン" />
         </div>
-      </div>
-      <div class="flex-container">
         <div class="description">
-          <p>Discord起動用ショートカットは二種類あります。</p>
-          <ul>
-            <li>通常起動起動用ショートカット(専用アイコンの物)
-              <ul>
-                <li>最小化状態で起動</li>
-                <li>スタートアップにも同じショートカットが作製される</li>
-              </ul>
-            </li>
-            <li>セーフモード起動用ショートカット(batファイルとして一般に使われているアイコン)
-              <ul>
-                <li>通常起動できない時の起動用ショートカット</li>
-                <li>Pythonの状態を確認して起動できるように作られている。</li>
-                <li>一度セーフモードで起動できれば以後は通常起動用ショートカットで動作するはずです。 </li>
-                <li>セーフモード起動時にセキュリティ警告が出てきますのでそこを許可して実行しないと動きません。</li>
-              </ul>
-            </li>
-          </ul>
+            <p>Discord起動用ショートカットは二種類あります。</p>
+            <ul>
+                <li><strong>通常起動用ショートカット:</strong> 最小化起動し、スタートアップにも登録されます。</li>
+                <li><strong>セーフモード起動用:</strong> 起動しない場合のトラブルシューティング用です。一度正常に起動できれば、次回からは通常起動が可能です。<br>
+                    <small>※初回はセキュリティ警告を許可する必要があります。</small></li>
+            </ul>
         </div>
-      </div>
-      <div class="flex-container">
-        <div class="description">
-          <h3>bot実行時プロンプトの見方</h3>
-          <p><img src="image/DiscordBridgePrompt.jpg" width="400" alt="botプロンプト" /></p>
-        </div>
-      </div>
-      <div class="flex-container">
-        <div class="description">
-          <p>最小化で起動はしていますが、そこを展開するとこのようなプロンプトウィンドウが起動します。 <br />
-            ※説明のために色の付いた枠が出てますが赤黄水色の枠は実際には表示されていません。</p>
-          <ul>
-            <li>赤枠：起動シーケンス部
-              <ul>
-                <li>起動時のプロセス状態を表示しています。</li>
-                <li>不具合や障害によってはここで見分けられる可能性もある。</li>
-              </ul>
-            </li>
-            <li>黄枠：死活問題シーケンス（Eq_Guardian）
-              <ul>
-                <li>EqWatchの状態を監視します。 </li>
-                <li>EqMaxが停止している場合は起動します。</li>
-                <li>フリーズを検知すると自動的に再起動します。</li>
-                <li>メモリーリークを監視し、EqMaxがRAM使用量1GB(規定値)を超えると自動的に再起動します。</li>
-                <li>1`時間(規定値)置きにEqMaxの状態を表示します。</li>
-              </ul>
-            </li>
-            <li>水枠：EEWシーケンス(EqMax-Discard-Bridge)
-              <ul>
-                <li>EEWが発生した場合簡易ログと、連携チャット先各種への送信成功確認有無が表示される。</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+
+    <h3>bot実行時プロンプトの見方</h3>
+    <div class="flex-container">
+        <div style="flex: 0 0 420px;">
+            <img src="image/DiscordBridgePrompt.jpg" width="400" alt="botプロンプト" />
+        </div>
+        <div class="description">
+            <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
+            <ul>
+                <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
+                <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
+                <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
+            </ul>
+        </div>
+    </div>
+</div>
 <h1>Chips、その他情報</h1>
     <div class="card">
-      <div class="flex-container">
-      <h3>Embed投稿とSimple投稿の違い。 </h3>
-      <div class="description">
-        <p><img src="image/disembed.jpg" width="400" alt="DiscordEmbed" /></p>
+    <h3>Embed投稿とSimple投稿の違い</h3>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+            <img src="image/disembed.jpg" width="100%" alt="DiscordEmbed" style="max-width: 400px;" />
+            <ul>
+                <li><strong>Embedモード（リッチ表示）</strong>
+                    <ul>
+                        <li>震度や津波リスクに応じたエッジカラー表示</li>
+                        <li>ジャンル毎の改行で見やすいレイアウト</li>
+                        <li>地図の埋め込み表示に対応</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-      </div>
-      <div class="flex-container">
-        <div class="description">
-          <ul>
-            <li><strong>Embedモード
-              </strong>
-              <ul>
-                <li>リッチ表示</li>
-                <li>震度や津波リスクにお応じてエッジの色が変化</li>
-                <li>ジャンル毎に改行されて見やすく表示</li>
-                <li>地図も埋め込み表示            </li>
-              </ul>
-            </li>
-          </ul>
+        
+        <div style="flex: 1; min-width: 300px;">
+            <img src="image/dissimple.jpg" width="100%" alt="Simpleモード" style="max-width: 400px;" />
+            <ul>
+                <li><strong>Simpleモード（プレーンテキスト）</strong>
+                    <ul>
+                        <li>エッジなしの1行表示</li>
+                        <li>画像URLの単体取得が可能</li>
+                        <li>外部連携サービスでのトラブル回避に有効</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-      </div>
-      <div class="flex-container">
-        <div class="description">
-          <h3><img src="image/dissimple.jpg" width="400" alt="Simpleモード" /></h3>
-</div>
-      </div>
-      <div class="flex-container">
-        <div class="description">
-          <ul>
-            <li><strong>Simpleモード
-              </strong>
-              <ul>
-                <li>エッジ無し1行表示のプレーンテキスト方式</li>
-                <li>画像投稿は別途行うため画像単体のURLが取得可能</li>
-                <li>外部へのチャット連携サービス時に綺麗に情報を投稿するときにトラブルが出にくい</li></ul></li>
-          </ul>
-        </div></div>
-      <h3>botのアイコンを変更する。 </h3>
-      <div class="flex-container">
-        <div class="description">
-          <h3><img src="image/AssetFolder.jpg" width="200" alt="Assetフォルダ" /><img src="image/botIcon.jpg" width="200" alt="アイコン変更1" /><img src="image/IconChange.jpg" width="200" alt="アイコン変更2" /></h3>
-        </div>
-      </div>
     </div>
-    <div class="flex-container">
-      <div class="description">
-        <ul>
-          <li><strong>EqMax-Discord-</strong>Bridge内のAssetフォルダ内にアイコンのPNGファイルがあるので、それをbotに直接当て込んで保存する<br />
-          ※注アイコン同じWebhookを使い回す場合それもアイコンが変更されてしまう可能性があるので、EqMax Discord Bridge 専用のウェブフックを使う時のみ変更を推奨します</li>
-        </ul>
-      </div>
+    <div class="card">
+      <h3>botのアイコンを変更する</h3>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px;"> 
+        <img src="image/AssetFolder.jpg" width="200" alt="Assetフォルダ" /> 
+        <img src="image/botIcon.jpg" width="200" alt="アイコン変更1" /> 
+        <img src="image/IconChange.jpg" width="200" alt="アイコン変更2" /> 
+    </div>
+    
+    <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404; font-size: 0.9em;">
+    <strong>アイコン変更の手順:</strong><br>
+    Discordの設定画面にあるアイコン横のボタンから、Assetフォルダ内のPNGファイルを<strong>「選択（アップロード）」</strong>してください。<br><br>
+    <strong>⚠️ 注意点:</strong><br>
+    この設定はWebhook単位で適用されます。同じWebhook URLを他の連携ツールと使い回している場合、その連携先のアイコンもすべて変更されてしまいます。<br>
+    <strong>※EqMax Discord Bridge専用のWebhook URLを作成して運用することを強く推奨します。</strong>
+</div>
+</div>
     </div>
   </div><!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
