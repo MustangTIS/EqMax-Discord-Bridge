@@ -16,23 +16,15 @@ body { font-family: "Meiryo", sans-serif; background-color: #f0f2f5; margin: 0; 
 
 /* --- 3. 画像の一括設定（全カード共通） --- */
 .card img {
-    max-width: 100%;
+    max-width: 100%;       /* これ以上デカくならないガードレールのみ */
     height: auto;
     display: block;
-    border-radius: 4px;
-    border: 1px solid #eee;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     cursor: pointer;
-    /* position: relative;  ← これが原因でDWが「CSS-Pエレメント」と勘違いします。削除してください */
-    /* z-index: 1;          ← positionを消すなら不要なので削除してください */
+    transition: transform 0.2s ease-in-out;
 }
-
-/* マウスオーバー時の拡大効果 */
 .card img:hover {
     transform: scale(1.8);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 999; /* ここはhover時なので残してもOKです */
-    border: 2px solid #3498db;
+    z-index: 999;
 }
 
 /* --- 4. コンポーネント・その他 --- */
