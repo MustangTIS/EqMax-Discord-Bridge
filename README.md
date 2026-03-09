@@ -1,8 +1,3 @@
-了解いたしました。README.mdをバージョン8.0.0に合わせて更新します。
-HTMLヘルプの搭載と、導入難易度の改善を強調しつつ、最新のシステム構成に合わせた内容にします。
-
----
-
 # EqMax-Discord-Bridge v8.0.0 (Help Complete Update)
 
 <p align="center">
