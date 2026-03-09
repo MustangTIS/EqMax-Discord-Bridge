@@ -11,41 +11,31 @@ body { font-family: "Meiryo", sans-serif; background-color: #f0f2f5; margin: 0; 
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    align-items: flex-start; /* ★画像が縦に引き伸ばされるのを防ぐ重要設定 */
-}
+    align-items: flex-start;
+} /* ←ここでちゃんと閉じる */
 
 /* --- 3. 画像の一括設定（全カード共通） --- */
-/* --- 3. 画像の一括設定（全カード共通） --- */
 .card img {
-    /* 1. 幅は親枠に合わせるが、最大でも枠をはみ出さない */
     max-width: 100%;
-    
-    /* 2. 【重要】HTMLのwidth/height指定を無視して、比率を強制固定する */
-    width: auto !important;
-    height: auto !important;
-    
-    /* 3. これ以上デカくしたくない場合、ここだけ書き換える */
-    max-height: 400px; /* ★画像が縦に長すぎて突き抜けるのを防ぐ */
-    
+    height: auto;
     display: block;
     border-radius: 4px;
     border: 1px solid #eee;
-    
-    /* ホバーアニメーション設定 */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     cursor: pointer;
-    position: relative;
-    z-index: 1;
+    /* position: relative;  ← これが原因でDWが「CSS-Pエレメント」と勘違いします。削除してください */
+    /* z-index: 1;          ← positionを消すなら不要なので削除してください */
 }
 
+/* マウスオーバー時の拡大効果 */
 .card img:hover {
     transform: scale(1.8);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 999;
+    z-index: 999; /* ここはhover時なので残してもOKです */
     border: 2px solid #3498db;
 }
 
-/* --- 4. コンポーネント・その他（テーブル・リスト等） --- */
+/* --- 4. コンポーネント・その他 --- */
 table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.9em; }
 table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
 table th { background-color: #f8f9fa; color: #333; font-weight: bold; }
