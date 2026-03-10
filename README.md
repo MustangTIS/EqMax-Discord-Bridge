@@ -4,11 +4,10 @@
 <img src="Assets/eq-dis.png" width="120" alt="Logo">
 </p>
 
+---
 <p align="center">
 <b>「運用のすべてを、その手に。」 — 導入からトラブルシューティングまで、完全ガイドの完備。</b>
 </p>
-
-
 
 > [!IMPORTANT]
 > **最新版パッケージ (ZIP) を直接ダウンロード**
