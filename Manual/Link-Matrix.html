@@ -60,12 +60,16 @@
     <h2>Matrixの設定手順</h2>
     <div class="card">
       <h3>ホームサーバーURLの取得</h3>
-      <div class="flex-container"> <img src="image/MatrixURL.jpg"  alt="MatrixURL" width="500" />
-        <div class="description">
+      <div class="flex-container">
+        <div style="flex: 1;"><img src="image/MatrixURL.jpg"  alt="MatrixURL" width="500" /> </div>
+        <div class="description" style="flex: 1;">
           <ol>
-            <li>ログイン時に使うアドレスをコピーします。</li>
+            <li>Matrixログイン時に使用する<strong>ホームサーバーのアドレス</strong>をコピーします。</li>
             <li>Discord連携側の「ホームサーバーURL」欄に貼り付けます。</li>
           </ol>
+          <div style="background: #fff9db; border-left: 5px solid #fcc419; padding: 15px; margin-top: 15px; color: #856404;"> <strong>⚠️ 重要：入力形式の注意</strong><br>
+            ホームサーバーURLの登録は、必ず先頭に <code>https://</code> を含めてください。<br>
+            （例：<code>https://matrix.org</code>） </div>
         </div>
       </div>
     </div>
@@ -115,7 +119,7 @@
       <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
       <h3>bot実行時プロンプトの見方</h3>
       <div class="flex-container">
-        <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" /> </div>
+        <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="400" /> </div>
         <div class="description">
           <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
           <ul>
@@ -124,7 +128,57 @@
             <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
           </ul>
         </div>
+      </div><h1>Chips、その他情報</h1>
+      <div></div>
+      <br />
+    <div class="card">
+      <h3>※Discord投稿設定者限定：EEW画像添付方法//8.5UPDATE//</h3>
+      <div class="flex-container">
+        <div style="flex: 0 0 220px;"> 
+          <p>Discordに投稿設定をかけている人は、<br />
+            他のチャットアプリ（Slack、Matrixなど)にも画像を投下できます。<img src="image/MatrixSlide.jpg"  alt="画像投稿イメージ(Matrix)" width="400" /> </p>
+</div>
+        <div class="description">
+          <p>システムの流れとしては</p>
+          <ol>
+            <li>Discord(Embed及びSimple)<strong>でEEW通知を送信。</strong>
+              <ul>
+                <li><strong>Discordに投稿された内容から画像URLをリバースして当bot側で取得。</strong></li>
+                <li>その後、投稿用フォーマットにDiscordの画像用アドレスを追加して流せるようにする。</li>
+              </ul>
+            </li>
+            <li>SlackやMatrixへの送信            
+              <ul>
+                <li>Discordの画像用アドレスがセットで投稿される。</li>
+                <li>Slack・Matrixでは画像URLからDiscordに送信した画像を確認可能</li></ul></li>
+          </ol>
+          <p><strong>※</strong>注意：先にも書いたように、Discordに事前に投稿する必要があります。<br />
+          詳しくは次に書く『Discord以外への画像添付投下の方法』を読んでください。</p>
+        </div>
       </div>
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+      <h3>Discord以外への画像添付投下の方法</h3>
+      <div class="flex-container">
+        <div style="flex: 0 0 420px;"> <img src="image/SlideTempSettings.jpg"  alt="botプロンプト" width="300" /> </div>
+        <div class="description">
+          <p>このDiscord連携ボット設定画面を元に説明します。</p>
+          <ul>
+            <li><strong>当システムは上の項目から順番に投稿処理を実行します。</strong>
+              <ul>
+                <li>この構造の場合
+                  <ol>
+                    <li>Slackへ送信(添付できる画URLがないので文字のみ)</li>
+                    <li>DiscordへEmbed送信</li>
+                    <li>Discordへ画像投稿されたので画像URL取得</li>
+                    <li>Matrixへ送信(Discordの画像URLを取得できてるので画像付き投稿</li>
+                  </ol>
+                </li>
+              </ul></li>
+            <li>Discordへ投稿した時点で、画像URLを取得して添付ができるので、Discordより上位に画像添付をしたくない投稿先、下位に画像投稿用URLをセットで投稿したい先を記載していってください。</li>
+          </ul>
+        </div>
+      </div>
+    
     </div>
     <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>

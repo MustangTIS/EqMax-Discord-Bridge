@@ -28,10 +28,13 @@ def build_payload(style, title, description, color, bot_name, current_version, t
             }]
         }
     
+    # --- senders.py 内の build_payload 関数 ---
     # Slack / Matrix 用
     elif style in ["slack", "matrix"]:
-        # 過去の形式をベースに、時刻と区切り線を追加
-        body = f"{bold_title} / 送信時 {timestamp} / {description.replace(chr(10), ' / ')}\n───────────"
+        # ここで .replace(chr(10), ' / ') を削除し、改行を維持します
+        # 罫線を入れる場合は \n で改行を入れてから挿入します
+        body = f"{bold_title} / 送信時 {timestamp}\n{description}\n───────────"
+        
         if style == "slack":
             return {"text": body, "username": bot_name}
         else: # Matrix
@@ -75,15 +78,23 @@ def send_to_matrix(payload, url, token, room_id):
         return e
 
 # --- 3. 司令塔 (ディスパッチャ) ---
-def dispatch(style, title, description, color, image_path, url, bot_name, current_version, timestamp, matrix_token=None, matrix_room=None):
+# image_url_shared を追加し、状態を引き継ぐ設計
+def dispatch(style, title, description, color, image_path, url, bot_name, current_version, timestamp, matrix_token=None, matrix_room=None, shared_image_url=None):
     style_key = style.lower()
     
-    # timestamp を build_payload に渡すように変更
-    payload = build_payload(style_key, title, description, color, bot_name, current_version, timestamp)
+    # Slack/Matrix で、もし画像URLが共有されていれば末尾に付記する
+    current_description = description
+    if style_key in ["slack", "matrix"] and shared_image_url:
+        current_description += f"\n画像: {shared_image_url}"
+    
+    # 修正後の payload 構築 (description を加工済み)
+    payload = build_payload(style_key, title, current_description, color, bot_name, current_version, timestamp)
     
     # Discord系
     if style_key in ["disembed", "dissimple"]:
-        return send_to_discord(payload, style_key, image_path, url, bot_name, current_version)
+        res = send_to_discord(payload, style_key, image_path, url, bot_name, current_version)
+        # ここで成功時にURLを抽出するロジックを挟む
+        return res
     
     # Slack系
     elif style_key == "slack":

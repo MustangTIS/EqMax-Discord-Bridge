@@ -127,7 +127,7 @@ def get_alert_details(text_block):
 
 # --- 6. Discord送信ロジック ---
 def process_log_update(content, config_dest):
-    # (解析ロジック部分はそのまま)
+    # 解析ロジック
     pattern = re.compile(r"(緊急地震速報：.*?)(C:\\.*?\.png)", re.DOTALL)
     matches = pattern.findall(content)
     if not matches: return
@@ -137,20 +137,20 @@ def process_log_update(content, config_dest):
     
     if not title: return
 
-    # --- ここで情報を表示 ---
     timestamp = time.strftime('%H:%M:%S')
     bot_name = "EqMax EEW Bridge"
     
     print(f"\n[{timestamp}] 📢 {title} (Powered by {bot_name})")
-    if description:
-        print(f"[{timestamp}]    {description.splitlines()[0]}")
-
-    # --- 修正: senders.dispatch に timestamp を追加 ---
+    
+    # 共有URL用変数
+    shared_image_url = None
+    
     for dest in config_dest:
         url = dest.get("url")
         style = dest.get("style", "disembed").lower()
         if not url: continue
         
+        # 修正: shared_image_url を渡す
         response = senders.dispatch(
             style=style, 
             title=title, 
@@ -160,10 +160,22 @@ def process_log_update(content, config_dest):
             url=url, 
             bot_name=bot_name, 
             current_version=CURRENT_VERSION,
-            timestamp=timestamp, # 追加
+            timestamp=timestamp,
             matrix_token=dest.get("token"), 
-            matrix_room=dest.get("room")
+            matrix_room=dest.get("room"),
+            shared_image_url=shared_image_url 
         )
+        
+        # --- 画像URLの抽出ロジック ---
+        if style in ["disembed", "dissimple"] and response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
+            try:
+                data = response.json()
+                if "attachments" in data and len(data["attachments"]) > 0:
+                    shared_image_url = data["attachments"][0].get("url")
+                elif "embeds" in data and len(data["embeds"]) > 0 and "image" in data["embeds"][0]:
+                    shared_image_url = data["embeds"][0]["image"].get("url")
+            except:
+                pass
         
         # 結果判定
         if isinstance(response, Exception):
@@ -284,13 +296,18 @@ def start_combined_monitor():
     pending_block = ""
     health_counter = 0
 
+    # --- 8. メインループ ---
     while True:
         try:
             if health_counter % 10 == 0:
                 maintain_eqmax_health(exe_path)
-            
+
             if os.path.exists(log_file):
                 current_size = os.path.getsize(log_file)
+
+                if current_size < last_size:
+                    last_size = 0
+
                 if current_size > last_size:
                     with open(log_file, "r", encoding="utf-8", errors="ignore") as f:
                         f.seek(last_size)
