@@ -158,6 +158,56 @@
           </ul>
         </div>
       </div>
+      <h1>Chips、その他情報</h1>
+      <div></div>
+      <div class="card">
+        <h3>※Discord投稿設定者限定：EEW画像添付方法 // 8.5 UPDATE //</h3>
+        <div class="flex-container">
+          <div style="flex: 0 0 420px; padding-right: 20px;">
+            <p>Discordに投稿設定をかけている人は、他のチャットアプリ（Slack、Matrixなど)にも画像を投下できます。</p>
+            <img src="image/MatrixSlide.jpg" alt="画像投稿イメージ(Matrix)" width="400" /> </div>
+          <div class="description">
+            <p>システムの流れとしては以下の通りです。</p>
+            <ol>
+              <li><strong>Discord (Embed及びSimple) でEEW通知を送信。</strong>
+                <ul>
+                  <li>Discordに投稿された内容から画像URLをリバースして当bot側で取得します。</li>
+                  <li>その後、投稿用フォーマットにDiscordの画像用アドレスを追加して流せるようにします。</li>
+                </ul>
+              </li>
+              <li><strong>SlackやMatrixへの送信</strong>
+                <ul>
+                  <li>Discordの画像用アドレスがセットで投稿されます。</li>
+                  <li>Slack・Matrixでは、そのURLからDiscordに送信された画像を確認可能です。</li>
+                </ul>
+              </li>
+            </ol>
+            <p><strong>※注意：</strong>先述の通り、Discordに事前に（あるいは上位で）投稿処理が完了している必要があります。<br />
+              詳しくは後述の『Discord以外への画像添付投下の方法』を併せてお読みください。</p>
+          </div>
+        </div>
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+        <h3>Discord以外への画像添付投下の方法</h3>
+        <div class="flex-container">
+          <div style="flex: 0 0 320px; padding-right: 20px;"> <img src="image/SlideTempSettings.jpg" alt="botプロンプト" width="300" /> </div>
+          <div class="description">
+            <p>Discord連携ボット設定画面の設定順序に基づき説明します。</p>
+            <ul>
+              <li><strong>当システムは、設定画面の上から順に投稿処理を実行します。</strong>
+                <p>例えば、画面の設定が [Slack] → [Discord] → [Matrix] の順だった場合：</p>
+                <ol>
+                  <li><strong>Slackへ送信</strong>：まだ画像URLがないため、テキストのみ投稿。</li>
+                  <li><strong>Discordへ送信</strong>：ここで投稿が行われ、画像URLが生成・取得される。</li>
+                  <li><strong>Matrixへ送信</strong>：取得済みのDiscord画像URLを付与して画像付き投稿。</li>
+                </ol>
+              </li>
+              <li><strong>運用のアドバイス</strong>： <br>
+                Discordへ投稿した時点で画像URLを取得・添付できるため、<strong>「画像を含めたくない先」をDiscordより上位に、「画像付きで投稿したい先」をDiscordより下位に</strong>記載するよう調整してください。 </li>
+            </ul>
+          </div>
+        </div>
+        <div></div>
+      </div>
     </div>
     <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
