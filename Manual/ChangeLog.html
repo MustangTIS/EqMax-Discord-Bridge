@@ -41,17 +41,27 @@
     </ul>
   </div>
   <div class="content"><!-- InstanceBeginEditable name="main_content" -->
-    <div class="content">
-      <h1>更新履歴 (ChangeLog)</h1>
+    <div class="content"><h1>更新履歴 (ChangeLog)</h1>
       <p>EqMax-Discord-Bridge のこれまでのアップデート内容です。</p>
+
+      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v8.5.0 (Integration & Visual Enhancement)</h2>
+      <p><em>「Discord を、すべての速報のハブへ。」 — 通知網の統合と画像連携の実現。</em></p>
+      <ul>
+        <li><strong>[Feature] Discord 経由の画像リバース配信機能:</strong> Discordへ投稿されたEEW通知から画像URLを解析・取得し、SlackやMatrixへ自動転送する仕組みを実装。</li>
+        <li><strong>[Visual] 通知フォーマットの最適化:</strong> Slack・Matrixにおける通知表示を「改行区切り」へと変更し、情報の可読性を向上。</li>
+        <li><strong>[Stability] 起動・通知シーケンスの堅牢化:</strong> クリーナーツールやログ削除時における、ファイル競合による送信失敗の不具合を修正。INIファイルの最適化によりリソース消費を最小化。</li>
+        <li><strong>[Docs] マニュアルの拡充:</strong> 画像添付機能の仕様と設定手順を各チャットアプリのマニュアルページに追記。</li>
+      </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v8.0.0 (ヘルプ完備・システム最適化Update)</h2>
       <p><em>「運用のすべてを、その手に。」 — 導入からトラブルシューティングまで、完全ガイドの完備。</em></p>
       <ul>
         <li><strong>[Docs] HTMLマニュアルシステムの完全実装:</strong> MatrixやSlackの設定など、難易度の高かった手順を徹底ガイド。全機能・対応表を完備。</li>
-        <li><strong>[Quality] 備考の可視化:</strong> 「Tips（ヒント）」を各所に記載し、運用上の注意点を明文化。</li>
+        <li><strong>[Quality] 備考の可視化:</strong> 「Chips（ヒント）」を各所に記載し、運用上の注意点を明文化。</li>
         <li><strong>[UX] 総合管理ハブの操作性向上:</strong> ボタン配置を最適化し、より直感的な操作を実現。</li>
-        <li><strong>[Core] 仕様の最適化:</strong> 文脈の整理（推奨環境の誤記修正等）およびメンテナンス効率向上のためのコードクリーンアップ。</li>
+        <li><strong>[Core] 仕様の最適化:</strong> 文脈の整理およびメンテナンス効率向上のためのコードクリーンアップ。</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v7.1.0 (Integration & Stability Update)</h2>
       <p><em>「境界を超えた情報の、その先へ」 — 接続性の拡張と、視認性の最適化。</em></p>
       <ul>
@@ -59,12 +69,7 @@
         <li><strong>[Visual] 視認性の向上:</strong> Slack/Matrix向けに「通知区切り線」と「送信時刻(timestamp)」を自動付与。</li>
         <li><strong>[Quality] GUIインストーラの堅牢化:</strong> Webhook検証強化、クリップボード貼り付け対応。</li>
       </ul>
-      <p><strong>通知イメージの刷新:</strong></p>
-      <pre style="background: #f4f4f4; padding: 15px; border-radius: 5px; font-size: 0.85em; overflow-x: auto;">
-📢 <strong>[EqMax] EEW Alert📢 【最大震度 2 / M4.5】</strong> / 送信時 14:27:02 / ...
-───────────
-📢 <strong>[EqMax] EEW Alert📢 【最大震度 2 / M4.6】</strong> / 送信時 14:27:06 / ...
-</pre>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v7.0.0 (マルチプラットフォーム対応)</h2>
       <p><em>「境界を超えて、全方位へ」 — マルチプラットフォーム通知の夜明け。</em></p>
       <ul>
@@ -72,24 +77,26 @@
         <li><strong>[Identity] Webhook送信名の強制統合:</strong> 送信名を <code>EqMax EEW Bridge</code> に統一。</li>
         <li><strong>[Stability] エラー診断プロンプトの強化:</strong> 送信失敗時の原因特定を容易に。</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v6.0.0 (Emergency & Performance Update)</h2>
       <p><em>「静かなる守護者」 — 通信の完全分離と、究極の安定性へ。</em></p>
       <ul>
-        <li><strong>[Network] Twitter(X)機能の完全デッドロック回避:</strong> CloudflareによるIPブロックやフリーズを根絶。</li>
+        <li><strong>[Network] Twitter(X)機能の完全デッドロック回避:</strong> 隠しフラグ（TwitterDummyPost）による強制離脱処理を実装。Cloudflareによるフリーズを根絶。</li>
         <li><strong>[Setup] 「ワンクリック・パッチ」の実装:</strong> 初期設定を全自動化。</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v5.0 - v5.6.x (Stability & Interface)</h2>
       <ul>
         <li><strong>[Core] メモリリーク対策:</strong> Private Bytes監視への移行により安定性を向上。</li>
         <li><strong>[Safety] セーフモード診断:</strong> 自己診断・自動修復機能の実装。</li>
         <li><strong>[UX] ブランドデザイン統合:</strong> 公式ロゴ表示とハブメニューの再設計。</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v1.0 - v4.5 (Foundation)</h2>
       <ul>
         <li>Watchdog機能による24時間365日の自動監視・再起動ロジック搭載。</li>
         <li>ログやキャプチャ画像の一括清掃機能の実装。</li>
-      </ul>
-    </div>
+      </ul></div>
     <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
