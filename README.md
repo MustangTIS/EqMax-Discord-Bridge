@@ -1,4 +1,4 @@
-# EqMax-Discord-Bridge v8.5.0 (Integration & Visual Enhancement)
+# EqMax-Discord-Bridge v8.6.0 (Integration & Visual Enhancement)
 
 <p align="center">
 <img src="Assets/eq-dis.png" width="120" alt="Logo">
