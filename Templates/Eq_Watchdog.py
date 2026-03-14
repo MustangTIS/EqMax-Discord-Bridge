@@ -7,7 +7,7 @@ import sys
 import subprocess
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "5.6"
+CURRENT_VERSION = "8.6.0"
 
 # --- タスクバーアイコン修正用の呪文 ---
 def set_taskbar_icon():
@@ -98,6 +98,11 @@ def start_watchdog():
     exe_path = os.path.normpath(os.path.join(config["eqmax_dir"], "EqMax.exe"))
     ram_limit = config.get("ram_limit_mb", 1024)
     report_int = config.get("report_interval_sec", 3600)
+    
+    print("-" * 52)
+    print(f">>> EqMax Watchdog: Initialization...")
+    print(f">>> EqMax Watchdog: Boot Sequence Started...")
+    print("-" * 52)
 
     # --- [Step 1/7] ---
     print(f" [Step 1/7] Booting EqMax Watchdog Engine....... [  OK  ]")
@@ -133,6 +138,7 @@ def start_watchdog():
     else:
         print(f"    SYSTEM STATUS: ATTENTION REQUIRED / CHECK LOGS")
     print(f"    WELCOME TO EQMAX WATCHDOG V{CURRENT_VERSION}")
+    print(f"    Developed by Mustang_TIS")
     print(f"="*52 + "\n")
 
     if not is_all_ok:

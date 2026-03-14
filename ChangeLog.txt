@@ -1,3 +1,12 @@
+### ■ v8.6.0 (Load Existing Notification Settings)
+本アップデートでは、Discord通知bot配置部分に「既存の投稿設定を読み込む機能」を追加しました。
+
+**[Feature] 通知先設定の操作性改善**
+
+*既に当アプリケーションを実装済みの場合、EqMax.exeを選択するだけで、現在設定されている各通知先連携設定を自動で読み込めるように改良しました。
+* WebhookやMatrixのトークン・IDを毎回入力する手間を削減し、設定の確認や修正も容易に行えるようになります。
+
+
 ### ■ v8.5.0 (Integration & Visual Enhancement)
 
 **「Discord を、すべての速報のハブへ。」 — 通知網の統合と画像連携の実現。**

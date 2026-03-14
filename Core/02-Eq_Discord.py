@@ -17,9 +17,17 @@ except ImportError:
         Image = None
 
 class EqMaxBotDeployer(ctk.CTk):
+    
     def __init__(self):
         super().__init__()
 
+        self.style_map = {
+            "DiscordEmbed": "disembed",
+            "DiscordSimple": "dissimple",
+            "Slack": "slack",
+            "Matrix": "matrix"
+        }
+        
         # --- 1. アイコンと画像の設定 ---
         base_dir = os.path.dirname(__file__)
         assets_dir = os.path.normpath(os.path.join(base_dir, "..", "Assets"))
@@ -56,7 +64,7 @@ class EqMaxBotDeployer(ctk.CTk):
         self.context_menu = tk.Menu(self, tearoff=0)
         self.context_menu.add_command(label="貼り付け", command=self.paste_to_entry)
 
-# --- 3. タイトルエリア ---
+        # --- 3. タイトルエリア ---
         self.label_title = ctk.CTkLabel(
             self, 
             text=" EqMax Discord連携ボット配置", 
@@ -138,6 +146,53 @@ class EqMaxBotDeployer(ctk.CTk):
                 "matrix_frame": matrix_frame, "token": token_entry, "room": room_entry
             })
 
+    def load_existing_config(self, config_path):
+        """既存のconfig.jsonを読み込み、フォームに値をセットする"""
+        if not os.path.exists(config_path):
+            return
+
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                destinations = data.get("destinations", [])
+
+            # 既存の入力欄をクリアしてから値をセット
+            for i, item in enumerate(destinations):
+                if i >= len(self.webhook_entries): break
+
+                # Webhook URL
+                self.webhook_entries[i]["entry"].insert(0, item.get("url", ""))
+
+                # スタイル（内部コード -> UI表記への変換）
+                # 逆引き用辞書（既存のstyle_mapを利用）
+                rev_style_map = {v: k for k, v in self.style_map.items()} 
+                ui_style = rev_style_map.get(item.get("style"), "通知タイプを選択...")
+                self.webhook_entries[i]["style"].set(ui_style)
+
+                # Matrixの場合の特殊処理
+                if item.get("style") == "matrix":
+                    self.webhook_entries[i]["matrix_frame"].pack(fill="x", padx=10)
+                    self.webhook_entries[i]["token"].insert(0, item.get("token", ""))
+                    self.webhook_entries[i]["room"].insert(0, item.get("room", ""))
+
+            self.write_log("既存の設定を読み込みました。")
+        except Exception as e:
+            self.write_log(f"設定の読み込みに失敗しました: {e}")
+
+    def browse_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("EqMax.exe", "EqMax.exe")])
+        if file_path:
+            eqmax_dir = os.path.dirname(file_path)
+            self.entry_path.delete(0, "end")
+            self.entry_path.insert(0, eqmax_dir)
+
+            # --- ここに読み込み処理を追加 ---
+            config_path = os.path.join(eqmax_dir, "DiscordBot", "config.json")
+            if os.path.exists(config_path):
+                self.load_existing_config(config_path)
+            else:
+                self.write_log("既存のconfig.jsonは見つかりませんでした。")
+
     def on_style_change(self, choice, main_frame):
         # 該当する webhook_entries を探して表示制御
         for item in self.webhook_entries:
@@ -146,13 +201,7 @@ class EqMaxBotDeployer(ctk.CTk):
                     item["matrix_frame"].pack(fill="x", padx=10)
                 else:
                     item["matrix_frame"].pack_forget()
-
-    def browse_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("EqMax.exe", "EqMax.exe")])
-        if file_path:
-            self.entry_path.delete(0, "end")
-            self.entry_path.insert(0, os.path.dirname(file_path))
-
+    
     def write_log(self, text):
         self.log_view.insert("end", f"{datetime.now().strftime('%H:%M:%S')} : {text}\n")
         self.log_view.see("end")
