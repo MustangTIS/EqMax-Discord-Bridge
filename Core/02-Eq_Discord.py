@@ -7,6 +7,8 @@ import os
 import shutil
 from datetime import datetime
 import subprocess
+import psutil
+import sys
 
 try:
     from PIL import Image
@@ -61,12 +63,14 @@ class EqMaxBotDeployer(ctk.CTk):
         self.log_view = ctk.CTkTextbox(self, height=150)
         self.log_view.pack(pady=10, padx=20, fill="x")
         self.log_view.insert("0.0", "待機中...\n")
+        self.main_container = ctk.CTkScrollableFrame(self, fg_color="transparent")
+        self.main_container.pack(fill="both", expand=True, padx=5, pady=5)
         self.context_menu = tk.Menu(self, tearoff=0)
         self.context_menu.add_command(label="貼り付け", command=self.paste_to_entry)
 
         # --- 3. タイトルエリア ---
         self.label_title = ctk.CTkLabel(
-            self, 
+            self.main_container, 
             text=" EqMax Discord連携ボット配置", 
             image=self.logo_image,
             compound="left", 
@@ -75,7 +79,7 @@ class EqMaxBotDeployer(ctk.CTk):
         self.label_title.pack(pady=(20, 0)) # 下の余白を少し調整
 
         self.label_subtitle = ctk.CTkLabel(
-            self, 
+            self.main_container, 
             text="マルチ通知対応版 (Discord / Slack / Matrix)", 
             font=("Yu Gothic", 12),
             text_color="gray"
@@ -83,9 +87,9 @@ class EqMaxBotDeployer(ctk.CTk):
         self.label_subtitle.pack(pady=(0, 10))
 
         # --- 4. メインコンテンツ ---
-        self.label_path = ctk.CTkLabel(self, text="1. EqMax.exe があるフォルダを選択してください:", font=("Yu Gothic", 12, "bold"))
+        self.label_path = ctk.CTkLabel(self.main_container, text="1. EqMax.exe があるフォルダを選択してください:", font=("Yu Gothic", 12, "bold"))
         self.label_path.pack(pady=(10, 0))
-        self.path_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.path_frame = ctk.CTkFrame(self.main_container, fg_color="transparent")
         self.path_frame.pack(pady=5)
         self.entry_path = ctk.CTkEntry(self.path_frame, width=530)
         self.entry_path.pack(side="left", padx=(0, 5))
@@ -93,18 +97,18 @@ class EqMaxBotDeployer(ctk.CTk):
         self.var_desktop = ctk.BooleanVar(value=True)
         self.var_startup = ctk.BooleanVar(value=True)
 
-        self.check_desktop = ctk.CTkCheckBox(self, text="デスクトップにショートカットを作成", variable=self.var_desktop)
+        self.check_desktop = ctk.CTkCheckBox(self.main_container, text="デスクトップにショートカットを作成", variable=self.var_desktop)
         self.check_desktop.pack(pady=5)
-        self.check_startup = ctk.CTkCheckBox(self, text="スタートアップに登録", variable=self.var_startup)
+        self.check_startup = ctk.CTkCheckBox(self.main_container, text="スタートアップに登録", variable=self.var_startup)
         self.check_startup.pack(pady=5)
 
         # --- 配置ボタン ---
-        self.btn_deploy = ctk.CTkButton(self, text="ボットを配置する", command=self.run_deploy, fg_color="green")
+        self.btn_deploy = ctk.CTkButton(self.main_container, text="ボットを配置する", command=self.run_deploy, fg_color="green")
         self.btn_deploy.pack(pady=20)
         self.btn_browse = ctk.CTkButton(self.path_frame, text="選択...", width=80, command=self.browse_file)
         self.btn_browse.pack(side="left")
 
-        self.label_webhook = ctk.CTkLabel(self, text="2. 送信先Webhook (最大5つ) と通知形式を選択してください:", font=("Yu Gothic", 12, "bold"))
+        self.label_webhook = ctk.CTkLabel(self.main_container, text="2. 送信先Webhook (最大5つ) と通知形式を選択してください:", font=("Yu Gothic", 12, "bold"))
         self.label_webhook.pack(pady=(20, 5))
         
         # --- ループ開始 ---
@@ -113,7 +117,7 @@ class EqMaxBotDeployer(ctk.CTk):
 
         for i in range(5):
             # メインフレーム
-            main_frame = ctk.CTkFrame(self)
+            main_frame = ctk.CTkFrame(self.main_container) 
             main_frame.pack(pady=3, padx=20, fill="x")
             
             # コンテナ（上段・下段を管理）
@@ -266,6 +270,25 @@ class EqMaxBotDeployer(ctk.CTk):
             self.write_log(f"セーフモードショートカット作成失敗: {e}")
             return False
 
+    def kill_existing_bot(self, script_name="eqmax_discord.py"):
+        """実行中の同名スクリプトプロセスを探して終了させる"""
+        found = False
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                # プロセス引数にスクリプト名が含まれているか確認
+                cmdline = proc.info.get('cmdline')
+                if cmdline and any(script_name in s for s in cmdline):
+                    self.write_log(f"稼働中の旧ボット(PID: {proc.info['pid']})を終了させます...")
+                    proc.terminate()  # 終了信号を送る
+                    try:
+                        proc.wait(timeout=3) # 終了を待つ
+                    except psutil.TimeoutExpired:
+                        proc.kill() # 頑固な場合は強制終了
+                    found = True
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
+        return found
+
     def run_deploy(self):
         eqmax_dir = self.entry_path.get().strip()
         if not eqmax_dir or not os.path.isdir(eqmax_dir):
@@ -280,7 +303,11 @@ class EqMaxBotDeployer(ctk.CTk):
         assets_dir = os.path.join(base_dir, "Assets")
 
         try:
-            # --- 修正: コピー対象のリストに "senders.py" を追加 ---
+            # --- 1. 既存のボットを停止させる (新機能) ---
+            # ファイルを上書きする前に、動いているプロセスを止めます
+            self.kill_existing_bot()
+
+            # --- 2. ファイルのコピー (既存) ---
             for f in ["eqmax_discord.py", "eqmax_discord.bat", "senders.py"]:
                 src = os.path.join(templates_dir, f)
                 if os.path.exists(src):
@@ -294,10 +321,8 @@ class EqMaxBotDeployer(ctk.CTk):
 
             target_bat = os.path.join(bot_dir, "eqmax_discord.bat")
 
-            # --- 修正箇所: run_deploy メソッド内のループ部分 ---
+            # --- 3. 設定データの構築と保存 (既存) ---
             webhooks_data = []
-            
-            # マッピング定義（UI表記 -> 内部コード）
             style_map = {
                 "DiscordEmbed": "disembed",
                 "DiscordSimple": "dissimple",
@@ -308,13 +333,10 @@ class EqMaxBotDeployer(ctk.CTk):
             for item in self.webhook_entries:
                 url = item["entry"].get().strip()
                 style_raw = item["style"].get()
-                
-                if not url: continue # 入力がない場合はスキップ
+                if not url: continue
 
-                # 1. 形式の正規化（Matrixかどうかにかかわらず先にやる）
                 style_normalized = style_map.get(style_raw, "disembed")
                 
-                # 2. ガードレール
                 if style_normalized == "matrix":
                     if not url.startswith("https://"):
                         messagebox.showerror("設定エラー", "MatrixのサーバーURLは 'https://' から始めてください。")
@@ -323,7 +345,6 @@ class EqMaxBotDeployer(ctk.CTk):
                         messagebox.showerror("設定エラー", "MatrixのTokenとRoom IDは必須です。")
                         return
                 
-                # 3. データ作成
                 data = {"url": url, "style": style_normalized}
                 if style_normalized == "matrix":
                     data["token"] = item["token"].get().strip()
@@ -336,7 +357,7 @@ class EqMaxBotDeployer(ctk.CTk):
                 json.dump(config, f, indent=4, ensure_ascii=False)
             self.write_log("config.json を保存しました。")
 
-            # ショートカット作成
+            # --- 4. ショートカット作成 (既存) ---
             lnk_name = "EqMax-Discord通知ボット.lnk"
             safe_lnk_name = "EqMax-Discord通知ボット(セーフモード).lnk"
             
@@ -358,17 +379,23 @@ class EqMaxBotDeployer(ctk.CTk):
                     start_path = os.path.join(appdata, r"Microsoft\Windows\Start Menu\Programs\Startup", lnk_name)
                     self.create_shortcut_wsh(target_bat, start_path)
 
-            msg = (
-                "ボットの配置が完了しました。\n\n"
-                "【アイコン表示についてのご案内】\n"
-                "このWebhookを本ボット専用にしている場合、\n"
-                "DiscordのWebhook設定からアイコンを「eq-dis.png」に変更して保存すると、\n"
-                "通知がより見分けやすくなります。\n\n"
-                "※他のツールとWebhookを共有している場合は、\n"
-                "そのままでも動作に影響はありません。\n\n"
-                "デスクトップのショートカットを確認してください。"
-            )
-            messagebox.showinfo("成功", msg)
+            # --- 5. 完了通知と再起動確認 (新機能) ---
+            self.write_log("すべての配置作業が完了しました。")
+            
+            if messagebox.askyesno("成功", "ボットの配置が完了しました。\n\n今すぐボットを起動（再起動）しますか？"):
+                # 新しいコンソールでボットを起動
+                # pythonw.exe にすると黒い画面なしで起動できますが、
+                # デバッグしやすさを考慮して python.exe (黒い画面あり) で起動させています
+                subprocess.Popen(
+                    [sys.executable, "eqmax_discord.py"],
+                    cwd=bot_dir,
+                    creationflags=subprocess.CREATE_NEW_CONSOLE
+                )
+                self.write_log("ボットを起動しました。")
+                messagebox.showinfo("起動完了", "ボットを起動しました。正常に動作するか確認してください。")
+            else:
+                messagebox.showinfo("成功", "ボットの配置が完了しました。\n手動で起動する場合はショートカットを使用してください。")
+            
             self.destroy()
 
         except Exception as e:
