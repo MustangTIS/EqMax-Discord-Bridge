@@ -1,159 +1,163 @@
-# EqMax-Discord-Bridge v8.6.0 (Integration & Visual Enhancement)
+<div align="center">
 
-<p align="center">
+<table>
+<tr>
+<td rowspan="2" align="center" valign="middle">
 <img src="Assets/eq-dis.png" width="120" alt="Logo">
-</p>
+</td>
+<td align="left">
+<h1>EqMax-Discord-Bridge v9.0.0</h1>
+<h3>(Major UI & Functional Update)</h3>
+</td>
+</tr>
+<tr>
+<td align="left">
+<p><em>「更なる使いやすさと、確実な連携を。」 — 操作系統の刷新と、診断機能の搭載。</em></p>
+</td>
+</tr>
+</table>
 
----
-<p align="center">
-<b>「運用のすべてを、その手に。」 — 導入からトラブルシューティングまで、完全ガイドの完備。</b>
-</p>
-
-
-> [!IMPORTANT]
-> **最新版パッケージ (ZIP) を直接ダウンロード**
->
-> <p align="center">
->   <a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v8.6.0/EqMax-Discord-Bridge_v8.6.0.zip">
->     <img src="https://img.shields.io/badge/Download-Latest_v8.6.0_.zip-blue?style=for-the-badge&logo=github" alt="Download ZIP">
->   </a>
-> </p>
-
----
-
-<p align="right">Developer: MustangTIS</p>
-
+[!IMPORTANT]
+最新版パッケージ (ZIP) を直接ダウンロード
 
 <p align="center">
-<img src="Assets/MegaQuake2011.jpg" alt="Main Visual">
+<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v9.0.0/EqMax-Discord-Bridge_v9.0.0.zip">
+<img src="https://img.shields.io/badge/Download-Latest_v9.0.0_.zip-blue?style=for-the-badge&logo=github" alt="Download ZIP">
+</a>
 </p>
 
-**～2026/03/11 — 震災から15年目の節目に寄せて～**
+<div align="right">Developer: MustangTIS</div>
 
-東日本大震災から15年が経ちました。あの日の教訓を風化させず、一秒でも早く、一通でも多くの情報を届けること。\
-このツールが、これからも皆様の安心を守るための「架け橋」であり続けることを願っています。
+<img src="Assets/MegaQuake2011.jpg" alt="Main Visual" width="100%">
 
-「EqMaxの地震速報を通知したい」。その思いから作り始めたこのツールも、多くの皆様に支えられ、ついに導入から運用トラブル対応までを自己完結できる「完全なシステム」へと進化しました。
+～2026/03/11 — 震災から15年目の節目に寄せて～
 
-v8.0.0 では、これまで難易度が高かった各プラットフォーム（Matrix/Slack）の設定手順を、アプリ内蔵のHTMLヘルプとして完全実装。初心者の方でも迷わず運用を開始できるよう、全ての機能と対応表を網羅しました。
+</div>
+
+東日本大震災から15年が経ちました。あの日の教訓を風化させず、一秒でも早く、一通でも多くの情報を届けること。
+このツールが、これからの皆様の安心を守るための「新たなツール」であり続けることを願っています。
+
+「EqMaxの地震速報をいろんな場所に通知したい」。その思いから作り始めたこのツールも、多くの皆様に支えられ、ついに導入から運用トラブル対応までを自己完結できる「完全なシステム」へと進化しました。
+
+v9.0.0 では、これまで難易度が高かったMatrix/Slackへの画像送信をDiscordを仲介することで実現。構築した連携の動作確認をEEWを待たずに即確認可能な「テストEEW通知」を実装しました。初心者の方でも迷わず運用を開始できるよう、画像付きヘルプマニュアルも完備。高性能なEqMaxをさらに強化する、統合型強化システムへと進化します。
 
 これからの地震情報を認知していただくための「架け橋」として、より確実な情報伝達にお役立てください。
 
-2026/03/10 Mustang_TIS
+<div align="right">2026/03/19 MustangTIS</div>
 
----
-### ⚖ v8.6.0 (Load Existing Notification Settings)
-本アップデートでは、Discord通知bot配置部分に「既存の投稿設定を読み込む機能」を追加しました。
+🚀 v9.0.0 (Major UI & Functional Update)
 
-**[Feature] 通知先設定の操作性改善**
+[New Feature] EEWテスト投稿機能の搭載
+実装が正しく行われているかを確認できる「テスト投稿ボタン」を追加。実際に地震が発生するのを待たずとも、連携が正常に動作するかを即座に検証可能になりました。
 
-*既に当アプリケーションを実装済みの場合、EqMax.exeを選択するだけで、現在設定されている各通知先連携設定を自動で読み込めるように改良しました。
-* WebhookやMatrixのトークン・IDを毎回入力する手間を削減し、設定の確認や修正も容易に行えるようになります。
+※EqMax初期設定ツールに準拠した設定が必要です。
 
-### 💡 v8.5.0：画像リバース配信機能の追加
+<img src="Assets/Bridge.jpg" width="400" alt="EEWTest">
 
-* **Discord を、すべての速報のハブへ。」 — 通知網の統合と画像連携の実現。**
+[UX/UI] 総合ハブ(TOP_HUB)のレイアウト刷新
+アプリケーション数の増加に伴い、従来の縦一列から「左右2カラム」の配置へ変更。視認性と動線を整理しました。
 
+<img src="Assets/HUB.jpg" width="600" alt="New総合ハブ">
 
-<img src="Assets/SlackSAMPLE.jpg" width="400" alt="Slack Image">
+▲新しい総合ハブ
 
-☝Slackに投稿時のイメージ
-* **[Feature] Discord 経由の画像リバース配信機能**
-　Discordへ投稿されたEEW通知から画像URLを解析・取得し、SlackやMatrixへ自動転送する仕組みを実装。
-* **[Visual] 通知フォーマットの最適化**
-　Slack・Matrixにおける通知表示を「改行区切り」へと変更し、情報の可読性を向上。
-* **[Stability] 起動・通知シーケンスの堅牢化**
- クリーナーツールやログ削除時における、ファイル競合による送信失敗の不具合を修正。INIファイルの最適化によりリソース消費を最小化。
-* **[Docs] マニュアルの拡充**
- 画像添付機能の仕様と設定手順を各チャットアプリのマニュアルページに追記。
+[Improvement] Discord連携ツールの高度化
+設定画面のスクロール対応により操作性を向上。また、設定再適用時に古いプロセスを自動停止し、新しい設定で再起動するシームレスな更新処理を実装。
 
-### 🚀 v8.0.0：ヘルプ完備・システム最適化Update
+💡 v8.5.0：画像リバース配信機能の追加
 
-* **本バージョンでは、運用上の「わからない」を徹底的に排除しました。**
+「Discord を、すべての速報のハブへ。」 — 通知網の統合と画像連携の実現。
 
+<div align="center">
+<img src="Assets/DiscordDemo.jpg" width="45%"> <img src="Assets/SlackDemo.jpg" width="45%">
 
-* **[Docs] HTMLヘルプシステムの完全実装**
-  アプリ内にHTML形式の完全マニュアルを搭載。MatrixやSlackの難解な設定もステップバイステップでガイドします。運用上の注意点をまとめた「Chips（ヒント）」機能も追加。
-* **[UX] 総合管理ハブの操作性向上**
-  ボタン配置の最適化により、導入からメンテナンスまで迷うことのない直感的なUIへ刷新。
-* **[Core] 安定性と信頼性の追求**
-  文脈の整理や推奨環境の明文化により、設定ミスを未然に防ぐ運用フローを確立。
+<em>☝Discordへの投稿画像をSlackやMatrixに自動転送可能に</em>
 
----
+</div>
 
-🛠️ 収録ツール一覧
+[Feature] Discord 経由 de 画像リバース配信機能
+Discordへ投稿されたEEW通知から画像URLを解析・取得し、SlackやMatrixへ自動転送する仕組みを実装。
 
-1. **HTML ヘルプ/マニュアル (New!)**
-   全機能・設定手順・トラブル対応表を網羅した運用ガイド。
-2. **EqMAX 初期設定パッチ**
-   レイアウト固定、通信遮断、疑似認証を自動適用。ワンクリック最適化。
-3. **Guardian Hub (通知エンジン)**
-   Discord/Slack/Matrix 等、最大5つの送信先を一元管理。
-4. **メンテナンスツール (Cleaner / Watchdog)**
-   肥大化する画像・ログの自動掃除や、フリーズ検知による自動再起動を完備。
-5. **EqMAX 初期化ツール (Reset)**
-   導入直後の状態へ復元。
+[Visual] 通知フォーマットの最適化
+Slack・Matrixにおける通知表示を「改行区切り」へと変更し、情報の可読性を向上。
 
----
-
-💻 設定時デスクトップイメージ (Desktop image)
-
-本システムは、EqMax-Discord-Bridge.batを機動すると、GUI管理ハブから各種項目へアクセスが可能
-
-<p align="center">
-<img src="Assets/Desktop.jpg" width="700" alt="Desktop Image">
-
-<i>▲アプリ実行時のイメージ(v5.0時代)</i>
-
-</p>
-
-### 💻 v7.0.0から拡張されたDiscord連携システム (Discordbot Installer)
-
-<p align="center">
-<img src="Assets/02Bridge.jpg" width="500" alt="Discordbot Installer">
-
-<i>▲あらたにSlackやMatrixへの投稿もサポートした協力なGUI設定画面<i>
-
----
-
-📘 運用ガイド・ヘルプへのアクセス
-
-本システムは、司令塔となる「管理ハブ」から起動可能です。
-
-<p align="center">
-<img src="Assets/01TOPHUB-Prompt.jpg" width="700" alt="Startup Prompt">
-
-<i>▲ 統合管理ハブ：マニュアルへのアクセスおよび環境診断を自動実行</i>
-
-</p>
-
-> [!TIP]
-> **トラブル時の「セーフモード」**
-> もし起動しない場合は、同梱の「(セーフモード)」ショートカットを実行してください。自己診断・自動修復機能が働き、環境を自動で再構築します。
-
----
-
-### 🖼️ 設定画面ギャラリー / 🛠️ 収録ツール紹介
+🛠️ 収録ツール紹介
 
 各ツールは統合管理ハブから呼び出し可能です。
 
-| 総合管理ハブ (Hub) | 初期設定パッチ (Patcher) | 監視・通知 (Guardian) |
-| :--- | :--- | :--- |
-| <img src="Assets/01HUB.jpg" width="280"> | <img src="Assets/01EqSetting.jpg" width="280"> | <img src="Assets/02Bridge.jpg" width="280"> |
-| 全機能の司令塔 | ワンクリック最適化 | マルチ通知エンジン |
-| **ログ・画像掃除 (Cleaner)** | **動作監視 (Watchdog)** | **初期化ツール (Reset)** |
-| <img src="Assets/O1Cleaner.jpg" width="280"> | <img src="Assets/O2Watchdog.jpg" width="280"> | <img src="Assets/03Initialization.jpg" width="280"> |
-| 不要ファイルの自動削除 | RAM超過時の自動復旧 | 導入直後の状態へ復元 |
 
----
 
-### ⚠️ 免責事項
+
+
+
+
+<img src="Assets/HUB-Prompt.jpg" width="280">
+
+
+
+ハブ・プロンプト
+
+
+
+<sub>背後でプロセスを集中管理</sub>
+
+<img src="Assets/EqSetting.jpg" width="280">
+
+
+
+初期設定パッチ
+
+
+
+<sub>ワンクリックで最適化</sub>
+
+<img src="Assets/BotPrompt.jpg" width="280">
+
+
+
+監視・通知
+
+
+
+<sub>画像転送対応エンジン</sub>
+
+<img src="Assets/Cleaner.jpg" width="280">
+
+
+
+ログ・画像掃除
+
+
+
+<sub>不要ファイルの自動削除</sub>
+
+<img src="Assets/Watchdog.jpg" width="280">
+
+
+
+動作監視
+
+
+
+<sub>24時間365日の安定稼働</sub>
+
+<img src="Assets/Reset.jpg" width="280">
+
+
+
+初期化ツール
+
+
+
+<sub>クリーンな状態へ復元</sub>
+
+[!TIP]
+トラブル時の「セーフモード」
+もし起動しない場合は、同梱の「(セーフモード)」ショートカットを実行してください。自己診断・自動修復機能が働き、Python環境などを自動で再構築します。
+
+⚠️ 免責事項
 
 本ツールの利用により生じた損害について、作者は一切の責任を負いません。また、EqMax本体、及び通知先各社（Discord/Slack/Matrix）は当方とは一切関係ありません。
 
----
-
 制作者：MustangTIS
-GitHub: [https://github.com/MustangTIS/EqMax-Discord-Bridge](https://github.com/MustangTIS/EqMax-Discord-Bridge)
-
-
+GitHub: https://github.com/MustangTIS/EqMax-Discord-Bridge
