@@ -36,7 +36,7 @@
     <ul class="nav">
       <li><a href="../Cleaner.html">クリーナーソフト</a></li>
       <li><a href="../Watchdog.html">安定化ツール</a></li>
-      <li><a href="../Reset.html">初期化ツール</a></li>
+      <li><a href="../EEWTest.html">EEWテスト投稿</a><a href="../Reset.html">初期化ツール</a></li>
     </ul>
   </div>
   <div class="content"><!-- TemplateBeginEditable name="main_content" -->

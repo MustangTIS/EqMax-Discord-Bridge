@@ -5,6 +5,7 @@ EqMax-Discord-Bridge  ##ルートディレクトリ
 	│  ReadMe.txt                  #簡易説明書
 	│
 	├─Assets  ##画像ファイル
+	│      dummy_eq.png            #EEWテスト投稿用ダミーファイル
 	│      eq-dis.ico              #EqMax-Discord-Bridgeアイコンファイル
 	│      eq-dis.png              #EqMax-Discord-Bridgeアイコン画像
 	│      eqmax.ico               #EqMaxアイコンファイル
@@ -14,9 +15,10 @@ EqMax-Discord-Bridge  ##ルートディレクトリ
 	│      00-TOP_HUB.py           #メインメニュー用システム
 	│      01-Eq_Initialize.py     #EqMax初期設定用システムセットアップ
 	│      02-Eq_Discord.py        #各種チャット連携用システムセットアップ
+	│      99-Eq_Reset.py          #EqMaxと本システム初期化ツール
 	│      O01-Eq_Cleaner.py       #EqMaxログ、キャッシュクリーナー
 	│      O02-Eq_Watch.py         #EqMax安定化ツール
-	│      O03-Eq_Reset.py         #EqMaxと本システム初期化ツール
+	│      O03-EEW-Test.py         #EEWテスト投稿用ツール
 	│
 	├─Manual  ##マニュアル用保管フォルダ(本体アプリから開けし余計なファイルが多いので内容割愛)
 	│
