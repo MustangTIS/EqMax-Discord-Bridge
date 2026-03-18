@@ -85,71 +85,92 @@ Slack・Matrixにおける通知表示を「改行区切り」へと変更し、
 
 各ツールは統合管理ハブから呼び出し可能です。
 
+<table width="100%">
+<!-- 1段目 -->
+<tr>
+<td width="33.3%" align="center" valign="top">
+<img src="Assets/HUB-Prompt.jpg" width="100%">
 
 
 
 
-
-
-<img src="Assets/HUB-Prompt.jpg" width="280">
-
-
-
-ハブ・プロンプト
+<strong>ハブ・プロンプト</strong>
 
 
 
-<sub>背後でプロセスを集中管理</sub>
 
-<img src="Assets/EqSetting.jpg" width="280">
-
-
-
-初期設定パッチ
+<small>背後でプロセスを集中管理</small>
+</td>
+<td width="33.3%" align="center" valign="top">
+<img src="Assets/EqSetting.jpg" width="100%">
 
 
 
-<sub>ワンクリックで最適化</sub>
 
-<img src="Assets/BotPrompt.jpg" width="280">
-
-
-
-監視・通知
+<strong>初期設定パッチ (Patcher)</strong>
 
 
 
-<sub>画像転送対応エンジン</sub>
 
-<img src="Assets/Cleaner.jpg" width="280">
-
-
-
-ログ・画像掃除
+<small>ワンクリックでEqMaxを最適化</small>
+</td>
+<td width="33.3%" align="center" valign="top">
+<img src="Assets/BotPrompt.jpg" width="100%">
 
 
 
-<sub>不要ファイルの自動削除</sub>
 
-<img src="Assets/Watchdog.jpg" width="280">
-
-
-
-動作監視
+<strong>監視・通知 (Guardian)</strong>
 
 
 
-<sub>24時間365日の安定稼働</sub>
 
-<img src="Assets/Reset.jpg" width="280">
+<small>画像転送対応の通知エンジン</small>
+</td>
+</tr>
+<!-- 2段目 -->
+<tr>
+<td width="33.3%" align="center" valign="top">
+<img src="Assets/Cleaner.jpg" width="100%">
 
 
 
-初期化ツール
+
+<strong>ログ・画像掃除 (Cleaner)</strong>
 
 
 
-<sub>クリーンな状態へ復元</sub>
+
+<small>不要ファイルの自動削除</small>
+</td>
+<td width="33.3%" align="center" valign="top">
+<img src="Assets/Watchdog.jpg" width="100%">
+
+
+
+
+<strong>動作監視 (Watchdog)</strong>
+
+
+
+
+<small>24時間365日の安定稼働</small>
+</td>
+<td width="33.3%" align="center" valign="top">
+<img src="Assets/Reset.jpg" width="100%">
+
+
+
+
+<strong>初期化ツール (Reset)</strong>
+
+
+
+
+<small>導入直後の状態へ復元</small>
+</td>
+</tr>
+</table>
 
 [!TIP]
 トラブル時の「セーフモード」
