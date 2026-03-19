@@ -56,9 +56,9 @@
           <div class="description">
             <ol>
               <li><strong>EqMax.exeを選択します。</strong></li>
-              <li><strong>海域</strong>か<strong>内陸</strong>を決めます※津波リスク判定に影響</li>
-              <li><strong>最大震度</strong>を決めます。※震度判定に影響</li>
-              <li><strong>規模(M)</strong>を決めます。※津波リスク判定に影響</li>
+              <li><strong>海域</strong>か<strong>内陸</strong>かを決めます※津波リスク判定に影響。</li>
+              <li><strong>最大震度</strong>を決めます。※震度判定に影響。</li>
+              <li><strong>規模(M)</strong>を決めます。※津波リスク判定に影響。</li>
               <li><strong>疑似地震発生</strong>を押すとその状態で<strong>テスト投稿</strong>がされます。</li>
             </ol>
 </div>
@@ -68,25 +68,40 @@
 </h1>
 <div class="card">
   <h3>当botシステムの地震の情報による変化。</h3>
-<ul>
-  <li>震源が海域か内陸か 
+  <ol>
+    <li>最大震度はいくつか？    </li>
     <ul>
-      <li>震源が海域の場合は、津波アラートモードへ、
+      <li>DiscordのEmbedカラー時を白～赤まで重み付け。</li>
+    </ul>
+    <li>震源が海域か内陸か？ 
+    </li>
+  </ol>
+  <ol>
+    <ol>
+      <li>震原が内陸の場合。
         <ul>
-          <li>M5.9未満アラート「ℹ️海域地震：念のため注意」が付与(Embedエッジ震度階級の色)</li>
-          <li>M6.0～ 7.4アラート「⚠️**大規模な海域地震：津波警戒**」が付与(Embedエッジカラー：オレンジ)</li>
-          <li>M7.5以上アラート「🚨**【巨大地震・大津波警戒】直ちに避難！」が付与(Embedエッジカラー：赤)</li>
+          <li>津波アラート無しの震度階級モードのみの出力。</li>
           </ul>
         </li>
-      <li>内陸時は津波アラート無しの、震度階級モードへ
-        。
-        <ul>
-          <li>最大震度1～7 （Embedエッジカラー：震度に応じて白から赤へ変化）</li>
-        </ul>
+      <li>震源が海域の場合は、津波アラートモードへ。
+        <ol>
+          <li>M5.9未満アラート「ℹ️海域地震：念のため注意」が付与 。         </li>
+          <ul>
+            <li>Embedエッジは震度階級の色。</li>
+            </ul>
+          <li>M6.0～ 7.4アラート「⚠️**大規模な海域地震：津波警戒**」が付与 。         </li>
+          <ul>
+            <li>Embedエッジカラーをオレンジに上書き。</li>
+            </ul>
+          <li>M7.5以上アラート「🚨**【巨大地震・大津波警戒】直ちに避難！」が付与。
+            <ul>
+              <li>Embedエッジカラーを赤に上書き。</li>
+            </ul>
+          </li>
+          </ol>
       </li>
-      </ul>
-  </li>
-  </ul>
+    </ol>
+    </ol>
 </div>
   <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
