@@ -114,19 +114,17 @@
         </div>
       </div>
       <h2 style="margin-top: 30px;">Discord連携でSlackへ接続する</h2>
-      <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;"> <img src="image/DiscordBridgeChange.png" alt="Discord連携" width="300" />
-        <div style="flex: 1; min-width: 300px;">
-          <ol>
-            <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-            <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
-          </ol>
-        </div>
-      </div>
       <div style="margin-top: 30px;">
         <h3 style="margin-bottom: 15px;">Discord連携登録</h3>
         <div style="display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap;"> <img src="image/SlackAppA10.jpg" alt="Discord連携登録" width="500" />
           <div style="flex: 1; min-width: 400px;">
             <ol>
+              
+              <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+              <li>ショートカット登録の部分を用途に合わせて☑する。</li>
+              <li><strong>確定震度情報の投稿設定</strong><br />
+                <small>※最大震度いくつ以上から通知か、最低震度いくつ未満から切り捨てか</small></li>
+              <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
               <li>Slackの<strong>Webhook URL</strong>を貼りつけてbotを配置するを選ぶ</li>
               <li>次に<strong>ボットを配置する</strong>をクリックし指示通りに進んでください。</li>
             </ol>
@@ -151,20 +149,23 @@
       <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
       <h3>bot実行時プロンプトの見方</h3>
       <div class="flex-container">
-        <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="500" /> </div>
+        <div style="flex: 0 0 420px;"><img src="image/DiscordBridgePrompt1.jpg"  alt="botプロンプト" width="300" /><br />
+          <img src="image/DiscordBridgePrompt2.jpg"  alt="botプロンプト" width="300" /><br />
+          <img src="image/DiscordBridgePrompt3.jpg"  alt="botプロンプト" width="300" /></div>
         <div class="description">
-          <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
+          <p>最小化中のウィンドウを展開するとアプリの情報ログが流れます。<br />
+            不具合の検知とかに役立ちます。</p>
           <ul>
-            <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
-            <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
-            <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
+            <li><strong>初期起動プロセス</strong>アプリ起動時に読み込まれた個設定を表示します。</li>
+            <li><strong>監視/Eq_Guardian:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
+            <li><strong>EEW・地震情報通知表示:</strong>各種連携システムの通知成功可否や投稿内容を表示します。</li>
           </ul>
         </div>
       </div>
       <h1>Tips：その他情報</h1>
       <div></div>
       <div class="card">
-        <h3>※Discord投稿設定者限定：EEW画像添付方法 // 8.5 UPDATE //</h3>
+        <h3>※Discord投稿設定者限定：EEW画像添付方法</h3>
         <div class="flex-container">
           <div style="flex: 0 0 420px; padding-right: 20px;">
             <p>Discordに投稿設定をかけている人は、他のチャットアプリ（Slack、Matrixなど)にも画像を投下できます。</p>

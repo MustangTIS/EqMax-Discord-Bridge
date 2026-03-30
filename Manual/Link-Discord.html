@@ -98,10 +98,13 @@
       </div>
       <div class="card">
         <h3>Discord連携ツールの設定</h3>
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"> <img src="image/DiscordBridgeChange.png" alt="Discord連携設定1" width="200" style="height: auto; display: block;" /> <img src="image/DiscordWebhook4.jpg" alt="Discord連携設定2" width="500" style="height: auto; display: block;" /> </div>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-bottom: 20px;"> <img src="image/DiscordBridgeChange.jpg" alt="Discord連携設定1" width="200" style="height: auto; display: block;" /> <img src="image/DiscordWebhook4.jpg" alt="Discord連携設定2" width="500" style="height: auto; display: block;" /> </div>
         <div class="description">
           <ol>
             <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+            <li>ショートカット登録の部分を用途に合わせて☑する。</li>
+            <li><strong>確定震度情報の投稿設定</strong><br />
+            <small>※最大震度いくつ以上から通知か、最低震度いくつ未満から切り捨てか</small></li>
             <li><strong>連携タイプの選択:</strong> 「DiscordEmbed」または「DiscordSimple」からお好みの形式を選びます。</li>
             <li><strong>Webhook U</strong><strong>RLの入力:</strong> 先ほど取得したURLをDiscord連携側の入力欄に貼り付けます。<br>
               <small>※入力欄はマウス右クリックまたは「Ctrl + V」で貼り付け可能です。</small></li>
@@ -126,13 +129,16 @@
         <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
         <h3>bot実行時プロンプトの見方</h3>
         <div class="flex-container">
-          <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="400" /> </div>
+          <div style="flex: 0 0 420px;"><img src="image/DiscordBridgePrompt1.jpg"  alt="botプロンプト" width="300" /><br />
+          <span style="flex: 0 0 420px;"><img src="image/DiscordBridgePrompt2.jpg"  alt="botプロンプト" width="300" /><br />
+          </span><span style="flex: 0 0 420px;"><img src="image/DiscordBridgePrompt3.jpg"  alt="botプロンプト" width="300" /></span>          </div>
           <div class="description">
-            <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
+            <p>最小化中のウィンドウを展開するとアプリの情報ログが流れます。<br />
+            不具合の検知とかに役立ちます。</p>
             <ul>
-              <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
-              <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
-              <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
+              <li><strong>初期起動プロセス</strong>アプリ起動時に読み込まれた個設定を表示します。</li>
+              <li><strong>監視/Eq_Guardian:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
+              <li><strong>EEW・地震情報通知表示:</strong>各種連携システムの通知成功可否や投稿内容を表示します。</li>
             </ul>
           </div>
         </div>

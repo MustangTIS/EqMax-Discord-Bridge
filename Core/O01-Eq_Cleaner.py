@@ -1,10 +1,10 @@
 import os
 import time
 from tkinter import filedialog, messagebox
+import tkinter as tk
 import customtkinter as ctk
 import shutil
 
-# 画像処理ライブラリのインポート
 try:
     from PIL import Image
 except ImportError:
@@ -17,9 +17,9 @@ class EqMaxCleaner(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        # --- 1. アイコンと画像の設定 (統合ハブから移植) ---
+        # --- 1. アイコンと画像の設定 (Assetsフォルダから読み込み) ---
         base_dir = os.path.dirname(__file__)
-        # Assetsフォルダの場所を定義（Coreフォルダの一つ上にあるAssetsを指す）
+        # 構造が Core/O01-Eq_Cleaner.py の場合、親の親にある Assets を参照
         assets_dir = os.path.normpath(os.path.join(base_dir, "..", "Assets"))
         
         icon_path = os.path.join(assets_dir, "eq-dis.ico")
@@ -28,12 +28,11 @@ class EqMaxCleaner(ctk.CTk):
         # ウィンドウアイコンの設定
         if os.path.exists(icon_path):
             try:
-                # 起動直後にアイコンをセット
                 self.after(200, lambda: self.iconbitmap(icon_path))
             except Exception as e:
                 print(f"Icon Error: {e}")
 
-        # ロゴ画像の読み込み
+        # ロゴ画像の設定
         self.logo_image = None
         if Image is not None and os.path.exists(img_path):
             try:
@@ -47,121 +46,116 @@ class EqMaxCleaner(ctk.CTk):
                 print(f"Image Load Error: {e}")
 
         # --- 2. ウィンドウ基本設定 ---
+        self.title("EqMax 環境クリーンアップツール v2.5")
+        self.geometry("600x850") # ロゴ追加分、少し高さを調整
         ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("blue")
-        
-        self.title("EqMax ログ・画像クリーナー")
-        self.geometry("550x580") # ロゴ表示分、高さを少し確保
 
         # --- 3. タイトルエリア (ロゴ付き) ---
         self.label_title = ctk.CTkLabel(
             self, 
-            text=" EqMax クリーナー", 
+            text=" EqMax 環境クリーンアップ", 
             image=self.logo_image,
             compound="left", 
             font=("Yu Gothic", 24, "bold")
         )
         self.label_title.pack(pady=(20, 10))
 
-        # --- 4. コントロール群 ---
-        # 1. フォルダ選択
-        self.label_path = ctk.CTkLabel(self, text="1. EqMax.exe を選択してください:")
-        self.label_path.pack(pady=(10, 0))
-        self.path_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.path_frame.pack(pady=5)
-        self.entry_path = ctk.CTkEntry(self.path_frame, width=350)
-        self.entry_path.pack(side="left", padx=(0, 5))
-        self.btn_browse = ctk.CTkButton(self.path_frame, text="選択...", width=80, command=self.browse_file)
-        self.btn_browse.pack(side="left")
+        # --- パス設定 ---
+        path_frame = ctk.CTkFrame(self)
+        path_frame.pack(fill="x", padx=20, pady=10)
+        self.label_hint = ctk.CTkLabel(path_frame, text="EqMax.exe を選択してください:", font=("Yu Gothic", 12))
+        self.label_hint.pack(padx=10, anchor="w")
+        self.entry_exe_path = ctk.CTkEntry(path_frame, placeholder_text="EqMax.exeを選択", width=350)
+        self.entry_exe_path.pack(side="left", padx=10, pady=(0, 15))
+        self.btn_browse = ctk.CTkButton(path_frame, text="選択", width=60, command=self.browse_exe)
+        self.btn_browse.pack(side="left", padx=5, pady=(0, 15))
 
-        # 2. クリーンアップオプション
-        self.option_frame = ctk.CTkFrame(self)
-        self.option_frame.pack(pady=20, padx=20, fill="x")
+        # デフォルトパス（存在確認付き）
+        default_path = "C:\\EqMax\\EqMax.exe"
+        if os.path.exists(default_path):
+            self.entry_exe_path.insert(0, default_path)
 
-        self.var_logs = ctk.BooleanVar(value=True)
-        ctk.CTkCheckBox(self.option_frame, text="各種ログファイルをリセット (0KB化)\n(Debug, EEW, Error, Info, Twitter関連)", variable=self.var_logs).pack(pady=10, padx=20, anchor="w")
+        # --- オプション設定 ---
+        self.option_frame = ctk.CTkScrollableFrame(self)
+        self.option_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        self.var_tw_dir = ctk.BooleanVar(value=True)
-        ctk.CTkCheckBox(self.option_frame, text="Twitterフォルダ内の未送信データを削除", variable=self.var_tw_dir).pack(pady=10, padx=20, anchor="w")
-
-        # 3. Captureフォルダ整理
-        self.cap_label = ctk.CTkLabel(self, text="Captureフォルダの画像整理:")
-        self.cap_label.pack(pady=(10, 0))
-        self.cap_mode = ctk.StringVar(value="keep_7")
-        self.cap_frame = ctk.CTkFrame(self)
-        self.cap_frame.pack(pady=5, padx=20, fill="x")
+        ctk.CTkLabel(self.option_frame, text="[クリーンアップ項目（確実に消して良いもののみ）]", font=("Yu Gothic", 12, "bold"), text_color="cyan").pack(pady=(10, 5), padx=20, anchor="w")
         
-        ctk.CTkRadioButton(self.cap_frame, text="7日以上前を削除", variable=self.cap_mode, value="keep_7").pack(side="left", padx=20, pady=10)
-        ctk.CTkRadioButton(self.cap_frame, text="30日以上前を削除", variable=self.cap_mode, value="keep_30").pack(side="left", padx=20, pady=10)
-        ctk.CTkRadioButton(self.cap_frame, text="すべて削除", variable=self.cap_mode, value="all").pack(side="left", padx=20, pady=10)
+        self.var_log_clean = ctk.BooleanVar(value=True)
+        ctk.CTkCheckBox(self.option_frame, text="各種ログ(*.log)を削除する", variable=self.var_log_clean).pack(pady=5, padx=40, anchor="w")
 
-        self.btn_run = ctk.CTkButton(self, text="クリーンアップを実行する", fg_color="darkred", height=60, command=self.run_clean)
-        self.btn_run.pack(pady=30)
+        self.var_trash_dir = ctk.BooleanVar(value=True)
+        ctk.CTkCheckBox(self.option_frame, text="Debug / LiveImages / Twitter フォルダを削除", variable=self.var_trash_dir).pack(pady=5, padx=40, anchor="w")
 
-    def browse_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("EqMax.exe", "EqMax.exe")])
+        self.var_json_dir = ctk.BooleanVar(value=False)
+        ctk.CTkCheckBox(self.option_frame, text="Json (地震情報の履歴) フォルダを削除", variable=self.var_json_dir).pack(pady=5, padx=40, anchor="w")
+
+        ctk.CTkLabel(self.option_frame, text="[Captureフォルダの整理]", font=("Yu Gothic", 12, "bold"), text_color="cyan").pack(pady=(15, 5), padx=20, anchor="w")
+        self.cap_mode = ctk.StringVar(value="keep_30")
+        ctk.CTkRadioButton(self.option_frame, text="30日以上前の古い画像だけ削除", variable=self.cap_mode, value="keep_30").pack(pady=2, padx=40, anchor="w")
+        ctk.CTkRadioButton(self.option_frame, text="7日以上前の古い画像だけ削除", variable=self.cap_mode, value="keep_7").pack(pady=2, padx=40, anchor="w")
+        ctk.CTkRadioButton(self.option_frame, text="すべて削除 (全消去)", variable=self.cap_mode, value="all").pack(pady=2, padx=40, anchor="w")
+
+        ctk.CTkLabel(self.option_frame, text="※上記以外のファイルやフォルダには一切触れません。", text_color="orange").pack(pady=20)
+
+        self.btn_run = ctk.CTkButton(self, text="クリーンアップを実行する", fg_color="darkred", hover_color="red", height=60, font=("Yu Gothic", 16, "bold"), command=self.run_clean)
+        self.btn_run.pack(pady=30, padx=20, fill="x")
+
+    def browse_exe(self):
+        file_path = filedialog.askopenfilename(title="EqMax.exeを選択", filetypes=[("EqMax.exe", "EqMax.exe"), ("All Files", "*.*")])
         if file_path:
-            self.entry_path.delete(0, "end")
-            self.entry_path.insert(0, os.path.dirname(file_path))
+            self.entry_exe_path.delete(0, "end")
+            self.entry_exe_path.insert(0, file_path)
 
     def run_clean(self):
-        path = self.entry_path.get().strip()
-        if not path or not os.path.isdir(path):
-            messagebox.showerror("エラー", "EqMaxのフォルダを正しく選択してください。")
+        exe_path = self.entry_exe_path.get().strip()
+        if not exe_path or not os.path.isfile(exe_path):
+            messagebox.showerror("エラー", "EqMax.exeを正しく選択してください。")
             return
 
-        # EqMax.exe を強制終了
-        try:
-            os.system('taskkill /F /IM EqMax.exe /T >nul 2>&1')
-        except Exception as e:
-            print(f"プロセス終了中にエラー: {e}")
+        path = os.path.dirname(exe_path)
+        if not messagebox.askyesno("確認", "指定した項目のみ削除します。よろしいですか？"):
+            return
 
         summary = []
-        # ログのリセット
-        if self.var_logs.get():
-            target_logs = [
-                "Debug.log", "EEW.log", "EqMaxError.log", "EqMaxInfo.log", "NetError.log",
-                "EqMaxInfo.log", "KMMonitor.log", "Tokens.log", "Twitter.log", "TwitterResponse.log"
-            ]
-            for log in target_logs:
-                p = os.path.join(path, log)
-                if os.path.exists(p):
-                    try:
-                        with open(p, "wb") as f: pass
-                    except: pass
-            summary.append("・ログファイルをリセットしました。")
+        trash_dir_names = ["Debug", "LiveImages", "Twitter"]
 
-        # Twitterフォルダ
-        if self.var_tw_dir.get():
-            tw_path = os.path.join(path, "Twitter")
-            if os.path.isdir(tw_path):
-                for f in os.listdir(tw_path):
-                    try:
-                        os.remove(os.path.join(tw_path, f))
-                    except: pass
-                summary.append("・Twitterフォルダを空にしました。")
+        try:
+            for item in os.listdir(path):
+                item_path = os.path.join(path, item)
+                
+                if os.path.isdir(item_path):
+                    if item in trash_dir_names and self.var_trash_dir.get():
+                        shutil.rmtree(item_path)
+                        summary.append(f"・{item} フォルダを削除しました。")
+                    elif item == "Json" and self.var_json_dir.get():
+                        shutil.rmtree(item_path)
+                        summary.append("・Json フォルダを削除しました。")
+                    elif item == "Capture":
+                        mode = self.cap_mode.get()
+                        now = time.time()
+                        days = 30 if mode == "keep_30" else 7
+                        c_count = 0
+                        for f in os.listdir(item_path):
+                            f_p = os.path.join(item_path, f)
+                            if mode == "all" or os.stat(f_p).st_mtime < now - (days * 86400):
+                                if os.path.isdir(f_p): shutil.rmtree(f_p)
+                                else: os.remove(f_p)
+                                c_count += 1
+                        if c_count > 0:
+                            summary.append(f"・Captureフォルダ内を整理しました。")
+                else:
+                    if item.lower().endswith(".log") and self.var_log_clean.get():
+                        os.remove(item_path)
 
-        # Capture整理 (サブフォルダ対応版)
-        cap_dir = os.path.join(path, "Capture")
-        if os.path.isdir(cap_dir):
-            mode = self.cap_mode.get()
-            now = time.time()
-            days = 7 if mode == "keep_7" else 30
-            count = 0
-            for f in os.listdir(cap_dir):
-                f_path = os.path.join(cap_dir, f)
-                try:
-                    if mode == "all" or os.stat(f_path).st_mtime < now - (days * 86400):
-                        if os.path.isdir(f_path):
-                            shutil.rmtree(f_path) # フォルダなら中身ごと削除
-                        else:
-                            os.remove(f_path)    # ファイルなら削除
-                        count += 1
-                except:
-                    pass
-            summary.append(f"・画像を {count} 件削除しました。")
+            if not summary:
+                summary.append("・削除対象の項目は見つかりませんでした。")
+            else:
+                summary.append("・ログファイルを一掃しました。")
 
-        messagebox.showinfo("完了", "\n".join(summary))
+            messagebox.showinfo("完了", "\n".join(summary))
+        except Exception as e:
+            messagebox.showerror("エラー", f"失敗: {e}")
 
 if __name__ == "__main__":
     EqMaxCleaner().mainloop()

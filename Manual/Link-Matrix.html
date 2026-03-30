@@ -48,36 +48,33 @@
         </div>
       </div>
     <h2>Discord連携でMatrixへ接続する</h2>
-    <div class="card">
-      <div class="flex-container"> <img src="image/DiscordBridgeChange.png"  alt="Discord連携" width="300" />
-        <div class="description">
-          <ol>
-            <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-            <li><strong>選択タイプからMatrixを選ぶ:</strong> これによりMatrix専用設定項目が表示されます。</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <h2>Matrixの設定手順</h2>
+    <h3>Matrixの設定手順</h3>
     <div class="card">
       <h3>ホームサーバーURLの取得</h3>
       <div class="flex-container">
         <div style="flex: 1;"><img src="image/MatrixURL.jpg"  alt="MatrixURL" width="500" /> </div>
         <div class="description" style="flex: 1;">
           <ol>
+            <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
+            <li>ショートカット登録の部分を用途に合わせて☑する。</li>
+            <li><strong>確定震度情報の投稿設定</strong><br />
+              <small>※最大震度いくつ以上から通知か、最低震度いくつ未満から切り捨てか</small></li>
+            <li><strong>選択タイプからMatrixを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
             <li>Matrixログイン時に使用する<strong>ホームサーバーのアドレス</strong>をコピーします。</li>
             <li>Discord連携側の「ホームサーバーURL」欄に貼り付けます。</li>
           </ol>
           <div style="background: #fff9db; border-left: 5px solid #fcc419; padding: 15px; margin-top: 15px; color: #856404;"> <strong>⚠️ 重要：入力形式の注意</strong><br>
             ホームサーバーURLの登録は、必ず先頭に <code>https://</code> を含めてください。<br>
-            （例：<code>https://matrix.org</code>） </div>
+          （例：<code>https://matrix.org</code>） </div>
         </div>
       </div>
     </div>
     <div class="card">
       <h3>ルームIDの取得</h3>
       <div class="flex-container">
-        <div style="flex: 0 0 400px;"> <img src="image/MatrixRoomID1.jpg"  alt="RoomID1" width="300" /> <img src="image/MatrixRoomID2.jpg"  alt="RoomID2" width="300" /> <img src="image/MatrixRoomID3.jpg"  alt="RoomID3" width="300" /> </div>
+        <div style="flex: 0 0 400px;"> <img src="image/MatrixRoomID1.jpg"  alt="RoomID1" width="300" /><br /> 
+        <img src="image/MatrixRoomID2.jpg"  alt="RoomID2" width="300" /> <br />
+        <img src="image/MatrixRoomID3.jpg"  alt="RoomID3" width="300" /> </div>
         <div class="description">
           <ol>
             <li>右上のギアマークから設定を開きます。</li>
@@ -90,7 +87,9 @@
     <div class="card">
       <h3>アクセストークンの取得</h3>
       <div class="flex-container">
-        <div style="flex: 0 0 400px;"> <img src="image/MatrixToken1.jpg"  alt="MatrixToken1" width="300" /> <img src="image/MatrixToken2.jpg"  alt="MatrixToken2" width="300" /> <img src="image/MatrixToken3.jpg"  alt="MatrixToken3" width="300" /> </div>
+        <div style="flex: 0 0 400px;"> <img src="image/MatrixToken1.jpg"  alt="MatrixToken1" width="300" /><br /> 
+        <img src="image/MatrixToken2.jpg"  alt="MatrixToken2" width="300" /><br /> 
+        <img src="image/MatrixToken3.jpg"  alt="MatrixToken3" width="300" /> </div>
         <div class="description">
           <ol>
             <li>左下のギアマークから「すべて設定」を開きます。</li>
@@ -121,13 +120,16 @@
       <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
       <h3>bot実行時プロンプトの見方</h3>
       <div class="flex-container">
-        <div style="flex: 0 0 420px;"> <img src="image/DiscordBridgePrompt.jpg"  alt="botプロンプト" width="400" /> </div>
+        <div style="flex: 0 0 420px;"><img src="image/DiscordBridgePrompt1.jpg"  alt="botプロンプト" width="300" /><br />
+          <img src="image/DiscordBridgePrompt2.jpg"  alt="botプロンプト" width="300" /><br />
+          <img src="image/DiscordBridgePrompt3.jpg"  alt="botプロンプト" width="300" /></div>
         <div class="description">
-          <p>最小化中のウィンドウを展開すると表示されるログ画面の見方です。</p>
+          <p>最小化中のウィンドウを展開するとアプリの情報ログが流れます。<br />
+            不具合の検知とかに役立ちます。</p>
           <ul>
-            <li><strong>赤枠（起動）:</strong> プロセスの状態を表示します。</li>
-            <li><strong>黄枠（監視/Eq_Guardian）:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
-            <li><strong>水枠（EEW連携）:</strong> 緊急地震速報の送信ログと、各連携先への成功結果を表示します。</li>
+            <li><strong>初期起動プロセス</strong>アプリ起動時に読み込まれた個設定を表示します。</li>
+            <li><strong>監視/Eq_Guardian:</strong> フリーズ検知・自動再起動・メモリリーク監視(1GB制限)・定期生存報告を行います。</li>
+            <li><strong>EEW・地震情報通知表示:</strong>各種連携システムの通知成功可否や投稿内容を表示します。</li>
           </ul>
         </div>
       </div>

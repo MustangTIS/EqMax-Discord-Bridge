@@ -1,36 +1,52 @@
-EqMax-Discord-Bridge  ##ルートディレクトリ
-	│  ChangeLog.txt               #更新履歴
-	│  EqMax-Discord-Bridge.bat    #総合ハブ実行用ファイル
-	│  FileList.txt                #ファイル一覧(このファイル)
-	│  ReadMe.txt                  #簡易説明書
+EqMax-Discord-Bridge  ##ルートフォルダ
+	│  ReadMe.txt                   #説明書テキスト
+	│  ChangeLog.txt                #更新履歴テキスト
+	│  EqMax-Discord-Bridge.bat     #本体起動用バッチファイル
+	│  FileList.txt                 #ファイル一覧確認用テキスト
 	│
-	├─Assets  ##画像ファイル
-	│      dummy_eq.png            #EEWテスト投稿用ダミーファイル
-	│      eq-dis.ico              #EqMax-Discord-Bridgeアイコンファイル
-	│      eq-dis.png              #EqMax-Discord-Bridgeアイコン画像
-	│      eqmax.ico               #EqMaxアイコンファイル
-	│      eqmax.png               #EqMaxアイコン画像
+	├─Assets  ##画像フォルダ
+	│      dummy_eq.png             #EEWテスト送信用画像ファイル
+	│      eq-dis.ico               #EqMax-Discord-Bridgeアイコンファイル
+	│      eq-dis.png               #EqMax-Discord-Bridgeアイコン画像
+	│      eqmax.ico                #EqMaxアイコンファイル
+	│      eqmax.png                #EqMaxアイコン画像
 	│
-	├─Core  ##各種設定用システムフォルダ
-	│      00-TOP_HUB.py           #メインメニュー用システム
-	│      01-Eq_Initialize.py     #EqMax初期設定用システムセットアップ
-	│      02-Eq_Discord.py        #各種チャット連携用システムセットアップ
-	│      99-Eq_Reset.py          #EqMaxと本システム初期化ツール
-	│      O01-Eq_Cleaner.py       #EqMaxログ、キャッシュクリーナー
-	│      O02-Eq_Watch.py         #EqMax安定化ツール
-	│      O03-EEW-Test.py         #EEWテスト投稿用ツール
+	├─Core  ##コアコンポーネントフォルダ
+	│      00-TOP_HUB.py            #メインメニュー用システム
+	│      01-Eq_Initialize.py      #EqMax初期設定用システムセットアップ
+	│      02-Eq_Discord.py         #各種チャット連携用システムセットアップ
+	│      99-Eq_Reset.py           #EqMaxと本システム初期化ツール
+	│      O01-Eq_Cleaner.py        #EqMaxログ、キャッシュクリーナーツール
+	│      O02-Eq_Watch.py          #EqMax安定化ツールシステムセットアップ
+	│      O03-EEW-Test.py          #EEW、地震情報テスト送信ツール
 	│
-	├─Manual  ##マニュアル用保管フォルダ(本体アプリから開けし余計なファイルが多いので内容割愛)
-	│
-	└─Templates  ##システム稼働用ファイルコピー元フォルダ
-		│  eqmax_discord.bat       #Discord連携セーフモード用ファイル
-		│  eqmax_discord.py        #Discord連携メインソースファイル
-		│  Eq_Watchdog.bat         #EqMax安定化ツールセーフモード用ファイル
-		│  Eq_Watchdog.py          #EqMax安定化ツールメインソースファイル
-		│  senders.py              #Discord連携モジュールファイル
+	├─Templates  #インストール用固定設定ファイル
+	│ 	│  eqmax_discord.bat        #EqMax-Discord-Bridgeセーフモード用batファイル
+	│ 	│  eqmax_discord.py         #EqMax-Discord-Bridgeメインルーチンソース
+	│ 	│  eew_parser.py            #EqMax-Discord-Bridge、EEW送信用フォーマットソース
+	│ 	│  fixed_report_parser.py   #EqMax-Discord-Bridge、確定震度・津波情報、投稿用フォーマットソース
+	│ 	│  senders.py               #EqMax-Discord-Bridge、各種サービス投稿用エンジンソース
+	│ 	│  Eq_Watchdog.bat          #EqMax安定化ツール、セーモードbatファイル
+	│ 	│  Eq_Watchdog.py           #EqMax安定化ツールメインルーチンソース
+	│ 	│
+	│ 	├─EqINI-Full
+	│ 	│      EqMax.ini           #EqMaxクライアント向けカスタマイズINIファイル
+	│ 	│
+	│ 	└─EqINI-Server
+	│ 			EqMax.ini          #EqMaxサーバ向けカスタマイズINIファイル
+	│ 
+	└─Manual  ##マニュアルフォルダ
+		│  Index.html              #※ヘルプトップページ説明
+		│  style.css               #htmlデータ用CSSファイル
+		│  ChangeLog.html          #ヘルプ：更新履歴
+		│  HUBSystem.html          #ヘルプ：メインメニュー
+		│  Initialize.html         #ヘルプ：EqMax初期設定ツール設定方法
+		│  Link-Discord.html       #ヘルプ：Discord用設定方法
+		│  Link-Slack.html         #ヘルプ：Slack用設定方法
+		│  Link-Matrix.html        #ヘルプ：Matrix用設定方法
+		│  Cleaner.html            #ヘルプ：クリーナーツール操作方法
+		│  Watchdog.html           #ヘルプ：安定化ツール設定ファイル
+		│  EEWTest.html            #ヘルプ：テスト送信ツール操作方法
+		│  Reset.html              #ヘルプ：初期化ツール操作方法
 		│
-		├─EqINI-Full
-		│      EqMax.ini           #EqMax本体用ほぼ通知機能初期設定INIファイル
-		│
-		└─EqINI-Server
-				EqMax.ini          #サーバー稼働用初期設定INIファイル
+		└─image  ##htmlヘルプ用画像ファイル(多すぎるので詳細は省略

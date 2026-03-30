@@ -1,3 +1,4 @@
+# 00-TOP_HUB.py
 import customtkinter as ctk
 import os
 import subprocess
@@ -20,7 +21,7 @@ class EqMAXTopHub(ctk.CTk):
         super().__init__()
         
         # --- 0. バージョン定義 ---
-        self.CURRENT_VERSION = "v9.0.0" 
+        self.CURRENT_VERSION = "v10.0.0" 
         self.REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
         self.update_url = f"https://github.com/{self.REPO_URL}/releases/latest"
         

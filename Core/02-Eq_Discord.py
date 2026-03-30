@@ -1,3 +1,4 @@
+#02-Eq_Discord.py
 # -*- coding: utf-8 -*-
 import customtkinter as ctk
 import tkinter as tk
@@ -57,7 +58,7 @@ class EqMaxBotDeployer(ctk.CTk):
 
         # --- 2. ウィンドウ基本設定 ---
         self.title("EqMax 多機能通知連携 - ボット配置ツール")
-        self.geometry("750x1000")
+        self.geometry("750x800")
         ctk.set_appearance_mode("dark")
 
         self.log_view = ctk.CTkTextbox(self, height=150)
@@ -104,6 +105,27 @@ class EqMaxBotDeployer(ctk.CTk):
 
         # --- 配置ボタン ---
         self.btn_deploy = ctk.CTkButton(self.main_container, text="ボットを配置する", command=self.run_deploy, fg_color="green")
+        # --- 3. 通知フィルタリング設定 ---
+        self.label_filter = ctk.CTkLabel(self.main_container, text="3. 確定震度通知・表示フィルタリング設定(EEWの通知設定ではありません):", font=("Yu Gothic", 12, "bold"))
+        self.label_filter.pack(pady=(10, 0))
+        
+        filter_frame = ctk.CTkFrame(self.main_container, fg_color="transparent")
+        filter_frame.pack(pady=5)
+
+        # 通知しきい値（この震度以上の地震なら送る）
+        self.label_min_int = ctk.CTkLabel(filter_frame, text="通知する最大震度:")
+        self.label_min_int.pack(side="left", padx=5)
+        self.combo_min_int = ctk.CTkOptionMenu(filter_frame, values=["1", "2", "3", "4", "5弱", "5強"], width=80)
+        self.combo_min_int.set("3")
+        self.combo_min_int.pack(side="left", padx=(0, 20))
+
+        # 詳細表示しきい値（リストに載せる最小震度）
+        self.label_detail_int = ctk.CTkLabel(filter_frame, text="詳細を表示する最小震度:")
+        self.label_detail_int.pack(side="left", padx=5)
+        self.combo_detail_int = ctk.CTkOptionMenu(filter_frame, values=["1", "2", "3", "4"], width=80)
+        self.combo_detail_int.set("1") # 震度1から全部出すのがデフォルト
+        self.combo_detail_int.pack(side="left", padx=5)
+        
         self.btn_deploy.pack(pady=20)
         self.btn_browse = ctk.CTkButton(self.path_frame, text="選択...", width=80, command=self.browse_file)
         self.btn_browse.pack(side="left")
@@ -163,21 +185,35 @@ class EqMaxBotDeployer(ctk.CTk):
             # 既存の入力欄をクリアしてから値をセット
             for i, item in enumerate(destinations):
                 if i >= len(self.webhook_entries): break
+                
+                # 震度設定の復元
+                if "min_trigger_int" in data:
+                    self.combo_min_int.set(data["min_trigger_int"])
+                if "detail_intensity" in data:
+                    self.combo_detail_int.set(data["detail_intensity"])
 
-                # Webhook URL
-                self.webhook_entries[i]["entry"].insert(0, item.get("url", ""))
+                # --- Webhook URL の読み込み ---
+                entry_widget = self.webhook_entries[i]["entry"]
+                entry_widget.delete(0, "end")  # ★まず今の内容を消す
+                entry_widget.insert(0, item.get("url", ""))
 
-                # スタイル（内部コード -> UI表記への変換）
-                # 逆引き用辞書（既存のstyle_mapを利用）
+                # --- スタイル（内部コード -> UI表記）の読み込み ---
                 rev_style_map = {v: k for k, v in self.style_map.items()} 
                 ui_style = rev_style_map.get(item.get("style"), "通知タイプを選択...")
                 self.webhook_entries[i]["style"].set(ui_style)
 
-                # Matrixの場合の特殊処理
+                # --- Matrixの場合の特殊処理（トークン類） ---
+                # Matrixでなくても、一旦入力欄を消しておかないとゴミが残るので一括処理
+                token_w = self.webhook_entries[i]["token"]
+                room_w = self.webhook_entries[i]["room"]
+                
+                token_w.delete(0, "end")  # ★消す
+                room_w.delete(0, "end")   # ★消す
+
                 if item.get("style") == "matrix":
-                    self.webhook_entries[i]["matrix_frame"].pack(fill="x", padx=10)
-                    self.webhook_entries[i]["token"].insert(0, item.get("token", ""))
-                    self.webhook_entries[i]["room"].insert(0, item.get("room", ""))
+                    self.webhook_entries[i]["matrix_frame"].pack(fill="x", padx=10) # ここ
+                    token_w.insert(0, item.get("token", ""))
+                    room_w.insert(0, item.get("room", ""))
 
             self.write_log("既存の設定を読み込みました。")
         except Exception as e:
@@ -298,17 +334,29 @@ class EqMaxBotDeployer(ctk.CTk):
         bot_dir = os.path.join(eqmax_dir, "DiscordBot")
         os.makedirs(bot_dir, exist_ok=True)
         
+        # --- 1. 旧ボットの停止 (ファイルのロックを解除するために最初に行う) ---
+        if self.kill_existing_bot():
+            self.write_log("稼働中の旧ボットを終了しました。")
+            import time
+            time.sleep(1) # プロセスが完全に消え、ファイルが解放されるのを待つ
+
+        # --- ここから配置処理 ---
         base_dir = os.path.dirname(os.path.dirname(__file__))
         templates_dir = os.path.join(base_dir, "Templates")
         assets_dir = os.path.join(base_dir, "Assets")
 
         try:
-            # --- 1. 既存のボットを停止させる (新機能) ---
-            # ファイルを上書きする前に、動いているプロセスを止めます
-            self.kill_existing_bot()
+            # (try内の冒頭にあった kill_existing_bot は削除してOKです)
 
-            # --- 2. ファイルのコピー (既存) ---
-            for f in ["eqmax_discord.py", "eqmax_discord.bat", "senders.py"]:
+            # --- 2. ファイルのコピー ---
+            files_to_copy = [
+                "eqmax_discord.py", 
+                "eqmax_discord.bat", 
+                "eew_parser.py", 
+                "fixed_report_parser.py", 
+                "senders.py", 
+            ]
+            for f in files_to_copy:
                 src = os.path.join(templates_dir, f)
                 if os.path.exists(src):
                     shutil.copy2(src, bot_dir)
@@ -352,7 +400,13 @@ class EqMaxBotDeployer(ctk.CTk):
                 
                 webhooks_data.append(data)
             
-            config = {"eqmax_dir": eqmax_dir, "destinations": webhooks_data}
+            config = {
+                "eqmax_dir": eqmax_dir, 
+                "min_trigger_int": self.combo_min_int.get(),    # プログラム本体と統一
+                "detail_intensity": self.combo_detail_int.get(), # 本体の固定表示基準に合わせるならこれでも可
+                "destinations": webhooks_data
+            }
+            
             with open(os.path.join(bot_dir, "config.json"), "w", encoding="utf-8") as f:
                 json.dump(config, f, indent=4, ensure_ascii=False)
             self.write_log("config.json を保存しました。")

@@ -45,8 +45,24 @@
       <p>～EqMaxの緊急地震速報をDiscord・Slack・Matrixへ通知するためのセットアップキット～</p>
     </div>
     <h2>はじめに</h2>
-    <p>このたびは、緊急地震速報通知ツール<strong>『EqMax-Discord-Bridge』</strong>をご利用いただきありがとうございます。<br />
-      本マニュアルは、導入から運用までの全体的な使い方ガイドとして作成されています。</p>
+    <p>このたびは、緊急地震速報通知ツール<strong>『EqMax-Discord-Bridge』</strong>をご利用いただきありがとうございます。</p>
+    <p>本プロジェクトは、地震情報表示ソフト「EqMax」が受信する高度な速報データを、<strong>Discord、Slack、Matrixといった主要なコミュニケーションツールへ即座に、かつ確実に橋渡し（Bridge）すること</strong>を目的に開発されました。<br />
+    <span style="flex: 1; min-width: 300px;"><img src="image/disembed.jpg" width="350" alt="DiscordEmbed" style="max-width: 400px;" /></span></p>
+    <h3 data-path-to-node="6">本ツールの特徴とメリット</h3>
+    <ul data-path-to-node="7">
+      <li>
+        <p data-path-to-node="7,0,0"><strong data-path-to-node="7,0,0" data-index-in-node="0">完全ローカル・セルフホスト運用</strong> 一般的な外部連携サービスに依存せず、ご自身のPCや自宅サーバーを拠点として動作します。外部サービスのダウンや遅延に左右されず、自分専用の堅牢な通知環境を構築できます。</p>
+      </li>
+      <li>
+        <p data-path-to-node="7,1,0"><strong data-path-to-node="7,1,0" data-index-in-node="0">マルチプラットフォーム対応</strong> Discordの多彩な埋め込み表示（Embed）はもちろん、ビジネスユースのSlackや、分散型プロトコルのMatrixまで、複数の宛先へ同時に情報を配信可能です。</p>
+      </li>
+      <li>
+        <p data-path-to-node="7,2,0"><strong data-path-to-node="7,2,0" data-index-in-node="0">無限のカスタマイズ性</strong> 本ツールはオープンソースで公開されています。Pythonベースの柔軟な設計により、スマートスピーカーによる音声読み上げや、スマート照明との連動など、あなたのアイデア次第で<strong>「次世代の防災システム」</strong>へと拡張することが可能です。</p>
+      </li>
+      <li>
+        <p data-path-to-node="7,3,0"><strong data-path-to-node="7,3,0" data-index-in-node="0">実用性を極めたフォーマット</strong> v10.0.0からは、EEWとは別に地震情報をテレビのニュース速報のような「震度順」表示を採用。緊急時に最も重要な「どこが一番揺れているか」を直感的に把握できる、現場主義のインターフェースを実現しました。</p>
+      </li>
+    </ul>
     <h2>マニュアルの構成</h2>
     <p>各セッションはサイドバーから選択して移動できます。</p>
     <h3>動作環境・開発環境</h3>
