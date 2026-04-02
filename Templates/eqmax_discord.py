@@ -15,7 +15,7 @@ import fixed_report_parser # 自作モジュール
 import eew_parser
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "10.0.0"
+CURRENT_VERSION = "10.1.0"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
@@ -239,7 +239,15 @@ def start_combined_monitor():
     pending_block = ""
     health_counter = 0
     last_checked_json = None 
-    INT_ORDER = {"1": 1, "2": 2, "3": 3, "4": 4, "5弱": 5, "5強": 6, "6弱": 7, "6強": 8, "7": 9}
+    # 表記ゆれ（5-, 5+等）に対応した重み付け辞書
+    INT_ORDER = {
+        "1": 1, "2": 2, "3": 3, "4": 4, 
+        "5弱": 5, "5-": 5, 
+        "5強": 6, "5+": 6, 
+        "6弱": 7, "6-": 7, 
+        "6強": 8, "6+": 8, 
+        "7": 9
+    }
 
     print(f"監視開始: {log_file}")
     print(f"初期サイズ: {last_size} bytes")
@@ -271,29 +279,46 @@ def start_combined_monitor():
                             try:
                                 with open(json_path, "r", encoding="utf-8-sig") as f:
                                     data = json.load(f)
+                                    # --- ここで title を取得 ---
                                     title = data.get("Control", {}).get("Title", "")
+                                    # Head側のTitleも一応見ておくと遠地地震の判定がより確実になります
+                                    h_title = data.get("Head", {}).get("Title", "")
+                                
+                                # --- 1. まず震度を取得 ---
                                 max_int = data.get("Body", {}).get("Intensity", {}).get("Observation", {}).get("MaxInt", "0")
-
                                 current_int_val = INT_ORDER.get(str(max_int), 0)
                                 trigger_int_val = INT_ORDER.get(str(min_trigger), 0)
 
-                                if "津波" in title or current_int_val >= trigger_int_val:
+                                # --- 2. 判定フラグを作る（ここがポイント） ---
+                                # タイトルに「津波」か「遠地地震」が入っていれば、震度に関わらず無条件で通す
+                                is_special = any(x in title or x in h_title for x in ["津波", "遠地地震"])
+
+                                # --- 3. 条件分岐 ---
+                                if is_special or current_int_val >= trigger_int_val:
                                     formatted_text = fixed_report_parser.parse_fixed_report(data, min_display)
-                                    if len(formatted_text) > 1900:
-                                        formatted_text = formatted_text[:1900] + "\n\n...（省略）"
                                     
+
                                     timestamp = time.strftime('%H:%M:%S')
-                                    print(f"\n--- 確定報検知 (JSON) ---\n{formatted_text}\n-----------------------")
+                                    print(f"\n--- 確定報検知 (JSON) ---\n{formatted_text[:500]}...\n-----------------------")
 
                                     for dest in config["destinations"]:
-                                        # タイトルを判定：津波の文字があれば津波、なければ震度
+                                        style = dest.get("style", "disembed").lower()
+
+                                        # --- 配信スタイルに合わせて文字数制限を可変にする ---
+                                        # Embedなら4000、それ以外(Simple/Slack/Matrix)なら1900でカット
+                                        limit = 4000 if style == "disembed" else 1900
+
+                                        current_formatted_text = formatted_text
+                                        if len(current_formatted_text) > limit:
+                                            current_formatted_text = current_formatted_text[:limit] + "\n\n...（容量制限のため省略）"
+
                                         display_title = "【津波情報】" if "津波" in title else f"【地震情報】最大震度 {max_int}"
 
                                         senders.dispatch(
-                                            style=dest.get("style", "disembed").lower(),
-                                            title=display_title,  # ← 変数に差し替え
-                                            description=formatted_text,
-                                            color=0x00FFFF if "津波" in title else 0xFFD700, # 津波なら水色、地震なら金/黄色
+                                            style=style,
+                                            title=display_title,
+                                            description=current_formatted_text, # カット済みのテキストを渡す
+                                            color=0x00FFFF if "津波" in title else 0xFFD700,
                                             image_path=None,
                                             url=dest.get("url"),
                                             bot_name="EqMax Report Bridge",
@@ -304,7 +329,7 @@ def start_combined_monitor():
                                         )
                                     print(f"[{timestamp}] 📝 確定報を送信しました: {latest_json}")
                                 else:
-                                    print(f"[{time.strftime('%H:%M:%S')}] 確定報通知スキップ: 最大震度 {max_int}")
+                                    print(f"[{time.strftime('%H:%M:%S')}] 確定報通知スキップ: {title} (最大震度 {max_int})")
                             except Exception as e:
                                 print(f"[{time.strftime('%H:%M:%S')}] [Error] JSON解析失敗: {e}")
                         last_checked_json = latest_json
