@@ -20,8 +20,8 @@
 【最新版パッケージ (ZIP) を直接ダウンロード】
 
 <p align="center">
-<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v10.0.0/EqMax-Discord-Bridge_v10.0.0.zip">
-<img src="https://img.shields.io/badge/Download-Latest_v10.0.0_.zip-red?style=for-the-badge&logo=github" alt="Download ZIP">
+<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v10.1.0/EqMax-Discord-Bridge_v10.1.0.zip">
+<img src="https://img.shields.io/badge/Download-Latest_v10.1.0_.zip-red?style=for-the-badge&logo=github" alt="Download ZIP">
 </a>
 </p>
 
