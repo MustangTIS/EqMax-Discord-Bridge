@@ -6,7 +6,7 @@
 <img src="Assets/eq-dis.png" width="120" alt="Logo">
 </td>
 <td align="left">
-<h1>EqMax-Discord-Bridge v10.0.0</h1>
+<h1>EqMax-Discord-Bridge v10.1.0</h1>
 <h3>(Confirmed Seismic & Tsunami Warning Implementation)</h3>
 </td>
 </tr>
