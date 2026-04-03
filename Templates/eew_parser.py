@@ -14,10 +14,10 @@ def get_alert_details(text_block):
 
     for line in lines:
         line = line.strip()
+
         if not line: continue
 
         # --- [重要] 実機ログのヘッダー除去 ---
-        # "2026/03/18 06:14:16-TTwitterForm.CheckEEWCondition: true" 等の対策
         # ハイフン以降を本文として抽出
         if "-" in line and ("TTwitter" in line or "PostTweet" in line):
             line = line.split("-", 1)[-1]
@@ -41,7 +41,7 @@ def get_alert_details(text_block):
             if m_match: 
                 mag_val = float(m_match.group(1))
                 found_essential = True
-        
+
         # パース後の有効な行を蓄積
         if line:
             clean_lines.append(line)
@@ -65,7 +65,7 @@ def get_alert_details(text_block):
         "2":   0x00FFFF, # 水色
         "1":   0xFFFFFF  # 白色
     }
-        
+
     for k, v in colors.items():
         if k in shindo: color = v; break
 
@@ -91,12 +91,12 @@ def parse_log_content(content):
     # 実機ログの日付ヘッダーがあってもマッチするように調整
     pattern = re.compile(r"(緊急地震速報：.*?)(C:\\.*?\.png)", re.DOTALL)
     matches = pattern.findall(content)
-    
+
     if not matches:
         return None, None, None, None
 
     # 最新の情報を採用
     full_text, image_path = matches[-1]
     title, description, color = get_alert_details(full_text)
-    
+
     return title, description, color, image_path

@@ -15,10 +15,9 @@ def parse_fixed_report(json_data, min_display="1"):
     control = json_data.get("Control", {})
     head = json_data.get("Head", {})
     body = json_data.get("Body", {})
-    
     c_title = control.get("Title", "")
     h_title = head.get("Title", "")
-    
+
     # --- A. 津波情報の場合 ---
     if "津波" in c_title or "津波" in h_title or head.get("InfoKind") == "津波警報・注意報・予報":
         headline = head.get("Headline", {}).get("Text", "詳細な情報は本文を確認してください。")
@@ -47,18 +46,17 @@ def parse_fixed_report(json_data, min_display="1"):
             eqs = body.get("Earthquakes", [])
             if eqs: eq = eqs[0]
             else: return None
-        
         origin_time = eq.get("OriginTime", "不明")
         hypocenter = eq.get("Hypocenter", {}).get("Area", {}).get("Name", "調査中")
         magnitude = eq.get("Magnitude", "不明")
-        
+
         # 津波コメントの取得
         comments = body.get("Comments", {})
         tsunami_msg = comments.get("ForecastComment", {}).get("Text", "なし")
-        
+
         # 自由付随コメント（太平洋津波報など）があれば追加
         free_comment = comments.get("FreeFormComment", "")
-        
+
         lines = [
             "【遠地地震に関する情報】",
             f"発生時刻：{origin_time}",
@@ -66,11 +64,10 @@ def parse_fixed_report(json_data, min_display="1"):
             f"津波影響：\n{tsunami_msg.strip()}",
             "----------------"
         ]
-        
+
         if free_comment:
             lines.append(f"付随情報：{free_comment}")
             lines.append("----------------")
-            
         lines.append("※海外で発生した大規模な地震の情報です。")
         return "\n".join(lines)
 
@@ -94,7 +91,6 @@ def parse_fixed_report(json_data, min_display="1"):
                 for city in area.get("City", []):
                     city_int = city.get("MaxInt", "-")
                     if INT_ORDER.get(city_int, 0) < min_val: continue
-                    
                     if city_int not in report_struct: report_struct[city_int] = {}
                     if pref_name not in report_struct[city_int]: report_struct[city_int][pref_name] = {}
                     if area_name not in report_struct[city_int][pref_name]: report_struct[city_int][pref_name][area_name] = []
@@ -120,5 +116,5 @@ def parse_fixed_report(json_data, min_display="1"):
                         lines.append(f" [{area}] {' '.join(cities)}")
 
         return "\n".join(lines)
-    
+
     return None

@@ -1,3 +1,4 @@
+#O02-Eq_Watch.py
 # -*- coding: utf-8 -*-
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
@@ -149,14 +150,17 @@ class EqWatchdogDeployer(ctk.CTk):
             os.makedirs(watch_dir, exist_ok=True)
             base_dir = os.path.dirname(os.path.dirname(__file__))
             
-            for f in ["Eq_Watchdog.py", "Eq_Watchdog.bat"]:
+            for f in ["Eq_Watchdog.py", "eq_guardian_core.py", "config_manager.py", "Eq_Watchdog.bat"]:
                 src = os.path.join(base_dir, "Templates", f)
                 if os.path.exists(src):
                     shutil.copy2(src, watch_dir)
             
             with open(os.path.join(watch_dir, "config.json"), "w", encoding="utf-8") as f:
-                json.dump({"eqmax_dir": eqmax_dir, "ram_limit_mb": int(self.entry_ram.get()), 
-                           "report_interval_sec": int(self.entry_int.get())}, f, indent=4)
+                json.dump({
+                    "eqmax_dir": eqmax_dir, 
+                    "ram_limit": int(self.entry_ram.get()), # _mbを取って ram_limit に
+                    "report_interval_sec": int(self.entry_int.get())
+                }, f, indent=4)
 
             # ショートカット作成
             try:

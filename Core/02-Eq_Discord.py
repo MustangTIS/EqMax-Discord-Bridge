@@ -346,17 +346,18 @@ class EqMaxBotDeployer(ctk.CTk):
         assets_dir = os.path.join(base_dir, "Assets")
 
         try:
-            # (try内の冒頭にあった kill_existing_bot は削除してOKです)
-
             # --- 2. ファイルのコピー ---
-            files_to_copy = [
-                "eqmax_discord.py", 
-                "eqmax_discord.bat", 
-                "eew_parser.py", 
-                "fixed_report_parser.py", 
-                "senders.py", 
+            required_files = [
+                "eqmax_discord.bat",
+                "eqmax_discord.py",
+                "config_manager.py",
+                "log_monitor.py",
+                "eew_parser.py",
+                "fixed_report_parser.py",
+                "eq_guardian_core.py",
+                "senders.py"
             ]
-            for f in files_to_copy:
+            for f in required_files:
                 src = os.path.join(templates_dir, f)
                 if os.path.exists(src):
                     shutil.copy2(src, bot_dir)
@@ -377,14 +378,14 @@ class EqMaxBotDeployer(ctk.CTk):
                 "Slack": "slack",
                 "Matrix": "matrix"
             }
-            
+
             for item in self.webhook_entries:
                 url = item["entry"].get().strip()
                 style_raw = item["style"].get()
                 if not url: continue
 
                 style_normalized = style_map.get(style_raw, "disembed")
-                
+
                 if style_normalized == "matrix":
                     if not url.startswith("https://"):
                         messagebox.showerror("設定エラー", "MatrixのサーバーURLは 'https://' から始めてください。")
@@ -392,21 +393,23 @@ class EqMaxBotDeployer(ctk.CTk):
                     if not item["token"].get().strip() or not item["room"].get().strip():
                         messagebox.showerror("設定エラー", "MatrixのTokenとRoom IDは必須です。")
                         return
-                
+
                 data = {"url": url, "style": style_normalized}
                 if style_normalized == "matrix":
                     data["token"] = item["token"].get().strip()
                     data["room"] = item["room"].get().strip()
-                
+
                 webhooks_data.append(data)
-            
+
             config = {
                 "eqmax_dir": eqmax_dir, 
-                "min_trigger_int": self.combo_min_int.get(),    # プログラム本体と統一
-                "detail_intensity": self.combo_detail_int.get(), # 本体の固定表示基準に合わせるならこれでも可
+                "exe_path": os.path.join(eqmax_dir, "EqMax.exe"), # 明示しておくと親切
+                "min_trigger_int": self.combo_min_int.get(),     
+                "min_display_int": self.combo_detail_int.get(),  # 本体側は 'min_display_int' を参照している箇所があるため
+                "ram_limit": 1024,                               # デフォルト値として入れておくと安心
                 "destinations": webhooks_data
             }
-            
+
             with open(os.path.join(bot_dir, "config.json"), "w", encoding="utf-8") as f:
                 json.dump(config, f, indent=4, ensure_ascii=False)
             self.write_log("config.json を保存しました。")
@@ -414,7 +417,7 @@ class EqMaxBotDeployer(ctk.CTk):
             # --- 4. ショートカット作成 (既存) ---
             lnk_name = "EqMax-Discord通知ボット.lnk"
             safe_lnk_name = "EqMax-Discord通知ボット(セーフモード).lnk"
-            
+
             try:
                 import winreg
                 key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders")
@@ -426,7 +429,7 @@ class EqMaxBotDeployer(ctk.CTk):
             if self.var_desktop.get() and desk_path:
                 self.create_shortcut_wsh(target_bat, os.path.join(desk_path, lnk_name))
                 self.create_safe_shortcut_wsh(target_bat, os.path.join(desk_path, safe_lnk_name))
-                
+
             if self.var_startup.get():
                 appdata = os.environ.get("APPDATA")
                 if appdata:
@@ -435,7 +438,7 @@ class EqMaxBotDeployer(ctk.CTk):
 
             # --- 5. 完了通知と再起動確認 (新機能) ---
             self.write_log("すべての配置作業が完了しました。")
-            
+
             if messagebox.askyesno("成功", "ボットの配置が完了しました。\n\n今すぐボットを起動（再起動）しますか？"):
                 # 新しいコンソールでボットを起動
                 # pythonw.exe にすると黒い画面なしで起動できますが、
@@ -449,7 +452,7 @@ class EqMaxBotDeployer(ctk.CTk):
                 messagebox.showinfo("起動完了", "ボットを起動しました。正常に動作するか確認してください。")
             else:
                 messagebox.showinfo("成功", "ボットの配置が完了しました。\n手動で起動する場合はショートカットを使用してください。")
-            
+
             self.destroy()
 
         except Exception as e:

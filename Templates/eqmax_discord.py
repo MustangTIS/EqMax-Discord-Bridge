@@ -13,6 +13,9 @@ import datetime # 日付ベースのパス生成用
 import senders
 import fixed_report_parser # 自作モジュール
 import eew_parser
+import eq_guardian_core as core  # これを追加
+import config_manager
+from log_monitor import LogMonitor
 
 # --- [0. バージョン・固定設定] ---
 CURRENT_VERSION = "10.1.0"
@@ -20,6 +23,16 @@ DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
 RELEASE_PAGE_URL = f"https://github.com/{REPO_URL}/releases/latest"
+
+# 確定報JSONの表記ゆれ（5-, 5+等）に対応した重み付け辞書
+INT_ORDER = {
+    "1": 1, "2": 2, "3": 3, "4": 4, 
+    "5弱": 5, "5-": 5, 
+    "5強": 6, "5+": 6, 
+    "6弱": 7, "6-": 7, 
+    "6強": 8, "6+": 8, 
+    "7": 9
+}
 
 def set_taskbar_icon():
     if sys.platform == "win32":
@@ -30,34 +43,7 @@ def set_taskbar_icon():
 
 set_taskbar_icon()
 
-# --- 1. 応答なし監視 (フリーズ検知) ---
-def is_window_responding(pid):
-    try:
-        def callback(hwnd, hwnds):
-            _, found_pid = ctypes.windll.user32.GetWindowThreadProcessId(hwnd, None)
-            if found_pid == pid and ctypes.windll.user32.IsWindowVisible(hwnd):
-                hwnds.append(hwnd)
-            return True
-        hwnds = []
-        ctypes.windll.user32.EnumWindows(ctypes.WNDENUMPROC(callback), hwnds)
-        for hwnd in hwnds:
-            result = ctypes.windll.user32.SendMessageTimeoutW(
-                hwnd, 0, 0, 0, 0x0002, 5000, ctypes.byref(ctypes.c_ulong())
-            )
-            if result == 0: return False
-        return True
-    except: return True
-
-# --- 2. メモリ取得関数 ---
-def get_private_ram_mb(proc):
-    try:
-        return proc.memory_full_info().private / (1024 * 1024)
-    except:
-        try:
-            return proc.memory_info().rss / (1024 * 1024)
-        except: return None
-
-# --- 3. アップデートチェック ---
+# --- 1. アップデートチェック ---
 def check_for_updates():
     api_url = f"https://api.github.com/repos/{REPO_URL}/releases/latest"
     try:
@@ -73,7 +59,7 @@ def check_for_updates():
         return "ERROR", None, None
     return "ERROR", None, None
 
-# --- 4. 設定読み込み & 環境チェック ---
+# --- 2. 設定読み込み & 環境チェック ---
 def load_config():
     config = {"eqmax_dir": "C:/EqMax_Win64", "destinations": []}
     if os.path.exists("config.json"):
@@ -81,18 +67,17 @@ def load_config():
             with open("config.json", "r", encoding="utf-8") as f:
                 config.update(json.load(f))
         except: pass
-    
+
     config["eqmax_dir"] = os.path.normpath(config["eqmax_dir"])
     exe_path = os.path.join(config["eqmax_dir"], "EqMax.exe")
     config["is_env_ok"] = os.path.exists(exe_path)
     config["exe_path"] = exe_path
     return config
 
-# --- 6. 速報処理（メイン側） ---
+# --- 3. 速報処理（メイン側） ---
 def process_log_update(content, config_dest, current_version):
     print(f"\n--- 速報検知 (Log) ---\n{content.strip()}\n---------------------")
 
-    # 外部モジュールで解析
     title, description, color, image_path = eew_parser.parse_log_content(content)
 
     if not title: return
@@ -120,7 +105,7 @@ def process_log_update(content, config_dest, current_version):
             matrix_room=dest.get("room"),
             shared_image_url=shared_image_url 
         )
-        
+
         # --- 画像URLの抽出ロジック ---
         if style in ["disembed", "dissimple"] and response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
             try:
@@ -131,7 +116,7 @@ def process_log_update(content, config_dest, current_version):
                     shared_image_url = data["embeds"][0]["image"].get("url")
             except:
                 pass
-        
+
         # 結果判定
         if isinstance(response, Exception):
             print(f"[{timestamp}]  └─ [Error] 送信失敗: {response}")
@@ -140,35 +125,64 @@ def process_log_update(content, config_dest, current_version):
         else:
             print(f"[{timestamp}]  └─ [Failed] 送信失敗 ({style})")
 
-# --- 7. 死活監視 ---
-def maintain_eqmax_health(exe_path):
-    target_proc = None
-    for proc in psutil.process_iter(['name']):
+def check_and_process_json(config, last_checked_json):
+    now = datetime.datetime.now()
+    json_base_dir = os.path.join(config["eqmax_dir"], "Json", now.strftime("%Y"), now.strftime("%m"))
+
+    if not os.path.exists(json_base_dir):
+        return last_checked_json
+
+    json_files = sorted([f for f in os.listdir(json_base_dir) if f.endswith(".json")])
+    if not json_files:
+        return last_checked_json
+
+    latest_json = json_files[-1]
+    if latest_json == last_checked_json:
+        return last_checked_json
+
+    # 初回起動時は通知せず、2回目（新しいファイルが生成された時）から処理
+    if last_checked_json is not None:
+        json_path = os.path.join(json_base_dir, latest_json)
         try:
-            if proc.info['name'] == "EqMax.exe":
-                target_proc = proc; break
-        except: continue
+            with open(json_path, "r", encoding="utf-8-sig") as f:
+                data = json.load(f)
+                title = data.get("Control", {}).get("Title", "")
+                h_title = data.get("Head", {}).get("Title", "")
+                max_int = data.get("Body", {}).get("Intensity", {}).get("Observation", {}).get("MaxInt", "0")
+                current_int_val = INT_ORDER.get(str(max_int), 0)
+                trigger_int_val = INT_ORDER.get(str(config.get("min_trigger_int", "3")), 0)
+                is_special = any(x in title or x in h_title for x in ["津波", "遠地地震"])
 
-    if target_proc is None:
-        if os.path.exists(exe_path):
-            print(f"\n[{time.strftime('%H:%M:%S')}] プロセスにEqMaxが見つかりません：最小化で起動")
-            si = subprocess.STARTUPINFO()
-            si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            si.wShowWindow = 6 
-            subprocess.Popen([exe_path], cwd=os.path.dirname(exe_path), startupinfo=si)
-    else:
-        if not is_window_responding(target_proc.pid):
-            print(f"\n[{time.strftime('%H:%M:%S')}] EqMaxがフリーズしています：再起動")
-            try:
-                target_proc.kill(); time.sleep(3); os.startfile(exe_path)
-            except: pass
+                if is_special or current_int_val >= trigger_int_val:
+                    formatted_text = fixed_report_parser.parse_fixed_report(data, config.get("min_display_int", "1"))
+                    timestamp = time.strftime('%H:%M:%S')
+                    print(f"\n--- 確定報検知 (JSON) ---\n{formatted_text[:500]}...\n-----------------------")
 
-        mem_mb = get_private_ram_mb(target_proc)
-        if mem_mb and mem_mb > DEFAULT_RAM_LIMIT:
-            print(f"\n[{time.strftime('%H:%M:%S')}] EqMaxのRAMしきい値超過({mem_mb:.1f}MB)：再起動")
-            try:
-                target_proc.kill(); time.sleep(3); os.startfile(exe_path)
-            except: pass
+                    for dest in config["destinations"]:
+                        style = dest.get("style", "disembed").lower()
+                        limit = 4000 if style == "disembed" else 1900
+                        current_formatted_text = formatted_text[:limit] + "\n\n...（省略）" if len(formatted_text) > limit else formatted_text
+
+                        senders.dispatch(
+                            style=style, 
+                            title="【津波情報】" if "津波" in title else f"【地震情報】最大震度 {max_int}",
+                            description=current_formatted_text, 
+                            color=0x00FFFF if "津波" in title else 0xFFD700,
+                            image_path=None,             # ★これが必要（確定報JSONには画像がないためNone）
+                            url=dest.get("url"), 
+                            bot_name="EqMax Report Bridge",
+                            current_version=CURRENT_VERSION, 
+                            timestamp=timestamp,
+                            matrix_token=dest.get("token"), 
+                            matrix_room=dest.get("room")
+                        )
+
+                    print(f"[{timestamp}] 📝 確定報を送信しました: {latest_json}")
+                else:
+                    print(f"[{time.strftime('%H:%M:%S')}] 確定報通知スキップ: {title} (最大震度 {max_int})")
+        except Exception as e:
+            print(f"[{time.strftime('%H:%M:%S')}] [Error] JSON解析失敗: {e}")
+    return latest_json
 
 # --- 8. メインループ ---
 def start_combined_monitor():
@@ -176,15 +190,15 @@ def start_combined_monitor():
     print(f">>> EqMax Discord Bridge: Initialization...")
     print(f">>> EqMax Discord Bridge: Boot Sequence Started...")
     print("-" * 52)
-    
+
     is_all_ok = True  
     is_update_found = False
 
     print(f"\n [Step 1/7] Booting EqMax Discord Bridge....... [  OK  ]")
     print(f"    └─ [System Version: v{CURRENT_VERSION}]")
-
     print(f" [Step 2/7] Checking for updates...")
     status, ver, url = check_for_updates()
+
     if status == "UPDATE_AVAILABLE":
         print(f"    └─ [Notice] 【重要】新バージョン {ver} が公開されています。")
         webbrowser.open(url)
@@ -221,171 +235,65 @@ def start_combined_monitor():
         print(f"    [Error] 設定や環境に致命的な問題があるため、開始できません。")
         input("\n    Enterキーを押すと終了します...")
         sys.exit(1)
-    
+
     print(f"    SYSTEM STATUS: ALL GREEN / READY TO MONITOR")
     print(f"    WELCOME TO EQMAX DISCORD BRIDGE V{CURRENT_VERSION}")
     print(f"    Developed by Mustang_TIS")
     print(f"="*52 + "\n")
 
-    exe_path = config["exe_path"]
-    log_file = os.path.join(config["eqmax_dir"], "Twitter.log")
+    # --- 監視の準備 (整理後) ---
+    # 設定を最新状態で読み込み
+    config = config_manager.load_system_config()
+    log_path = os.path.join(config["eqmax_dir"], "Twitter.log")
 
-    if os.path.exists(log_file):
-        last_size = os.path.getsize(log_file)
-    else:
-        last_size = 0
-        with open(log_file, "a", encoding="utf-8") as f: pass
+    # ログファイルが存在しない場合の安全策
+    if not os.path.exists(log_path):
+        with open(log_path, "a", encoding="utf-8") as f: pass
 
-    pending_block = ""
+    # モジュールを初期化 (last_size や pending_block はこの中に入っています)
+    monitor = LogMonitor(log_path) 
+    last_checked_json = None
     health_counter = 0
-    last_checked_json = None 
-    # 表記ゆれ（5-, 5+等）に対応した重み付け辞書
-    INT_ORDER = {
-        "1": 1, "2": 2, "3": 3, "4": 4, 
-        "5弱": 5, "5-": 5, 
-        "5強": 6, "5+": 6, 
-        "6弱": 7, "6-": 7, 
-        "6強": 8, "6+": 8, 
-        "7": 9
-    }
 
-    print(f"監視開始: {log_file}")
-    print(f"初期サイズ: {last_size} bytes")
+    print(f"監視開始: {log_path}")
+    print(f"初期サイズ: {monitor.last_size} bytes")
 
     while True:
         try:
-            # --- ここを追加：ループのたびに設定を再読み込みする ---
-            config = load_config() 
-
-            # --- 1. 死活監視・メモリ管理 ---
             if health_counter % 10 == 0:
-                maintain_eqmax_health(exe_path)
+                config = config_manager.load_system_config()
+                core.maintain_eqmax_health(config["exe_path"], ram_limit=config.get("ram_limit", 1024))
 
-            # --- 2. 確定報(JSON) 監視ロジック ---
-            # ここで最新の config から値を取得するようになる
-            min_trigger = config.get("min_trigger_int", "3")
-            min_display = config.get("min_display_int", "1")
-            now = datetime.datetime.now()
-            json_base_dir = os.path.join(config["eqmax_dir"], "Json", now.strftime("%Y"), now.strftime("%m"))
-            
-            if os.path.exists(json_base_dir):
-                # ファイル名に特定のコードを指定せず、すべてのJSONファイルを対象にする
-                json_files = sorted([f for f in os.listdir(json_base_dir) if f.endswith(".json")])
-                if json_files:
-                    latest_json = json_files[-1]
-                    if latest_json != last_checked_json:
-                        if last_checked_json is not None:
-                            json_path = os.path.join(json_base_dir, latest_json)
-                            try:
-                                with open(json_path, "r", encoding="utf-8-sig") as f:
-                                    data = json.load(f)
-                                    # --- ここで title を取得 ---
-                                    title = data.get("Control", {}).get("Title", "")
-                                    # Head側のTitleも一応見ておくと遠地地震の判定がより確実になります
-                                    h_title = data.get("Head", {}).get("Title", "")
-                                
-                                # --- 1. まず震度を取得 ---
-                                max_int = data.get("Body", {}).get("Intensity", {}).get("Observation", {}).get("MaxInt", "0")
-                                current_int_val = INT_ORDER.get(str(max_int), 0)
-                                trigger_int_val = INT_ORDER.get(str(min_trigger), 0)
+            # 2. 確定報(JSON) 監視
+            last_checked_json = check_and_process_json(config, last_checked_json)
 
-                                # --- 2. 判定フラグを作る（ここがポイント） ---
-                                # タイトルに「津波」か「遠地地震」が入っていれば、震度に関わらず無条件で通す
-                                is_special = any(x in title or x in h_title for x in ["津波", "遠地地震"])
-
-                                # --- 3. 条件分岐 ---
-                                if is_special or current_int_val >= trigger_int_val:
-                                    formatted_text = fixed_report_parser.parse_fixed_report(data, min_display)
-                                    
-
-                                    timestamp = time.strftime('%H:%M:%S')
-                                    print(f"\n--- 確定報検知 (JSON) ---\n{formatted_text[:500]}...\n-----------------------")
-
-                                    for dest in config["destinations"]:
-                                        style = dest.get("style", "disembed").lower()
-
-                                        # --- 配信スタイルに合わせて文字数制限を可変にする ---
-                                        # Embedなら4000、それ以外(Simple/Slack/Matrix)なら1900でカット
-                                        limit = 4000 if style == "disembed" else 1900
-
-                                        current_formatted_text = formatted_text
-                                        if len(current_formatted_text) > limit:
-                                            current_formatted_text = current_formatted_text[:limit] + "\n\n...（容量制限のため省略）"
-
-                                        display_title = "【津波情報】" if "津波" in title else f"【地震情報】最大震度 {max_int}"
-
-                                        senders.dispatch(
-                                            style=style,
-                                            title=display_title,
-                                            description=current_formatted_text, # カット済みのテキストを渡す
-                                            color=0x00FFFF if "津波" in title else 0xFFD700,
-                                            image_path=None,
-                                            url=dest.get("url"),
-                                            bot_name="EqMax Report Bridge",
-                                            current_version=CURRENT_VERSION,
-                                            timestamp=timestamp,
-                                            matrix_token=dest.get("token"), 
-                                            matrix_room=dest.get("room")
-                                        )
-                                    print(f"[{timestamp}] 📝 確定報を送信しました: {latest_json}")
-                                else:
-                                    print(f"[{time.strftime('%H:%M:%S')}] 確定報通知スキップ: {title} (最大震度 {max_int})")
-                            except Exception as e:
-                                print(f"[{time.strftime('%H:%M:%S')}] [Error] JSON解析失敗: {e}")
-                        last_checked_json = latest_json
-
-            # --- 3. 速報(Twitter.log) 監視ロジック ---
-            if os.path.exists(log_file):
-                current_size = os.path.getsize(log_file)
-                if current_size < last_size: last_size = 0 # ローテーション対応
-
-                if current_size > last_size:
-                    with open(log_file, "r", encoding="utf-8", errors="ignore") as f:
-                        f.seek(last_size)
-                        new_data = f.read()
-                        if new_data:
-                            for line in new_data.splitlines():
-                                raw_line = line.strip()
-                                if not raw_line: continue
-
-                                # ブロック開始判定
-                                if "緊急地震速報：" in raw_line or "[Twitter] Post Success:" in raw_line:
-                                    pending_block = raw_line + "\n"
-                                # ブロック蓄積中
-                                elif pending_block:
-                                    if raw_line == ":": continue
-                                    pending_block += raw_line + "\n"
-                                    # 送信トリガー (画像パス判定)
-                                    low_line = raw_line.lower()
-                                    if ".png" in low_line and "capture" in low_line:
-                                        time.sleep(0.5)
-                                        process_log_update(pending_block, config["destinations"], CURRENT_VERSION)
-                                        pending_block = ""
-                    last_size = current_size
-                else:
-                    if health_counter % 10 == 0:
-                        print(".", end="", flush=True)
+            # 3. 速報(Log) 監視
+            new_blocks = monitor.check_new_logs()
+            if new_blocks:
+                for block in new_blocks:
+                    process_log_update(block, config["destinations"], CURRENT_VERSION)
             else:
-                if health_counter % 60 == 0:
-                    print(f"\n[ERROR] ファイルが見つかりません: {log_file}")
+                if health_counter % 10 == 0:
+                    print(".", end="", flush=True)
 
-            # --- 4. 定期ステータスレポート ---
+            # 4. 定期ステータスレポート
             if health_counter % DEFAULT_REPORT_INT == 0:
                 mem_display = "停止中"
                 for proc in psutil.process_iter(['name']):
                     if proc.info.get('name') == "EqMax.exe":
-                        val = get_private_ram_mb(proc)
+                        val = core.get_private_ram_mb(proc)
                         mem_display = f"{val:.1f}" if val is not None else "取得失敗"
                         break
                 print(f"\n[{time.strftime('%H:%M:%S')}] EqMax正常稼働中 (RAM使用量: {mem_display} MB)")
 
             health_counter += 1
-            time.sleep(1) 
+            time.sleep(1)
 
         except Exception as e:
             print(f"\n[Loop Error] {e}")
             time.sleep(1)
 
+# 行頭の余計なスペースを消して左端に合わせる
 if __name__ == "__main__":
     try:
         start_combined_monitor()

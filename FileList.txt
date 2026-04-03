@@ -22,12 +22,15 @@ EqMax-Discord-Bridge  ##ルートフォルダ
 	│
 	├─Templates  #インストール用固定設定ファイル
 	│ 	│  eqmax_discord.bat        #EqMax-Discord-Bridgeセーフモード用batファイル
-	│ 	│  eqmax_discord.py         #EqMax-Discord-Bridgeメインルーチンソース
-	│ 	│  eew_parser.py            #EqMax-Discord-Bridge、EEW送信用フォーマットソース
-	│ 	│  fixed_report_parser.py   #EqMax-Discord-Bridge、確定震度・津波情報、投稿用フォーマットソース
-	│ 	│  senders.py               #EqMax-Discord-Bridge、各種サービス投稿用エンジンソース
-	│ 	│  Eq_Watchdog.bat          #EqMax安定化ツール、セーモードbatファイル
-	│ 	│  Eq_Watchdog.py           #EqMax安定化ツールメインルーチンソース
+	│ 	│  eqmax_discord.py         #EqMax-Discord-Bridgeメインルーチン
+	│ 	│  Eq_Watchdog.bat          #EqMax安定化ツールセーモードbatファイル
+	│ 	│  Eq_Watchdog.py           #EqMax安定化ツールメインルーチン
+	│ 	│  eq_guardian_core         #EqMaxの動作異常を検知し、再起動させる安定化ルーチン
+	│ 	│  config_manager.py        #EqMax-Discord-Bridge及びWatchdog設定(config)管理ルーチン
+	│ 	│  log_monitor.py           #EqMax内Twitter.logを監視してEEWの発生を取得するルーチン
+	│ 	│  eew_parser.py            #EqMax-Discord-Bridge、EEW送信用フォーマットを作製するルーチン
+	│ 	│  fixed_report_parser.py   #確定震度、遠地地震、津波情報などの受信を監視しフォーマットを作製するルーチン
+	│ 	│  senders.py               #EEWや確定震度などの各種情報を各サービスに投稿するルーチン
 	│ 	│
 	│ 	├─EqINI-Full
 	│ 	│      EqMax.ini           #EqMaxクライアント向けカスタマイズINIファイル
