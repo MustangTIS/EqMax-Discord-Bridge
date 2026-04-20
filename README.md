@@ -6,7 +6,7 @@
 <img src="Assets/eq-dis.png" width="120" alt="Logo">
 </td>
 <td align="left">
-<h1>EqMax-Discord-Bridge v10.1.0</h1>
+<h1>EqMax-Discord-Bridge v10.2.0</h1>
 <h3>(Confirmed Seismic & Tsunami Warning Implementation)</h3>
 </td>
 </tr>
@@ -20,8 +20,8 @@
 【最新版パッケージ (ZIP) を直接ダウンロード】
 
 <p align="center">
-<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v10.1.0/EqMax-Discord-Bridge_v10.1.0.zip">
-<img src="https://img.shields.io/badge/Download-Latest_v10.1.0_.zip-red?style=for-the-badge&logo=github" alt="Download ZIP">
+<a href="https://github.com/MustangTIS/EqMax-Discord-Bridge/releases/download/v10.2.0/EqMax-Discord-Bridge_v10.2.0.zip">
+<img src="https://img.shields.io/badge/Download-Latest_v10.2.0_.zip-red?style=for-the-badge&logo=github" alt="Download ZIP">
 </a>
 </p>
 
