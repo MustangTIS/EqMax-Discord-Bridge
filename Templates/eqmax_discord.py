@@ -18,7 +18,7 @@ import config_manager
 from log_monitor import LogMonitor
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "10.1.0"
+CURRENT_VERSION = "10.3.0"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
@@ -79,13 +79,13 @@ def process_log_update(content, config_dest, current_version):
     print(f"\n--- 速報検知 (Log) ---\n{content.strip()}\n---------------------")
 
     title, description, color, image_path = eew_parser.parse_log_content(content)
-
     if not title: return
 
     timestamp = time.strftime('%H:%M:%S')
     bot_name = "EqMax EEW Bridge"
     shared_image_url = None
 
+    # 各送信先へループ
     for dest in config_dest:
         url = dest.get("url")
         style = dest.get("style", "disembed").lower()
@@ -103,21 +103,24 @@ def process_log_update(content, config_dest, current_version):
             timestamp=timestamp,
             matrix_token=dest.get("token"), 
             matrix_room=dest.get("room"),
-            shared_image_url=shared_image_url 
+            shared_image_url=shared_image_url # 取得済みのURLがあれば渡す
         )
 
-        # --- 画像URLの抽出ロジック ---
+        # --- 画像URLの抽出ロジック（Discord送信成功時にURLを保存） ---
         if style in ["disembed", "dissimple"] and response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
             try:
-                data = response.json()
-                if "attachments" in data and len(data["attachments"]) > 0:
-                    shared_image_url = data["attachments"][0].get("url")
-                elif "embeds" in data and len(data["embeds"]) > 0 and "image" in data["embeds"][0]:
-                    shared_image_url = data["embeds"][0]["image"].get("url")
+                # 既に取得済みの場合はスキップ
+                if not shared_image_url:
+                    data = response.json()
+                    # Discord APIのレスポンスから画像URLを特定
+                    if "attachments" in data and len(data["attachments"]) > 0:
+                        shared_image_url = data["attachments"][0].get("url")
+                    elif "embeds" in data and len(data["embeds"]) > 0 and "image" in data["embeds"][0]:
+                        shared_image_url = data["embeds"][0]["image"].get("url")
             except:
                 pass
 
-        # 結果判定
+        # 結果判定の表示
         if isinstance(response, Exception):
             print(f"[{timestamp}]  └─ [Error] 送信失敗: {response}")
         elif response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
@@ -125,6 +128,7 @@ def process_log_update(content, config_dest, current_version):
         else:
             print(f"[{timestamp}]  └─ [Failed] 送信失敗 ({style})")
 
+# --- 4. 確定情報の処理 ---
 def check_and_process_json(config, last_checked_json):
     now = datetime.datetime.now()
     json_base_dir = os.path.join(config["eqmax_dir"], "Json", now.strftime("%Y"), now.strftime("%m"))
@@ -184,7 +188,20 @@ def check_and_process_json(config, last_checked_json):
             print(f"[{time.strftime('%H:%M:%S')}] [Error] JSON解析失敗: {e}")
     return latest_json
 
-# --- 8. メインループ ---
+# --- 5. 定期レポート処理 ---
+def output_periodic_report(health_counter, report_interval):
+    if health_counter % report_interval != 0:
+        return
+
+    mem_display = "停止中"
+    for proc in psutil.process_iter(['name']):
+        if proc.info.get('name') == "EqMax.exe":
+            val = core.get_private_ram_mb(proc)
+            mem_display = f"{val:.1f}" if val is not None else "取得失敗"
+            break
+    print(f"\n[{time.strftime('%H:%M:%S')}] EqMax正常稼働中 (RAM使用量: {mem_display} MB)")
+    
+# --- 6. メインループ ---
 def start_combined_monitor():
     print("-" * 52)
     print(f">>> EqMax Discord Bridge: Initialization...")
@@ -193,7 +210,8 @@ def start_combined_monitor():
 
     is_all_ok = True  
     is_update_found = False
-
+    config = config_manager.load_system_config()
+    
     print(f"\n [Step 1/7] Booting EqMax Discord Bridge....... [  OK  ]")
     print(f"    └─ [System Version: v{CURRENT_VERSION}]")
     print(f" [Step 2/7] Checking for updates...")
@@ -210,10 +228,14 @@ def start_combined_monitor():
 
     print(f" [Step 3/7] Update Sequence Check.............. [  OK  ]")
     print(f" [Step 4/7] Guardian System Health Check....... [  OK  ]")
-    print(f" [Step 5/7] Guardian Core Engine Initialized... [  OK  ]")
-    print(f"    └─ [RAM LIMIT {DEFAULT_RAM_LIMIT}MB , ReportEvery {DEFAULT_REPORT_INT}Seconds]")
+    
+    ram_val = config.get("ram_limit", DEFAULT_RAM_LIMIT)
+    rep_val = config.get("report_interval_sec", DEFAULT_REPORT_INT)
 
-    config = load_config()
+    print(f" [Step 5/7] Guardian Core Engine Initialized... [  OK  ]")
+    print(f"    └─ [RAM LIMIT {ram_val}MB , ReportEvery {rep_val}Seconds]")
+
+    # Step 6/7: config_managerが判定した is_env_ok を使う
     if config["is_env_ok"]:
         print(f" [Step 6/7] Link Check EqMax Connector....... [  OK  ]")
         print(f"    └─ Path: {config['eqmax_dir']}")
@@ -243,48 +265,37 @@ def start_combined_monitor():
 
     # --- 監視の準備 (整理後) ---
     # 設定を最新状態で読み込み
-    config = config_manager.load_system_config()
     log_path = os.path.join(config["eqmax_dir"], "Twitter.log")
 
-    # ログファイルが存在しない場合の安全策
     if not os.path.exists(log_path):
         with open(log_path, "a", encoding="utf-8") as f: pass
 
-    # モジュールを初期化 (last_size や pending_block はこの中に入っています)
-    monitor = LogMonitor(log_path) 
+    monitor = LogMonitor(log_path)
     last_checked_json = None
     health_counter = 0
 
     print(f"監視開始: {log_path}")
     print(f"初期サイズ: {monitor.last_size} bytes")
 
+    health_counter = 0
     while True:
         try:
-            if health_counter % 10 == 0:
-                config = config_manager.load_system_config()
-                core.maintain_eqmax_health(config["exe_path"], ram_limit=config.get("ram_limit", 1024))
-
-            # 2. 確定報(JSON) 監視
+            # 1. 監視（コア機能：死活監視 & JSON監視）
+            core.maintain_eqmax_health(config["exe_path"], config.get("ram_limit", 1024))
             last_checked_json = check_and_process_json(config, last_checked_json)
-
-            # 3. 速報(Log) 監視
+            
+            # 2. ログ監視（EEW）
             new_blocks = monitor.check_new_logs()
             if new_blocks:
                 for block in new_blocks:
                     process_log_update(block, config["destinations"], CURRENT_VERSION)
-            else:
-                if health_counter % 10 == 0:
-                    print(".", end="", flush=True)
+            elif health_counter % 10 == 0:
+                print(".", end="", flush=True)
 
-            # 4. 定期ステータスレポート
-            if health_counter % DEFAULT_REPORT_INT == 0:
-                mem_display = "停止中"
-                for proc in psutil.process_iter(['name']):
-                    if proc.info.get('name') == "EqMax.exe":
-                        val = core.get_private_ram_mb(proc)
-                        mem_display = f"{val:.1f}" if val is not None else "取得失敗"
-                        break
-                print(f"\n[{time.strftime('%H:%M:%S')}] EqMax正常稼働中 (RAM使用量: {mem_display} MB)")
+            # 3. 定期ステータスレポート
+            # configからインターバルを取得するか、デフォルト値を使用
+            report_int = config.get("report_interval_sec", DEFAULT_REPORT_INT)
+            output_periodic_report(health_counter, report_int)
 
             health_counter += 1
             time.sleep(1)
@@ -292,7 +303,7 @@ def start_combined_monitor():
         except Exception as e:
             print(f"\n[Loop Error] {e}")
             time.sleep(1)
-
+        
 # 行頭の余計なスペースを消して左端に合わせる
 if __name__ == "__main__":
     try:

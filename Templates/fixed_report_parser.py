@@ -1,5 +1,5 @@
-# fixed_report_parser.py
 import json
+import re
 
 # 震度比較用の重み付け（表記ゆれ対応版）
 INT_ORDER = {
@@ -11,6 +11,11 @@ INT_ORDER = {
     "7": 9
 }
 
+def ensure_list(obj):
+    """辞書かリストか不明なオブジェクトを常にリスト化して安全に回すためのヘルパー"""
+    if obj is None: return []
+    return obj if isinstance(obj, list) else [obj]
+
 def parse_fixed_report(json_data, min_display="1"):
     control = json_data.get("Control", {})
     head = json_data.get("Head", {})
@@ -19,30 +24,69 @@ def parse_fixed_report(json_data, min_display="1"):
     h_title = head.get("Title", "")
 
     # --- A. 津波情報の場合 ---
-    if "津波" in c_title or "津波" in h_title or head.get("InfoKind") == "津波警報・注意報・予報":
+    if "津波" in h_title or head.get("InfoKind") == "津波警報・注意報・予報":
         headline = head.get("Headline", {}).get("Text", "詳細な情報は本文を確認してください。")
-        tsunami_info = body.get("Tsunami", {}).get("Forecast", {})
-        items = tsunami_info.get("Item", [])
-        area_details = [f"・{item.get('Area', {}).get('Name', '不明なエリア')}：{item.get('Category', {}).get('Kind', {}).get('Name', '情報なし')}" for item in items]
+        tsunami_node = body.get("Tsunami", {})
+        
+        warn_details = []  
+        forecast_details = [] 
+        
+        # 1. 予報（エリア名と種別）
+        forecast_items = ensure_list(tsunami_node.get("Forecast", {}).get("Item", []))
+        for item in forecast_items:
+            area_name = item.get('Area', {}).get('Name', '不明なエリア')
+            kind_name = item.get('Category', {}).get('Kind', {}).get('Name', '情報なし')
+            if "予報" in kind_name:
+                forecast_details.append(area_name)
+            else:
+                warn_details.append(f"・{area_name}：{kind_name}")
 
+        # 2. 観測地点（ソート）
+        obs_data_list = []
+        obs_items = ensure_list(tsunami_node.get("Observation", {}).get("Item", []))
+        for item in obs_items:
+            stations = ensure_list(item.get("Station", []))
+            for st in stations:
+                st_name = st.get("Name", "不明な地点")
+                max_h = st.get("MaxHeight", {})
+                h_val = max_h.get("TsunamiHeight")
+                condition = max_h.get("Condition")
+                try:
+                    # 数値が含まれる場合は抽出、なければ-1（ソート用）
+                    sort_val = float(re.findall(r"\d+\.?\d*", str(h_val))[0]) if h_val else -1.0
+                except:
+                    sort_val = -1.0
+                display_val = f"{h_val}m" if h_val else (condition if condition else "観測中")
+                obs_data_list.append({"name": st_name, "val": display_val, "sort_key": sort_val})
+
+        # 高い順にソート
+        obs_data_list.sort(key=lambda x: x["sort_key"], reverse=True)
+
+        # 構築開始
         lines = [
             f"【{h_title}】",
             f"発表時刻：{head.get('ReportDateTime', '不明')}",
             "----------------",
             f"概況：\n{headline}",
             "----------------",
-            "対象地域："
+            "情報詳細："
         ]
-        lines.extend(area_details[:15])
-        if len(area_details) > 15: lines.append("...ほか")
+
+        lines.extend(warn_details)
+        if forecast_details:
+            lines.append(f"・予報(若干の海面変動)：{', '.join(forecast_details)}")
+        
+        if obs_data_list:
+            lines.append("--- 潮位観測値（高い順） ---")
+            for d in obs_data_list:
+                lines.append(f"・{d['name']}：{d['val']}")
+            
         return "\n".join(lines)
 
-    # --- C. 遠地地震に関する情報の場合 (実機データ構造に合わせ修正) ---
+    # --- C. 遠地地震に関する情報の場合 ---
     elif "遠地地震" in h_title:
-        # 実機データでは Body > Earthquake (単一) の構造
         eq = body.get("Earthquake", {})
         if not eq: 
-            # 万が一リスト形式(Earthquakes)で来た場合も考慮
             eqs = body.get("Earthquakes", [])
             if eqs: eq = eqs[0]
             else: return None
@@ -50,11 +94,8 @@ def parse_fixed_report(json_data, min_display="1"):
         hypocenter = eq.get("Hypocenter", {}).get("Area", {}).get("Name", "調査中")
         magnitude = eq.get("Magnitude", "不明")
 
-        # 津波コメントの取得
         comments = body.get("Comments", {})
         tsunami_msg = comments.get("ForecastComment", {}).get("Text", "なし")
-
-        # 自由付随コメント（太平洋津波報など）があれば追加
         free_comment = comments.get("FreeFormComment", "")
 
         lines = [
