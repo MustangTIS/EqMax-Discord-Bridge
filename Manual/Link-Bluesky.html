@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>各種連携：Slack連携</title>
+<title>各種連携：Bluesky連携</title>
 <!-- InstanceEndEditable -->
 <link href="style.css" rel="stylesheet" type="text/css" />
 <!-- InstanceBeginEditable name="head" -->
@@ -41,97 +41,88 @@
   </div>
   <div class="content"><!-- InstanceBeginEditable name="main_content" -->
     <div class="content">
-    <h1>Slack連携設定</h1>
-    <h2>SlackのIncoming Webhookの取得</h2>
+    <h1>Bluesky連携設定 //Update v11.0.0 implement!!//</h1>
     <div class="card">
-      <div class="flex-container">
-        <div class="description">
-          <p><strong>Slackの「Incoming Webhook」を利用して、EqMaxの通知を送信できます。</strong></p>
-          <ul>
-            <li><strong>Discordに近い感覚で設定可能</strong>
-              <ul>
-                <li>Webhook URLを取得して貼り付けるだけで連携が完了します。</li>
-                <li>内部処理はSlack専用に最適化済みですので、URLを貼るだけで動作します。</li>
-              </ul>
-            </li>
-            <li><strong>【重要】画像送信について</strong>
-              <ul>
-                <li>Slackの仕様上、Webhook経由での直接画像投稿には対応していません。</li>
-                <li><strong>本ツールでは「テキスト通知のみ」のサポートとなります。</strong> 画像が必要な場合はDiscordに投稿し外部ツールでそこと連携させる等してください。</li>
-              </ul>
-            </li>
-            <li><strong>作成権限について</strong>
-              <ul>
-                <li>一般ユーザーでも作成可能ですが、ワークスペースの設定（管理者の制限）によっては作成できない場合があります。</li>
-                <li>設定メニューの深い場所にありますが、次項の手順通りに進めば作成可能です。</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <h2>Slackの設定手順</h2>
-    <div class="card">
-      <h4>Slack Appの登録</h4>
-      <div class="description">
-        <p><strong>【重要】設定はブラウザから行います</strong></p>
-        <p>Slackアプリ内に設定ボタンはありません。以下のリンクからブラウザで設定画面を開いてください。</p>
-        <ul>
-          <li><a href="https://api.slack.com/apps" target="_blank"><strong>Slack API: Your Apps (設定ページ)</strong></a></li>
-        </ul>
-      </div>
-      <div style="margin-top: 30px;">
-        <p><strong>① アプリの登録</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;"> <img src="image/SlackApp1.jpg" alt="登録1" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp2.jpg" alt="登録2" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp3.jpg" alt="登録3" width="230" style="width: 230px; height: auto; display: block;" /> </div>
-        <ol>
-          <li>「<strong>Create an App</strong>」から「<strong>From scratch</strong>」を選択します。</li>
-          <li>AppNameとWorkspaceを入力して「<strong>Create App</strong>」をクリックします。</li>
-        </ol>
-      </div>
-      <div style="margin-top: 30px;">
-        <p><strong>② アプリ名の登録</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;"> <img src="image/SlackApp4.jpg" alt="名称設定1" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp5.jpg" alt="名称設定2" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp6.jpg" alt="名称設定3" width="230" style="width: 230px; height: auto; display: block;" /> </div>
-        <ol>
-          <li>「App Home」メニューから「App Display Name」の「<strong>Edit</strong>」を選びます。</li>
-          <li><strong>Display Name</strong>と<strong>Default username</strong>を設定して「<strong>Save</strong>」します。</li>
-        </ol>
-      </div>
-      <div style="margin-top: 30px;">
-        <p><strong>③ Incoming Webhookの有効化</strong></p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px;"> <img src="image/SlackApp7.jpg" alt="Webhook1" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp8.jpg" alt="Webhook2" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp9.jpg" alt="Webhook3" width="230" style="width: 230px; height: auto; display: block;" /> <img src="image/SlackApp10.jpg" alt="Webhook4" width="230" style="width: 230px; height: auto; display: block;" /> </div>
-        <ol>
-          <li>左メニューの「<strong>Incoming Webhook</strong>」を開き、「<strong>Activate</strong>」をONにします。</li>
-          <li>ページ下部の「<strong>Add New Webhook to Workspace</strong>」をクリックします。</li>
-          <li>通知先チャンネルを選択して「許可」すれば、Webhook URLが発行されます。</li>
-        </ol>
-      </div>
-    </div>
-    <h1>SlackをDiscord設定に登録</h1>
-    <div class="card">
-      <div class="card">
         <div class="flex-container"><img src="image/HUBSystemMain.jpg"  alt="総合ハブ起動状態" width="300" />
           <div class="description">総合ハブの <code><strong>Discord連携設定</strong></code> (②の部分)を実行してください。 </div>
         </div>
       </div>
-      <h2 style="margin-top: 30px;">Discord連携でSlackへ接続する</h2>
-      <div style="margin-top: 30px;">
-        <h3 style="margin-bottom: 15px;">Discord連携登録</h3>
-        <div style="display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap;"> <img src="image/SlackAppA10.jpg" alt="Discord連携登録" width="500" />
-          <div style="flex: 1; min-width: 400px;">
-            <ol>
-              
-              <li><strong>EqMax.exeの選択:</strong> ファイルを選択します。</li>
-              <li>ショートカット登録の部分を用途に合わせて☑する。</li>
-              <li><strong>確定震度情報の投稿設定</strong><br />
-                <small>※最大震度いくつ以上から通知か、最低震度いくつ未満から切り捨てか</small></li>
-              <li><strong>選択タイプからSlackを選ぶ:</strong> これによりSlack用設定が適応されます。</li>
-              <li>Slackの<strong>Webhook URL</strong>を貼りつけてbotを配置するを選ぶ</li>
-              <li>次に<strong>ボットを配置する</strong>をクリックし指示通りに進んでください。</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
+<h2>Discord連携でBluesky投稿設定を行う</h2>
+	<h3>Blueskyの設定手順</h3>
+
+	<div class="card">
+		<h3>Blueskyの選択</h3>
+		<div class="flex-container">
+			<div style="flex: 1;">
+				<p><img src="image/BlueskySelect.jpg" alt="Bluesky選択" width="300" /></p>
+				<p><img src="image/BlueskySelect2.jpg" alt="Bluesky設定画面" width="300" /></p>
+			</div>
+			<div class="description">
+				<ol>
+					<li><strong>EqMax.exeの選択:</strong> 通知対象とするEqMaxの実行ファイルを選択します。</li>
+					<li><strong>ショートカット登録:</strong> デスクトップ作成やスタートアップ登録を、用途に合わせて☑してください。</li>
+					<li><strong>確定震度情報の投稿設定:</strong> 通知する最小震度と、詳細表示を行う震度を選択します。</li>
+					<li><strong>通知タイプからBlueskyを選ぶ:</strong> これにより、入力欄がBluesky専用の構成に切り替わります。</li>
+					<li><strong>Webhook URLの確認:</strong> 2枚目の画像のオレンジ枠部分に <code>https://bsky.social</code> が自動で挿入されます。<strong>そのまま変更せずに使用してください。</strong>
+						<br /><small>※水色枠（ハンドル）と、緑色枠（アプリパスワード）の設定は次項目で説明します。</small>
+					</li>
+				</ol>
+				<div style="background: #fff9db; border-left: 5px solid #fcc419; padding: 15px; margin-top: 15px; color: #856404;">
+					<strong>⚠️ 重要：入力形式の注意</strong><br />
+					Webhook欄が入力されていないと動作しないため、<code>https://bsky.social</code> の登録は消さないでください。
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<h3>アカウントハンドルをアプリケーションに登録</h3>
+		<div class="flex-container">
+			<div style="flex: 1;">
+				<p><img src="image/BlueskyURL.jpg" alt="アカウント情報" width="300" /></p>
+			</div>
+			<div class="description">
+				<ol>
+					<li><strong>ハンドルの確認:</strong> Blueskyの「設定」を開き、プロフィール名の下にある <code>@</code> 以降の文字列を確認します。
+						<br /><small>※例: @○○.bsky.social の場合、必要な部分は「<strong>○○.bsky.social</strong>」です。</small>
+					</li>
+					<li><strong>handle項目に貼り付け:</strong> 配置ツールの <strong>handle</strong> 欄（水色枠）にコピーしたハンドルを貼り付けてください。
+						<br /><small>※Ctrl+V または右クリックから貼り付けが可能です。</small>
+					</li>
+				</ol>
+				<div style="background: #fff9db; border-left: 5px solid #fcc419; padding: 15px; margin-top: 15px; color: #856404;">
+					<strong>⚠️ 重要：ユーザIDとハンドルの違い</strong><br />
+					ログイン用のメールアドレスや電話番号ではなく、必ず <strong>アカウントハンドル</strong> を登録してください。
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<h3>アプリパスワードの発行と登録</h3>
+		<div class="flex-container">
+			<div style="flex: 1;">
+				<p><img src="image/BlueskyAPIpass.jpg" alt="設定メニュー" width="300" /></p>
+				<p><img src="image/BlueskyAPIpass2.jpg" alt="プライバシー設定" width="300" /></p>
+				<p><img src="image/BlueskyAPIpass3.jpg" alt="パスワード追加" width="300" /></p>
+				<p><img src="image/BlueskyAPIpass4.jpg" alt="名前の設定" width="300" /></p>
+				<p><img src="image/BlueskyAPIpass5.jpg" alt="パスワード発行" width="300" /></p>
+			</div>
+			<div class="description">
+				<ol>
+					<li><strong>アプリパスワード設定へ:</strong> 設定 ＞ プライバシーとセキュリティ ＞ <strong>アプリパスワード</strong> へ進みます。</li>
+					<li><strong>追加ボタンをクリック:</strong> 「＋アプリパスワードを追加」を選択します。</li>
+					<li><strong>識別名の設定:</strong> アプリケーション名（例: <code>EEW-Post</code>）を入力して次へ進みます。</li>
+					<li><strong>パスワードの登録:</strong> 発行されたアプリパスワードをコピーし、配置ツールの <strong>App Password</strong> 欄（緑色枠）に貼り付けてください。</li>
+					<li><strong>設定の完了:</strong> ハンドルとパスワードの入力が終われば、「ボットを配置する」ボタンを押して完了です。</li>
+				</ol>
+				<div style="background: #fff9db; border-left: 5px solid #fcc419; padding: 15px; margin-top: 15px; color: #856404;">
+					<strong>💡 操作のコツ</strong><br />
+					アプリパスワードは一度閉じると再表示できません。コピー漏れがないよう注意してください。
+				</div>
+			</div>
+		</div>
+	</div>
     <h1>Discord連携を起動する</h1>
     <div class="card">
       <h3>起動方法</h3>
@@ -165,7 +156,7 @@
       <h1>Tips：その他情報</h1>
       <div></div>
       <div class="card">
-        <h3>※Discord投稿設定者限定：EEW画像添付方法</h3>
+        <h3>※Discord投稿設定者限定：EEW画像添付方法 // 8.5 UPDATE //</h3>
         <div class="flex-container">
           <div style="flex: 0 0 420px; padding-right: 20px;">
             <p>Discordに投稿設定をかけている人は、他のチャットアプリ（Slack、Matrixなど)にも画像を投下できます。</p>
@@ -210,7 +201,6 @@
             </ul>
           </div>
         </div>
-        <div></div>
       </div>
     </div>
     <!-- InstanceEndEditable --><!-- end .content --></div>

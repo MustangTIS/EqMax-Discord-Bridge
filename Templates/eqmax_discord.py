@@ -18,7 +18,7 @@ import config_manager
 from log_monitor import LogMonitor
 
 # --- [0. バージョン・固定設定] ---
-CURRENT_VERSION = "10.3.0"
+CURRENT_VERSION = "11.0.0"
 DEFAULT_RAM_LIMIT = 1024
 DEFAULT_REPORT_INT = 3600
 REPO_URL = "MustangTIS/EqMax-Discord-Bridge"
@@ -89,8 +89,10 @@ def process_log_update(content, config_dest, current_version):
     for dest in config_dest:
         url = dest.get("url")
         style = dest.get("style", "disembed").lower()
-        if not url: continue
+        # Blueskyの場合はURLがなくても進行させる（ハンドルとパスワードがあれば良いため）
+        if not url and style not in ["bluesky"]: continue
 
+        # senders.dispatch に Bluesky 用の引数を追加
         response = senders.dispatch(
             style=style, 
             title=title, 
@@ -103,16 +105,16 @@ def process_log_update(content, config_dest, current_version):
             timestamp=timestamp,
             matrix_token=dest.get("token"), 
             matrix_room=dest.get("room"),
-            shared_image_url=shared_image_url # 取得済みのURLがあれば渡す
+            shared_image_url=shared_image_url,
+            bsky_handle=dest.get("bsky_handle"),      # ★追加
+            bsky_pass=dest.get("bsky_password")      # ★追加
         )
 
         # --- 画像URLの抽出ロジック（Discord送信成功時にURLを保存） ---
         if style in ["disembed", "dissimple"] and response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
             try:
-                # 既に取得済みの場合はスキップ
                 if not shared_image_url:
                     data = response.json()
-                    # Discord APIのレスポンスから画像URLを特定
                     if "attachments" in data and len(data["attachments"]) > 0:
                         shared_image_url = data["attachments"][0].get("url")
                     elif "embeds" in data and len(data["embeds"]) > 0 and "image" in data["embeds"][0]:
@@ -123,7 +125,7 @@ def process_log_update(content, config_dest, current_version):
         # 結果判定の表示
         if isinstance(response, Exception):
             print(f"[{timestamp}]  └─ [Error] 送信失敗: {response}")
-        elif response and hasattr(response, 'status_code') and response.status_code in [200, 204]:
+        elif response and hasattr(response, 'status_code') and response.status_code in [200, 201, 204]: # Blueskyの201も成功に含める
             print(f"[{timestamp}]  └─ [Success] 送信完了 ({style})")
         else:
             print(f"[{timestamp}]  └─ [Failed] 送信失敗 ({style})")
@@ -165,6 +167,7 @@ def check_and_process_json(config, last_checked_json):
                     for dest in config["destinations"]:
                         style = dest.get("style", "disembed").lower()
                         limit = 4000 if style == "disembed" else 1900
+                        # Blueskyの文字数制限(300)に配慮したカットはsenders.py側で行うため、ここではそのまま渡す
                         current_formatted_text = formatted_text[:limit] + "\n\n...（省略）" if len(formatted_text) > limit else formatted_text
 
                         senders.dispatch(
@@ -172,13 +175,15 @@ def check_and_process_json(config, last_checked_json):
                             title="【津波情報】" if "津波" in title else f"【地震情報】最大震度 {max_int}",
                             description=current_formatted_text, 
                             color=0x00FFFF if "津波" in title else 0xFFD700,
-                            image_path=None,             # ★これが必要（確定報JSONには画像がないためNone）
+                            image_path=None,
                             url=dest.get("url"), 
                             bot_name="EqMax Report Bridge",
                             current_version=CURRENT_VERSION, 
                             timestamp=timestamp,
                             matrix_token=dest.get("token"), 
-                            matrix_room=dest.get("room")
+                            matrix_room=dest.get("room"),
+                            bsky_handle=dest.get("bsky_handle"),    # ★追加
+                            bsky_pass=dest.get("bsky_password")     # ★追加
                         )
 
                     print(f"[{timestamp}] 📝 確定報を送信しました: {latest_json}")

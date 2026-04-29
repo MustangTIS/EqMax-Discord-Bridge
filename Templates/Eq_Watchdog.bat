@@ -4,7 +4,7 @@ setlocal
 cd /d "%~dp0"
 
 echo ==========================================
-echo     EqMax Watchdog - Boot Loader
+echo      EqMax Watchdog - Boot Loader
 echo ==========================================
 echo [Status]  : Initializing system...
 echo [Author]  : Mustang_TIS
@@ -13,20 +13,35 @@ echo.
 
 :PYTHON_CHECK
 echo [Step 1] Checking Python...
+:: まず python を試す
 python --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [Error] Pythonが見つかりません。パスが通っているか確認してください。
-    pause
-    exit /b
+if %errorlevel% equ 0 (
+    set PY=python
+    goto :PYTHON_OK
 )
+:: だめなら py を試す
+py --version >nul 2>&1
+if %errorlevel% equ 0 (
+    set PY=py
+    goto :PYTHON_OK
+)
+
+:: どちらもだめな場合
+echo [Error] Pythonが見つかりません。
+echo 公式サイトからインストールし、'Add Python to PATH' にチェックを入れてください。
+pause
+exit /b
+
+:PYTHON_OK
+echo [Status] Using command: %PY%
 
 :LIBRARY_CHECK
 echo [Step 2] Checking Libraries...
 :: 2>&1 を外して、エラーが出たら画面で見えるようにします
-python -c "import psutil, requests, PIL, customtkinter"
+%PY% -c "import psutil, requests, PIL, customtkinter"
 if %errorlevel% neq 0 (
     echo [Notice] 不足しているライブラリをインストールします...
-    python -m pip install psutil requests Pillow customtkinter --prefer-binary
+    %PY% -m pip install psutil requests Pillow customtkinter --prefer-binary
     if %errorlevel% neq 0 (
         echo [Error] インストールに失敗しました。
         pause
@@ -34,13 +49,12 @@ if %errorlevel% neq 0 (
 )
 
 :BOOT_Guardian
-:: ★ここを Eq_Watchdog.py に修正しました★
 if exist "Eq_Watchdog.py" (
     echo [Step 3] Launching Guardian System...
     echo.
     
     :: 実行
-    python "Eq_Watchdog.py"
+    %PY% "Eq_Watchdog.py"
     
     echo.
     echo ------------------------------------------

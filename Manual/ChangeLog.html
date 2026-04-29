@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main-Template-DWT.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -30,7 +29,7 @@
     <div class="sidebar-title">各種連携設定</div>
     <ul class="nav">
       <li><a href="Link-Discord.html">Discord連携</a></li>
-      <li><a href="Link-Slack.html">Slack連携</a></li>
+      <li><a href="Link-Bluesky.html">Bluesky連携</a><a href="Link-Slack.html">Slack連携</a></li>
       <li><a href="Link-Matrix.html">Matrix連携</a></li>
     </ul>
     <div class="sidebar-title">その他ツール</div>
@@ -45,15 +44,26 @@
       <h1>更新履歴 (ChangeLog)</h1>
       <p>EqMax-Discord-Bridge のこれまでのアップデート内容です。<br />
       もっと詳細な更新履歴は付属のChangeLog.txtをご覧下さい。</p>
-      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v10.0.0 (Confirmed seismic ＆ Tsunami Warning Implementation)</h2>
+
+      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v11.0.0 (The Blue Horizon Update)</h2>
+      <p><em>「分断された世界を、再び繋ぐ。」 — Bluesky への正式対応。</em></p>
+      <ul>
+        <li><strong>[New Feature] Bluesky 投稿機能の実装:</strong> X(旧Twitter)のAPI有償化に伴う代替先として、Blueskyへの自動投稿機能を新規実装。ATプロトコルによる迅速な通知を実現しました。</li>
+        <li><strong>[Stability] Python実行環境の自動判別ロジック:</strong> 実行環境に合わせて「python」または「py」コマンドを自動で選択して起動するブーターを搭載。環境変数設定の不備による起動失敗を大幅に低減します。</li>
+        <li><strong>[UX/UI] Bluesky連携設定の追加:</strong> 配置ツールに「ハンドル」と「アプリパスワード」の設定項目を追加。Webhook欄へのベースURL自動挿入機能により、設定ミスを防止します。</li>
+        <li><strong>[Docs] Bluesky設定マニュアルの新規作成:</strong> 開発初期から続くHTMLヘルプを更新。Bluesky特有のアプリパスワード発行手順などを画像付きで徹底解説しました。</li>
+      </ul>
+
+      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v10.0.0 - v10.4.0 (Enhanced Information & Stability)</h2>
       <p><em>「速報と確定情報の両立でさらに正確な情報を。」 ー 確定震度情報＆津波情報の実装。</em></p>
       <ul>
         <li><strong>[New Feature] 地震情報・津波情報の統合通知:</strong> EEW（速報）に加え、詳細な「震源・震度報」および「津波警報・注意報」の自動投稿機能を実装。</li>
+        <li><strong>[Update] 遠地地震・改訂計測値への対応:</strong> 遠地地震情報の表示および、最新の計測器情報に基づいた精細な情報表示に対応。(v10.1.0/v10.3.0)</li>
         <li><strong>[Visual] ニュース速報スタイルフォーマット:</strong> 確定報の表示順を、従来の地域別から<strong>『震度 ＞ 地域 ＞ 市区町村』</strong>の順に並べ替える独自ロジックを採用。テレビのニュース速報と同様の感覚で、被害の大きい地域を即座に判別可能です。</li>
-        <li><strong>[Stability] 2000文字オーバーフロー対策:</strong> 巨大地震等の情報過多によるDiscordの文字数制限エラーを回避するため、動的なテキスト切り捨て処理を実装。情報の不達を根絶しました。</li>
-        <li><strong>[UX/UI] 実装ツールの高度化:</strong> 配置ツールに確定情報の通知しきい値（最大・最小震度）設定を追加。また、テスト投稿機能に「津波・確定報モード」を新設し、運用の事前検証を強化しました。</li>
-        <li><strong>[Optimize] システムアーキテクチャの刷新:</strong> EEW解析エンジンをメインソースから切り離しモジュール化。メモリ効率の向上とメンテナンス性を両立。</li>
+        <li><strong>[Stability] Discord 4000文字拡張対応:</strong> Embed（埋め込み）出力時の上限を最大4000文字まで拡張。巨大地震等の情報過多によるエラーを回避し、情報の不達を根絶しました。(v10.0.2)</li>
+        <li><strong>[Optimize] システムアーキテクチャの刷新:</strong> メインソースから死活監視、ログモニター、コンフィグ管理を分離・モジュール化。メンテナンス性と安定性を向上させました。(v10.2.0)</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v9.0.0 (Major UI & Functional Update)</h2>
       <p><em>「更なる使いやすさと、確実な連携を。」 — 操作系統の刷新と、診断機能の搭載。</em></p>
       <ul>
@@ -61,41 +71,33 @@
           <small>※EqMax初期設定ツールに準拠した設定が必要です。</small></li>
         <li><strong>[UX/UI] 総合ハブ(TOP_HUB)のレイアウト刷新:</strong> アプリケーション数の増加に伴い、従来の縦一列から「左右2カラム」の配置へ変更。視認性と動線を整理しました。</li>
         <li><strong>[Improvement] Discord連携ツールの高度化:</strong> 設定画面のスクロール対応により操作性を向上。また、設定再適用時に古いプロセスを自動停止し、新しい設定で再起動するシームレスな更新処理を実装。</li>
-        <li><strong>[Docs] ヘルプシステムの再構築:</strong> UI変更および新機能追加に合わせ、マニュアル全体を最新仕様に即して大幅に書き換えました。</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v8.6.0 (Load Existing Notification Settings)</h2>
       <ul>
-        <li><strong>[Feature] 通知先設定の操作性改善:</strong>既に当アプリケーションを実装済みの場合、EqMax.exeを選択するだけで、現在設定されている各通知先連携設定を自動で読み込めるように改良しました。<br />
-          WebhookやMatrixのトークン・IDを毎回入力する手間を削減し、設定の確認や修正も容易に行えるようになります。</li>
+        <li><strong>[Feature] 通知先設定の操作性改善:</strong> 既に当アプリケーションを実装済みの場合、EqMax.exeを選択するだけで、現在設定されている各通知先連携設定を自動で読み込めるように改良。WebhookやMatrixのトークン入力を省略可能にしました。</li>
       </ul>
+
       <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v8.5.0 (Integration & Visual Enhancement)</h2>
       <p><em>「Discord を、すべての速報のハブへ。」 — 通知網の統合と画像連携の実現。</em></p>
       <ul>
-        <li><strong>[Feature] Discord 経由の画像リバース配信機能:</strong> Discordへ投稿されたEEW通知から画像URLを解析・取得し、SlackやMatrixへ自動転送する仕組みを実装。</li>
-        <li><strong>[Visual] 通知フォーマットの最適化:</strong> Slack・Matrixにおける通知表示を「改行区切り」へと変更し、情報の可読性を向上。</li>
-        <li><strong>[Stability] 起動・通知シーケンスの堅牢化:</strong> クリーナーツールやログ削除時における、ファイル競合による送信失敗の不具合を修正。INIファイルの最適化によりリソース消費を最小化。</li>
-        <li><strong>[Docs] マニュアルの拡充:</strong> 画像添付機能の仕様と設定手順を各チャットアプリのマニュアルページに追記。</li>
+        <li><strong>[Feature] Discord 経由の画像リバース配信機能:</strong> Discordへ投稿されたEEW画像URLを解析し、SlackやMatrixへ自動転送する仕組みを実装。</li>
+        <li><strong>[Visual] 通知フォーマットの最適化:</strong> Slack・Matrixにおける通知表示を「改行区切り」へと変更し、可読性を向上。</li>
       </ul>
-      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">v8.0.0 (ヘルプ完備・システム最適化Update)</h2>
-      <p><em>「運用のすべてを、その手に。」 — 導入からトラブルシューティングまで、完全ガイドの完備。</em></p>
-      <ul>
-        <li><strong>[Docs] HTMLマニュアルシステムの完全実装:</strong> MatrixやSlackの設定など、難易度の高かった手順を徹底ガイド。全機能・対応表を完備。</li>
-        <li><strong>[Quality] 備考の可視化:</strong> 「Chips（ヒント）」を各所に記載し、運用上の注意点を明文化。</li>
-        <li><strong>[UX] 総合管理ハブの操作性向上:</strong> ボタン配置を最適化し、より直感的な操作を実現。</li>
-        <li><strong>[Core] 仕様の最適化:</strong> 文脈の整理およびメンテナンス効率向上のためのコードクリーンアップ。</li>
-      </ul>
-      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;"><details style="margin-top: 20px; color: #777;">
-    <summary style="cursor: pointer;">▼ v7.1.0 以前の更新履歴を表示（レガシー環境・開発初期）</summary>
-    <div style="padding: 10px; border-left: 2px solid #ccc; margin-left: 10px;">
-        <p><strong>v7.0.0 - v7.1.x:</strong> マルチプラットフォーム通知の夜明け。Matrix API v3への完全対応と、各チャットツールへの同時配信ロジックの基礎を確立。</p>
-        <p><strong>v6.0.0:</strong> Twitter(X)APIのデッドロック問題に対し、独自のダミーポスト回避処理を実装。安定性を飛躍的に向上。</p>
-        <p><strong>v1.0 - v5.6:</strong> 24時間監視Watchdog機能、メモリリーク対策、初期設定GUIのプロトタイプ作成など、本システムの基盤を構築。</p>
-    </div>
-</details></li>
-      </ul>
+
+      <h2 style="border-bottom: 2px solid #4a5d75; padding-bottom: 5px;">
+        <details style="margin-top: 20px; color: #777;">
+          <summary style="cursor: pointer;">▼ v8.0.0 以前の更新履歴を表示（レガシー環境・開発初期）</summary>
+          <div style="padding: 10px; border-left: 2px solid #ccc; margin-left: 10px;">
+            <p><strong>v8.0.0:</strong> HTMLマニュアルシステムの完全実装。全機能の徹底ガイドをアプリ内に搭載。</p>
+            <p><strong>v7.0.0 - v7.1.x:</strong> マルチプラットフォーム通知（Discord, Slack, Matrix）の同時配信ロジックを確立。</p>
+            <p><strong>v6.0.0:</strong> Twitter(X)APIのデッドロック回避処理を実装。ワンクリック・パッチによる初期設定の自動化。</p>
+            <p><strong>v1.0 - v5.6:</strong> 24時間監視Watchdog機能、メモリリーク対策、初期設定GUIのプロトタイプ作成など、本システムの基盤を構築。</p>
+          </div>
+        </details>
+      </h2>
     </div>
     <!-- InstanceEndEditable --><!-- end .content --></div>
   <!-- end .container --></div>
 </body>
-<!-- InstanceEnd -->
-</html>
+<!-- InstanceEnd --></html>

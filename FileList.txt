@@ -45,6 +45,7 @@ EqMax-Discord-Bridge  ##ルートフォルダ
 		│  HUBSystem.html          #ヘルプ：メインメニュー
 		│  Initialize.html         #ヘルプ：EqMax初期設定ツール設定方法
 		│  Link-Discord.html       #ヘルプ：Discord用設定方法
+		│  Link-Bluesky.html       #ヘルプ：Bluesky用設定方法
 		│  Link-Slack.html         #ヘルプ：Slack用設定方法
 		│  Link-Matrix.html        #ヘルプ：Matrix用設定方法
 		│  Cleaner.html            #ヘルプ：クリーナーツール操作方法
